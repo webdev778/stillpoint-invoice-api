@@ -1,0 +1,8 @@
+@media only screen and (max-width : 479px) {
+  
+  .card .form-group.pmd-textfield.pmd-textfield-floating-label-completed {
+    margin: 20px 2px 0 0;
+  }
+  .pmd-checkbox [type="checkbox"]:not(:checked) + .pmd-checkbox-label, .pmd-checkbox [type="checkbox"]:checked + .pmd-checkbox-label{ padding-left: 16px; }
+  .job-card.card > h5 { font-size: 12px; color: #666; font-family: 'open_sanssemibold'; }
+}

@@ -1,0 +1,77 @@
+{
+  "name": "legably",
+  "version": "0.0.0",
+  "description": "Legably web application.",
+  "author": "Rimpi Garg",
+  "scripts": {
+    "start": "webpack && node server.js",
+    "dev": "npm-run-all --parallel watch:*",
+    "watch:webpack": "webpack -w",
+    "watch:server": "nodemon --ext js,jsx --ignore public/ server.js"
+  },
+  "main": "server.js",
+  "keywords": [
+    "legably"
+  ],
+  "dependencies": {
+    "amdefine": "^1.0.1",
+    "apidoc": "^0.17.6",
+    "aws-sdk": "^2.172.0",
+    "axios": "^0.16.2",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
+    "classnames": "^2.2.5",
+    "create-react-class": "^15.6.0",
+    "es6-promise-promise": "^1.0.0",
+    "express": "^4.15.4",
+    "guid": "0.0.12",
+    "jquery": "^3.2.1",
+    "jsonexport": "^2.0.11",
+    "moment": "^2.18.1",
+    "mongoose": "^4.11.7",
+    "multer": "^1.3.0",
+    "nodemailer": "^4.0.1",
+    "nodemon": "^1.11.0",
+    "react": "^15.0.2",
+    "react-bootstrap": "^0.31.3",
+    "react-datetime": "^2.9.0",
+    "react-dom": "^15.0.2",
+    "react-dropzone": "^4.1.1",
+    "react-loader": "^2.4.2",
+    "react-phone-input": "^1.2.1",
+    "react-recaptcha": "^2.3.3",
+    "react-redux": "^4.4.6",
+    "react-router": "^2.8.1",
+    "react-select": "^1.0.0-rc.5",
+    "react-validation": "^2.10.9",
+    "react-widgets": "^3.4.8",
+    "redux": "^3.6.0",
+    "s3": "^4.4.0",
+    "selectly": "^0.5.0",
+    "strict-uri-encode": "^2.0.0",
+    "underscore": "^1.8.3",
+    "useragent": "^2.2.1",
+    "validator": "^8.0.0"
+  },
+  "devDependencies": {
+    "node-sass": "^4.5.3",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^3.1.2",
+    "webpack": "^1.15.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KiwiTechLLC/Legably-Backend.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KiwiTechLLC/Legably-Backend/issues"
+  },
+  "homepage": "https://github.com/KiwiTechLLC/Legably-Backend#readme"
+}

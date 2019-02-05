@@ -1,0 +1,91 @@
+2018-08-16T06:35:26.746Z - info: [universal] - Inside <contactUs> function
+2018-08-16T06:35:30.653Z - error: [universal] | <contactUs> - Error while sending email to Legably with query {"email":"support@legably.com"} --> {"code":"EMESSAGE","response":"554 Message rejected: Email address is not verified. The following identities failed the check in region US-EAST-1: samay123@yopmail.com","responseCode":554,"command":"DATA"}
+2018-08-16T06:35:52.270Z - info: [universal] - Inside <contactUs> function
+2018-08-16T06:35:59.073Z - error: [universal] | <contactUs> - Error while sending email to Legably with query {"email":"support@legably.com"} --> {"code":"EMESSAGE","response":"554 Message rejected: Email address is not verified. The following identities failed the check in region US-EAST-1: samay123@yopmail.com","responseCode":554,"command":"DATA"}
+2018-08-16T06:38:34.937Z - error: [index] | <IIFE> - Error while connecting to database --> {"name":"MongoError","message":"failed to connect to server [legablydev.kiwitechopensource.com:21000] on first connect [MongoError: connection 0 to legablydev.kiwitechopensource.com:21000 timed out]"}
+2018-08-16T06:38:35.072Z - info: [universal] - Inside <contactUs> function
+2018-08-16T06:38:38.354Z - error: [universal] | <contactUs> - Error while sending email to Legably with query {"email":"support@legably.com"} --> {"code":"EMESSAGE","response":"554 Message rejected: Email address is not verified. The following identities failed the check in region US-EAST-1: samay123@yopmail.com","responseCode":554,"command":"DATA"}
+2018-08-16T06:39:03.883Z - info: [universal] - Inside <contactUs> function
+2018-08-16T06:39:07.028Z - error: [universal] | <contactUs> - Error while sending email to Legably with query {"email":"support@legably.com"} --> {"code":"EMESSAGE","response":"554 Message rejected: Email address is not verified. The following identities failed the check in region US-EAST-1: sam123@yopmail.com","responseCode":554,"command":"DATA"}
+2018-08-16T06:39:55.047Z - info: [universal] - Inside <contactUs> function
+2018-08-16T06:40:01.668Z - error: [universal] | <contactUs> - Error while sending email to Legably with query {"email":"support@legably.com"} --> {"code":"EMESSAGE","response":"554 Message rejected: Email address is not verified. The following identities failed the check in region US-EAST-1: samayeta.mondal@kiwitech.com","responseCode":554,"command":"DATA"}
+2018-08-16T06:40:42.708Z - info: [universal] - Inside <contactUs> function
+2018-08-16T06:40:46.804Z - error: [universal] | <contactUs> - Error while sending email to Legably with query {"email":"support@legably.com"} --> {"code":"EMESSAGE","response":"554 Message rejected: Email address is not verified. The following identities failed the check in region US-EAST-1: garg.rimpi56@gmail.com","responseCode":554,"command":"DATA"}
+2018-08-16T06:45:13.662Z - info: [universal] - Inside <contactUs> function
+2018-08-16T06:45:18.614Z - error: [universal] | <contactUs> - Error while sending email to Legably with query {"email":"support@legably.com"} --> {"code":"EAUTH","response":"535 Authentication Credentials Invalid","responseCode":535,"command":"AUTH PLAIN"}
+2018-08-16T06:50:11.482Z - info: [universal] - Inside <contactUs> function
+2018-08-16T07:15:21.657Z - info: [universal] - Inside <getAllListsData> function
+2018-08-16T07:15:21.683Z - info: [postJobs] - Inside <getAllPostJobs> function with params {"page":"1"}
+2018-08-16T07:15:52.529Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info","userId":"attorney"}
+2018-08-16T07:15:58.969Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_posters_info","fromUser":"job_seeker_info"}
+2018-08-16T07:16:05.950Z - info: [postJobs] - Inside <getAllPostJobs> function with params {"page":"1"}
+2018-08-16T07:16:10.947Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info","userId":"attorney"}
+2018-08-16T07:16:13.112Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T07:16:22.899Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T07:20:35.179Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T07:20:40.953Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T07:21:14.181Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info","userId":"attorney"}
+2018-08-16T07:21:15.427Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T07:21:17.746Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T07:32:02.601Z - info: [session] - Inside <logout> function with params {}
+2018-08-16T07:32:55.661Z - info: [session] - Inside <login> function with params {"email":"samayeta.dev@yopmail.com","password":"********"}
+2018-08-16T07:32:56.026Z - info: [session] - Inside <returnUserData> function
+2018-08-16T07:32:59.456Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info","userId":"attorney"}
+2018-08-16T07:33:00.878Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T07:33:02.758Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:00:52.894Z - error: [index] | <IIFE> - Error while connecting to database --> {"name":"MongoError","message":"failed to connect to server [legablydev.kiwitechopensource.com:21000] on first connect [MongoError: connection 0 to legablydev.kiwitechopensource.com:21000 timed out]"}
+2018-08-16T08:01:26.118Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:02:43.043Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:03:01.459Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:03:02.024Z - info: [universal] - Inside <getAllListsData> function
+2018-08-16T08:03:05.119Z - info: [universal] - Inside <getAllListsData> function
+2018-08-16T08:03:05.124Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:05:05.121Z - info: [universal] - Inside <getAllListsData> function
+2018-08-16T08:05:05.125Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:06:38.760Z - error: [index] | <IIFE> - Error while connecting to database --> {"name":"MongoError","message":"failed to connect to server [legablydev.kiwitechopensource.com:21000] on first connect [MongoError: connection 0 to legablydev.kiwitechopensource.com:21000 timed out]"}
+2018-08-16T08:07:29.141Z - info: [universal] - Inside <getAllListsData> function
+2018-08-16T08:07:29.164Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:07:31.792Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:08:26.972Z - info: [session] - Inside <logout> function with params {}
+2018-08-16T08:10:16.791Z - info: [session] - Inside <login> function with params {"email":"samayeta.dev@yopmail.com","password":"********"}
+2018-08-16T08:10:17.173Z - info: [session] - Inside <returnUserData> function
+2018-08-16T08:10:23.096Z - info: [universal] - Inside <getAllListsData> function
+2018-08-16T08:10:23.387Z - info: [postJobs] - Inside <getAllPostJobs> function with params {"page":"1"}
+2018-08-16T08:10:25.818Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info","userId":"attorney"}
+2018-08-16T08:10:28.699Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:14:31.167Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:14:37.564Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:19:57.405Z - info: [session] - Inside <logout> function with params {}
+2018-08-16T08:24:20.289Z - info: [registration] - Inside <signupUser> function with params {"first_name":"New","last_name":"User","email":"newuser16@yopmail.com","password":"********","confirm_password":"********"}
+2018-08-16T08:24:20.644Z - info: [mailHelper] - Inside <sendMailInBackground> function with params {"to":"newuser16@yopmail.com","mailTypeKey":"EMAIL_VERIFICATION"}
+2018-08-16T08:24:37.036Z - info: [registration] - Inside <verifyEmail> function with params {"secretId":"6245a50f-27c8-e233-0351-6939fc99bbb7"}
+2018-08-16T08:24:37.518Z - info: [session] - Inside <returnUserData> function
+2018-08-16T08:24:40.348Z - info: [universal] - Inside <getAllListsData> function
+2018-08-16T08:24:40.362Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:25:25.393Z - info: [profile] - Inside <basicProfile> function
+2018-08-16T08:25:25.394Z - info: [profile] - Inside <_updateUserProfile> function with params {"from":"basic_profile"}
+2018-08-16T08:25:26.773Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T08:25:32.412Z - info: [profile] - Inside <experienceProfile> function
+2018-08-16T08:25:32.413Z - info: [profile] - Inside <_updateUserProfile> function with params {"from":"experience"}
+2018-08-16T08:25:33.479Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:22:46.661Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:23:30.314Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:23:36.407Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:23:39.882Z - info: [session] - Inside <logout> function with params {}
+2018-08-16T09:23:49.824Z - info: [session] - Inside <login> function with params {"email":"newuser16@yopmail.com","password":"********"}
+2018-08-16T09:23:50.162Z - info: [session] - Inside <returnUserData> function
+2018-08-16T09:23:50.417Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:23:51.119Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:24:11.794Z - info: [session] - Inside <login> function with params {"email":"newuser16@yopmail.com","password":"********"}
+2018-08-16T09:24:12.119Z - info: [session] - Inside <returnUserData> function
+2018-08-16T09:24:12.358Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:24:13.061Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:34:12.965Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:38:28.147Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:40:02.102Z - info: [session] - Inside <login> function with params {"email":"newuser16@yopmail.com","password":"********"}
+2018-08-16T09:40:02.450Z - info: [session] - Inside <returnUserData> function
+2018-08-16T09:40:02.741Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:40:03.391Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:41:29.599Z - error: [index] | <IIFE> - Error while connecting to database --> {"name":"MongoError","message":"failed to connect to server [legablydev.kiwitechopensource.com:21000] on first connect [MongoError: connection 0 to legablydev.kiwitechopensource.com:21000 timed out]"}
+2018-08-16T09:41:31.000Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}
+2018-08-16T09:43:31.006Z - info: [profile] - Inside <getUserProfile> function with params {"forUser":"job_seeker_info","fromUser":"job_posters_info"}

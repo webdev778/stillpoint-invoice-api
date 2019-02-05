@@ -1,0 +1,2 @@
+2018-09-05T11:40:39.442Z - error: [index] | <IIFE> - Error while connecting to database --> {"name":"MongoError","message":"failed to connect to server [www.legably.com:21000] on first connect [MongoError: connection 0 to www.legably.com:21000 timed out]"}
+2018-09-05T11:40:53.637Z - info: [session] - Inside <login> function with params {"email":"tayal@yopmail.com","password":"********"}

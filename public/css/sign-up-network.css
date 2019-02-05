@@ -1,0 +1,365 @@
+
+@import "http://propeller.in/components/select2/css/select2.min.css";
+@import "http://propeller.in/components/select2/css/select2-bootstrap.css";
+
+@import "before-sign-up-header.css";
+@import "before-sign-up-footer.css";
+/*-------------------------- basic css required that can be reused------------------------------*/
+
+
+
+
+
+/*-------------------------- general css for all device width below --------------------*/
+
+.network-page{
+  background-color: #f6f8fb;
+}
+
+.mobile-page-heading{
+  background: #fff;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #3270b2;
+  position: relative;
+}
+
+.mobile-page-heading:before{  
+  content:" ";
+  background-image: url(../images/arrow-left@2x.png);
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 15px;
+  top: 22px;
+  height:15px; width: 20px;
+}
+
+.mobile-page-heading:after{
+  content: " ";
+  background-image: url(../images/arrow-right@2x.png);
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 15px;
+  top: 22px;
+  height:15px; width: 20px;
+}
+
+/*----------------- page heading and para below-------------------*/
+.content-wrapper{ 
+  width: 75%;
+  margin-top: 75px;
+  padding: 20px 0 50px 0;
+}
+
+.content-wrapper > h3{
+  font-size: 20px;
+  color: #2c2c2d;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content-wrapper > p{
+  font-size: 16px;
+  line-height: 1.63;
+  text-align: center;
+  color: #666666;
+}
+
+/*--------------- form / cards below ---------------------------*/
+
+
+
+.card{
+  background-color: #ffffff;
+  box-shadow: 0 3px 5px 0 rgba(187, 187, 187, 0.5);
+  padding: 20px 55px 40px;
+  margin-bottom: 20px;
+}
+
+.network-card{
+  position: relative;
+  margin-top: 75px;
+  padding-top: 90px;
+}
+
+.card .upload-photo{
+  position: absolute;
+  top: -22px;
+  left: 42%;
+}
+
+.card span.icon-upload-photo{
+  background-color: #eef2f6;
+  border: solid 2px #e4e8ed;
+  padding: 33px 35px;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.card .upload-photo > div{
+  text-align: center;
+  margin-top: 36px;
+  cursor: default;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #666666;
+}
+
+.card .form-group{ margin-bottom: 20px; }
+
+.card > h4{
+  font-size: 18px;
+  text-align: left;
+  color: #666666;
+  margin-bottom: 30px;
+  cursor: default;
+}
+
+.card label{
+  font-size: 12px;
+  font-family: 'open_sanssemibold';
+  letter-spacing: 1px;
+  color: #666666;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.card input, .card select {
+  height: 40px;
+  font-size: 13px;
+  color: #333333;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 10px 20px;
+  border: solid 1px #d4d9e2;
+}
+
+.card input.disabled{
+  background-color: #efefef;
+  border: 0px;
+}
+
+.card select{
+  background-image: url(../images/arrow-down-fade-gray.png);
+  background-repeat: no-repeat;
+  background-position: 95%;
+  background-size: 10px;
+  position: relative;
+}
+
+.card textarea{
+  resize: none;
+  font-size: 13px;
+  text-align: left;
+  color: #333333;
+  box-shadow: none;
+  border-radius: 0;
+  min-height: 80px;
+  border: solid 1px #d4d9e2;
+}
+
+.upload-document .form-group{
+  border: 1px dotted #d4d9e2;
+  padding: 9px 0;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.upload-document h4{
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-align: left;
+  color: #666666;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.upload-document p{
+  font-size: 13px;
+  text-align: left;
+  color: #999999;
+  border-bottom: dotted 1px #999999;
+  margin: 0;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.upload-document input[type="file"]{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.upload-document div.supports{
+  font-size: 12px;
+  text-align: right;
+  color: #999999;
+}
+
+.previouse-btn{
+  font-size: 16px;
+  text-align: left;
+  color: #3270b2;
+  background-color: transparent;
+  text-transform: capitalize;
+  padding: 10px 24px;
+  background-image: url(../images/arrow-left@2x.png);
+  background-repeat: no-repeat;
+  background-position: 1px;
+}
+
+.nxt-btn{
+  width: 110px;
+  height: 46px;
+  background-color: #3270b2;
+  font-size: 16px;
+  text-align: center;
+  color: #ffffff;
+  text-transform: capitalize;
+}
+.btn:hover, .btn:focus{ color: #fff; }
+.previouse-btn:hover, .previouse-btn:focus { color: #3270b2; }
+
+/*-------------------------- general css for all device width above--------------------*/
+
+/*-------------------------- responsive css begins below ------------------------------*/
+
+/*==================================================
+=            Bootstrap 3 Media Queries             =
+==================================================*/
+
+    /*================================  Non-Mobile First Method  ======================*/
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (max-width : 1199px) {
+      
+      .practice-area-card.card .group-radio {
+        padding: 21px 15px 0;
+      }
+
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (max-width : 991px) {
+
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 767px) {
+
+      .content-wrapper {
+        width: 85%;
+      }
+
+      .navbar .navbar-right-wraper > ul > li {
+        display: inline-block;
+        padding: 5px 0px;
+      }
+
+      .practice-area-card.card .group-radio {
+        padding: 0px 15px 0;
+      }
+
+      .card {
+        padding: 90px 20px 20px;
+      }
+
+      .card > h4{ font-weight: bold; }
+
+      .card .upload-photo {
+        left: 39%;
+      }
+
+      .card span.icon-upload-photo {
+        padding: 24px 26px;
+      }
+      .card .upload-photo > div {
+        margin-top: 25px;
+      }
+      .upload-document{ margin-bottom: 20px; }
+
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (max-width : 479px) {
+      
+      .content-wrapper {
+        width: 100%;
+      }
+      .content-wrapper > h3 {
+        font-size: 18px;
+      }
+      .content-wrapper > p {
+        padding: 0 15px;
+        font-size: 12px;
+      }
+      .nxt-prev-btns{ padding: 0 15px; }
+
+      .card .upload-photo {
+        left: 36%;
+      }
+      .mobile-page-heading{
+        border-left: 0;
+        border-right: 0;
+        font-size: 16px;
+      }
+      .card span.icon-upload-photo {
+        padding: 18px 20px;
+      }
+      .card .upload-photo > div {
+        margin-top: 20px;
+      }
+
+    }
+
+    /* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 320px) {
+
+    }
+    
+
+
+
+    /*=============================  Mobile First Method  ================================*/
+
+    /* Custom, iPhone Retina */ 
+    @media only screen and (min-width : 320px) {
+
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (min-width : 480px) {
+
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) {
+
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) {
+
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+
+    }
+/*-------------------------- responsive css ends here ------------------------------*/

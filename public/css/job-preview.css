@@ -1,0 +1,486 @@
+.job-details-section {
+  background-color: #ffffff;
+  box-shadow: 0 2px 17px 0 rgba(0, 0, 0, 0.07);
+  width: 100%;
+  float: left;
+  padding: 40px 50px;
+  margin: 20px 0px 0px 0px;
+}
+.padding-20 {
+  padding: 20px 0px;
+}
+.clear {
+  clear: both;
+  margin: 0px;
+  padding: 0px;
+}
+.lawyer-detail {
+  width: 70%;
+  float: left;
+}
+.lawyer-detail span {
+  min-width: 83px;
+  border-radius: 4px;
+  background-color: #eef6fe;
+  font-size: 13px;
+  text-align: center;
+  color: #4a90e2;
+  float: left;
+  line-height: 21px;
+  display: block;
+  margin-bottom: 12px;
+  padding: 0px 10px;
+}
+
+.lawyer-detail .name {
+  width: 100%;
+  float: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'open_sansregular';
+  font-size: 23px;
+  text-align: left;
+  color: #000000;
+}
+
+.lawyer-hours {
+  width: 25%;
+  float: right;
+}
+
+.lawyer-hours .box {
+  min-width: 116.9px;
+  min-height: 64.1px;
+  background-color: #e5f3ff;
+  float: right;
+  text-align: center;
+  padding: 0px 10px;
+}
+
+.lawyer-hours .box .amount {
+  font-size: 26px;
+  font-weight: 500;
+  color: #3270b2;
+  width: 100%;
+  float: left;
+  padding-top: 5px;
+}
+
+.lawyer-hours .box .amount sup {
+  font-size: 13px;
+  font-family: 'montserratlight';
+  font-weight: 100;
+  color: #3270b2;
+  position: relative;
+  top: -10px;
+  left: -3px;
+}
+
+.lawyer-hours .box .amount span {
+  font-size: 13px;
+  font-family: 'montserratlight';
+  font-weight: 300;
+  color: #3270b2;
+  display: block;
+  margin-top: -11px;
+}
+
+.lawyer-location-panel {
+  width: 100%;
+  float: left;
+  border-bottom: solid 1px #e1e1e2;
+  padding: 30px 0px 10px 0px;
+}
+
+.posted-lawyer-location-panel {
+  width: 100%;
+  float: left;
+  border-bottom: solid 1px #e1e1e2;
+  padding: 10px 0px 10px 0px;
+}
+
+.detailed-box {
+  width: auto;
+  float: left;
+  margin-right: 50px;
+  margin-bottom: 5px;
+}
+
+.detailed-box .fa {
+  font-size: 15px;
+  color: #3270b2;
+  width: 20px;
+}
+
+.detailed-box .fa-clock-o, .detailed-box .fa-map-marker{
+  font-size: 17px;
+  color: #3270b2;
+  width: 20px;
+}
+
+.detailed-box span {
+  font-family: 'open_sansregular';
+  font-size: 14px;
+  color: #666666;
+  padding-left: 6px;
+  word-wrap: break-word;
+}
+
+.lawyer-description-section {
+  width: 100%;
+  float: left;
+  font-size: 16px;
+  font-family: 'open_sansregular';
+  text-align: left;
+  color: #333333;
+  word-wrap: break-word;
+  padding: 20px 0px;
+}
+
+.lawyer-description-section span {
+  font-size: 14px;
+  line-height: 1.86;
+  text-align: left;
+  color: #666666;
+  display: block;
+  padding-top: 15px;
+}
+
+.job-category-section {
+  width: 56%;
+  float: left;
+}
+
+.job-category-section span {
+  font-size: 13px;
+  font-family: 'open_sansregular';
+  color: #969696;
+  padding-right: 15px;
+  float: left;
+}
+
+.job-category-name {
+  min-width: 98px;
+  line-height: 22px;
+  float: left;
+  margin-right: 7px;
+  border-radius: 3px;
+  background-color: #eef6fe;
+  font-family: 'open_sansregular';
+  font-size: 13px;
+  text-align: center;
+  color: #4a90e2;
+  word-wrap: break-word;
+  margin-bottom: 5px;
+  padding: 0px 10px;
+}
+
+.job-postedby-section {
+  width: 43%;
+  float: right;
+  font-size: 13px;
+  text-align: right;
+  font-family: 'open_sansregular';
+  color: #666666;
+  word-wrap: break-word;
+}
+
+.job-postedby-section span {
+  color: #4a90e2;
+}
+
+.apply-btn {
+  min-width: 117px;
+  height: 40px;
+  background-color: #3270b2;
+  float: none;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+  border: 0px;
+  margin: 20px 0px 0px 0px;
+  font-family: 'montserratlight';
+  outline: none;
+}
+
+.delete-btn {
+  min-width: 100px;
+  height: 40px;
+  background-color: #ed5e68;
+  float: none;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+  border: 0px;
+  margin: 20px 10px 0px 0px;
+  font-family: 'montserratlight';
+  outline: none;
+}
+
+.posted-text {
+  float: right;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: #3270b2;
+  min-width: 116.9px;
+  padding: 2px 0px 0px 0px;
+}
+
+.interviewing-div {
+  min-width: 120px;
+  height: 30px;
+  border: solid 1px #3270b2;
+  float: left;
+  font-size: 13px;
+  font-family: 'open_sansregular';
+  text-align: center;
+  color: #3270b2;
+  margin-top: 23px;
+  padding: 4px 10px;
+}
+
+.search-description-section {
+  width: 70%;
+  float: left;
+  font-size: 16px;
+  font-family: 'open_sansregular';
+  text-align: left;
+  color: #333333;
+  word-wrap: break-word;
+  padding: 0px 0px;
+}
+
+.search-description-section span {
+  font-size: 14px;
+  line-height: 1.86;
+  text-align: left;
+  color: #666666;
+  display: block;
+  padding-top: 15px;
+}
+
+.search-details-section {
+  width: 25%;
+  height: auto;
+  border: solid 1px #e1e1e2;
+  float: right;
+  margin: 30px 0px 0px 0px;
+  padding: 20px 15px 40px 15px;
+}
+
+.search-details-box {
+  width: 100%;
+  float: left;
+  padding: 0px 6px 10px 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.9px;
+  color: #333333;
+  text-transform: uppercase;
+  font-family: 'open_sanssemibold';
+}
+
+.search-details-box span {
+  font-size: 16px;
+  line-height: 1.63;
+  color: #666666;
+  text-transform: none;
+  font-family: 'open_sansregular';
+  word-wrap: break-word;
+  padding-left: 6px;
+}
+
+.search-payment-section {
+  border-top: solid 1px #e1e1e2;
+  width: 100%;
+  float: left;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.9px;
+  text-align: left;
+  font-family: 'open_sanssemibold';
+  color: #333333;
+  text-transform: uppercase;
+  padding: 20px 6px 0px 6px;
+  margin-top: 10px;
+}
+
+.search-payment-section span {
+  font-size: 16px;
+  line-height: 1.63;
+  text-align: left;
+  color: #666666;
+  width: 100%;
+  font-family: 'open_sansregular';
+  float: left;
+  word-wrap: break-word;
+  text-transform: none;
+  margin-top: 10px;
+}
+
+.post-job-button {
+  min-width: 170px;
+  height: 43px;
+  background-color: #3270b2;
+  float: none;
+  font-size: 15px;
+  text-align: center;
+  color: #ffffff;
+  border: 0px;
+  margin: 20px 0px 0px 0px;
+  font-family: 'montserratlight';
+  outline: none;
+}
+
+.edit-job-btn {
+  width: 127.7px;
+  height: 43px;
+  background-color: #ffffff;
+  border: solid 1px #3270b2;
+  float: none;
+  font-size: 15px;
+  text-align: center;
+  color: #3270b2;
+  margin: 20px 0px 0px 0px;
+  font-family: 'montserratlight';
+  outline: none;
+  margin-right: 10px;
+}
+
+.text-btn-center {
+  text-align: right;
+}
+
+
+/* media-query */
+
+@media only screen and (max-width : 768px) {
+  .search-details-section {
+    width: 100%;
+  }
+
+  .search-description-section {
+    width: 100%;
+  }
+
+  .job-category-section {
+    width: 100%;
+  }
+
+  .job-postedby-section {
+    width: 100%;
+    text-align: left;
+    margin-top: 20px;
+  }
+
+  .job-details-section {
+      padding: 40px 25px;
+  }
+
+}
+
+
+@media only screen and (max-width : 568px) {
+  .job-details-section {
+    padding: 40px 15px;
+    margin: 0px 0px;
+  }
+
+  .lawyer-detail {
+    width: 65%;
+  }
+
+  .lawyer-detail .name {
+    font-size: 18px;
+  }
+
+  .lawyer-hours .box {
+    min-width: 90px;
+  }
+
+  .lawyer-hours .box .amount {
+    font-size: 24px;
+    padding-top: 8px;
+  }
+
+  .lawyer-hours .box .amount sup {
+    font-size: 12px;
+  }
+
+  .lawyer-hours .box .amount span {
+    font-size: 12px;
+  }
+
+  .detailed-box span {
+    font-size: 13px;
+  }
+
+  .lawyer-location-panel {
+    padding: 20px 0px 10px 0px;
+  }
+
+  .detailed-box {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .lawyer-description-section span {
+    font-size: 13px;
+  }
+
+  .text-btn-center {
+    text-align: center;
+  }
+
+  .apply-btn {
+    float: none;
+  }
+
+  .post-job-button {
+    float: none;
+    min-width: 127.7px;
+  }
+
+  .edit-job-btn {
+    float: none;
+  }
+
+  .delete-btn {
+    float: none;
+  }
+
+  .posted-text {
+    min-width: 88.9px;
+  }
+
+  .search-description-section span {
+    font-size: 13px;
+  }
+
+  .search-details-box {
+    font-size: 13px;
+  }
+
+  .search-details-box span {
+    font-size: 14px;
+  }
+
+  .search-payment-section {
+    font-size: 13px;
+    padding: 20px 5px 0px 5px;
+  }
+
+  .search-payment-section span {
+    font-size: 14px;
+  }
+
+  .interviewing-div {
+    min-width: 100%;
+  }
+
+
+}

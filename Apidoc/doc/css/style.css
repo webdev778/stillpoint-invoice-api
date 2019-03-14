@@ -184,7 +184,7 @@ pre.language-html {
   margin: 40px 0 20px 0;
 }
 
-pre.language-html:before {
+pre.language-html::before {
   content: attr(data-type);
   position: absolute;
   top: -30px;
@@ -200,19 +200,19 @@ pre.language-html:before {
   color: #ffffff;
 }
 
-pre.language-html[data-type="get"]:before {
+pre.language-html[data-type="get"]::before {
   background-color: green;
 }
 
-pre.language-html[data-type="put"]:before {
+pre.language-html[data-type="put"]::before {
   background-color: #e5c500;
 }
 
-pre.language-html[data-type="post"]:before {
+pre.language-html[data-type="post"]::before {
   background-color: #4070ec;
 }
 
-pre.language-html[data-type="delete"]:before {
+pre.language-html[data-type="delete"]::before {
   background-color: #ed0039;
 }
 
@@ -511,7 +511,7 @@ ul.nav-tabs {
     color: inherit;
   }
 
-  a:after {
+  a::after {
     content: " [" attr(href) "] ";
   }
 

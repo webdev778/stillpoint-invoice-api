@@ -110,21 +110,21 @@ export default class PostJobComp extends React.Component {
           let data = utils.getDataFromRes(response);
 
           var stateObj = that.state.job;
-          stateObj['jobType'] = data['job_types'][0]['_id'];
-          stateObj['paymentType'] = data['payment_types'][0]['_id'];
+          stateObj['jobType'] = data['job_types'][0]['name'];
+          stateObj['paymentType'] = data['payment_types'][0]['name'];
           that.setState({
             job: stateObj,
-            defaultJobType: data['job_types'][0]['_id'],
-            defaultPaymentType: data['payment_types'][0]['_id']
+            defaultJobType: data['job_types'][0]['name'],
+            defaultPaymentType: data['payment_types'][0]['name']
           });
 
           for (let jobTypeObj of data['job_types']) {
-            jobTypes.push(<option key={jobTypeObj['_id']} value={jobTypeObj['_id']}>{jobTypeObj['name']}</option>);
+            jobTypes.push(<option key={jobTypeObj['_id']} value={jobTypeObj['name']}>{jobTypeObj['name']}</option>);
           }
           that.setState({job_type_dropdown: jobTypes});
 
           for (let paymentTypeObj of data['payment_types']) {
-            paymentTypes.push(<option key={paymentTypeObj['_id']} value={paymentTypeObj['_id']}>{paymentTypeObj['name']}</option>);
+            paymentTypes.push(<option key={paymentTypeObj['_id']} value={paymentTypeObj['name']}>{paymentTypeObj['name']}</option>);
           }
           that.setState({payment_type_dropdown: paymentTypes});
 

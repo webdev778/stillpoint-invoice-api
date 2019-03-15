@@ -14,6 +14,8 @@ export default class PostJobComp extends React.Component {
     super(props);
     this.state = {
       job: {
+        jobType: '',
+        paymentType: '',
         jobHeadline:'',
         practiceArea: [],
         skillsNeeded:[],
@@ -45,11 +47,15 @@ export default class PostJobComp extends React.Component {
       skill_dropdown: [],
       state_dropdown: [],
       work_location_dropdown: [],
+      job_type_dropdown: [],
+      payment_type_dropdown: [],
       employment_type_dropdown:[],
       zipErr: '',
       legablyChargesForFixed : 0,
       profileComplete : false,
-      modalPopupObj: {}
+      modalPopupObj: {},
+      defaultJobType: '',
+      defaultPaymentType: ''
     };
     this.changeInput = this.changeInput.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
@@ -92,6 +98,8 @@ export default class PostJobComp extends React.Component {
     let states = [];
     let workLocations = [];
     let employmentTypes = [];
+    let jobTypes = [];
+    let paymentTypes = [];
 
     utils.apiCall('GET_ALL_LISTS', {}, function(err, response) {
       if (err) {
@@ -100,6 +108,25 @@ export default class PostJobComp extends React.Component {
       } else {
         if (utils.isResSuccess(response)) {
           let data = utils.getDataFromRes(response);
+
+          var stateObj = that.state.job;
+          stateObj['jobType'] = data['job_types'][0]['_id'];
+          stateObj['paymentType'] = data['payment_types'][0]['_id'];
+          that.setState({
+            job: stateObj,
+            defaultJobType: data['job_types'][0]['_id'],
+            defaultPaymentType: data['payment_types'][0]['_id']
+          });
+
+          for (let jobTypeObj of data['job_types']) {
+            jobTypes.push(<option key={jobTypeObj['_id']} value={jobTypeObj['_id']}>{jobTypeObj['name']}</option>);
+          }
+          that.setState({job_type_dropdown: jobTypes});
+
+          for (let paymentTypeObj of data['payment_types']) {
+            paymentTypes.push(<option key={paymentTypeObj['_id']} value={paymentTypeObj['_id']}>{paymentTypeObj['name']}</option>);
+          }
+          that.setState({payment_type_dropdown: paymentTypes});
 
           for (let pAreasObj of data['practice_areas']) {
             practiceAreas.push({value: pAreasObj['_id'], label: pAreasObj['name']});
@@ -553,6 +580,8 @@ export default class PostJobComp extends React.Component {
   clearForm() {
     this.setState({
       job : {
+        jobType: this.state.defaultJobType,
+        paymentType: this.state.defaultPaymentType,
         jobHeadline:'',
         practiceArea: [],
         skillsNeeded:[],
@@ -662,6 +691,28 @@ export default class PostJobComp extends React.Component {
       <div>
         <form>
           <div className="job-posting-card card">
+            <div className="row">
+              <div className="col-sm-6">
+                <div className={this.state.formError.jobType ? 'form-group global-error' : 'form-group' }>
+                  <label className="control-label">Job Type*</label>
+                  <select name="jobType" className="form-control" value={job.jobType} onChange={(e) => this.changeInput(e, 'jobType')} onBlur={(e) => this.handleOnBlur(e, 'jobType')}>
+                    <option value="">Select Job Type</option>
+                    {this.state.job_type_dropdown}
+                  </select>
+                  {this.state.formError.jobType ? <p><span> Please select job type </span></p> : ''}
+                </div>
+              </div>
+              <div className="col-sm-6">
+                <div className={this.state.formError.paymentType ? 'form-group global-error' : 'form-group' }>
+                  <label className="control-label">Payment Type*</label>
+                  <select name="paymentType" className="form-control" value={job.paymentType} onChange={(e) => this.changeInput(e, 'paymentType')} onBlur={(e) => this.handleOnBlur(e, 'paymentType')}>
+                    <option value="">Select Payment Type</option>
+                    {this.state.payment_type_dropdown}
+                  </select>
+                  {this.state.formError.paymentType ? <p><span> Please select payment type </span></p> : ''}
+                </div>
+              </div>
+            </div>
             <div className={this.state.formError.jobHeadline ? 'form-group global-error' : 'form-group' }>
               <label className="control-label">job headline*</label>
               <input name="jobHeadline" className="form-control" placeholder="Job Headline" type="text"  maxLength="150" value={job.jobHeadline} onChange={(e) => this.changeInput(e, 'jobHeadline')} onBlur={(e) => this.handleOnBlur(e, 'jobHeadline')}/>

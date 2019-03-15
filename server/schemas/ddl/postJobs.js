@@ -9,6 +9,8 @@ var constant = rfr('/server/shared/constant'),
 utils = rfr('/server/shared/utils');
 
 var postJobs = new Schema({
+  jobType: {type: String, required: true},
+  paymentType: {type: String, required: true},
   jobHeadline: {type: String, required: true, maxlength: 150},
   practiceArea: {type: Array},
   skillsNeeded: {type: Array},

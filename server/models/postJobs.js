@@ -457,7 +457,7 @@ function postJobData(req, res, callback) {
         callback({Code:401, Status:false, Message:err});
       } else {
         req.body.userId = result._id;
-        var requiredParameters = ['jobHeadline', 'practiceArea', 'skillsNeeded', 'jobDescription', 'city', 'state', 'zipCode', 'setting_id', 'duration', 'durationPeriod', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
+        var requiredParameters = ['jobType', 'paymentType' ,'jobHeadline', 'practiceArea', 'skillsNeeded', 'jobDescription', 'city', 'state', 'zipCode', 'setting_id', 'duration', 'durationPeriod', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
         var validateObj = validator.missingParameters(req.body, requiredParameters);
         if (validateObj.isValid) {
           if (validator.maxLength(req.body.jobHeadline, 150 ,true) && validator.maxLength(req.body.jobDescription, 2000 ,true) && validator.maxLength(req.body.zipCode, 5, true) && validator.minLength(req.body.zipCode, 5, true) && validator.maxLength(req.body.duration, 3, true) && validator.maxLength(req.body.rate, 6, true) && validator.maxLength(req.body.hours, 3, false)) {

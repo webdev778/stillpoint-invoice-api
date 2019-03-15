@@ -19,7 +19,9 @@ practiceAreaModel = rfr('/server/models/static/practiceAreas'),
 skillModel = rfr('/server/models/static/skills'),
 stateModel = rfr('/server/models/static/states'),
 workLocationModel = rfr('/server/models/static/workLocations'),
-fedTaxClassificationsModel = rfr('/server/models/static/fedTaxClassifications');
+fedTaxClassificationsModel = rfr('/server/models/static/fedTaxClassifications'),
+jobTypeModel = rfr('/server/models/static/jobTypes'),
+paymentTypeModel = rfr('/server/models/static/paymentTypes');
 
 var postJobSchema = rfr('/server/schemas/ddl/postJobs'),
 userSchema = rfr('/server/schemas/ddl/users');
@@ -90,7 +92,9 @@ function getAllListsData(req, res, callback) {
     'skills': skillModel,
     'states': stateModel,
     'work_locations': workLocationModel,
-    'fed_tax_classifications': fedTaxClassificationsModel
+    'fed_tax_classifications': fedTaxClassificationsModel,
+    'job_types': jobTypeModel,
+    'payment_types': paymentTypeModel
   };
   var resObj = Object.assign({}, utils.getSuccessResObj());
   resObj['data'] = {};

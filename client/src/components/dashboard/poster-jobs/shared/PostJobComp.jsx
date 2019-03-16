@@ -505,17 +505,37 @@ export default class PostJobComp extends React.Component {
             validForm = false;
           }
         } else if (key === 'duration' && !(Number(job[key]))) {
-          formError[key] = constant['DURATION_ERROR'];
-          validForm = false;
+          if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
+            formError[key] = false; 
+            validForm = true;
+          } else {
+            formError[key] = constant['DURATION_ERROR'];
+            validForm = false;
+          }
         } else if (key === 'rate' && !(Number(job[key]))) {
-          formError[key] = constant['RATE_ERROR'];
-          validForm = false;
+          if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
+            formError[key] = false; 
+            validForm = true;
+          } else {
+            formError[key] = constant['RATE_ERROR'];
+            validForm = false;
+          }
         } else if (key === 'hours' && job['rateType'] === 'HOURLY' && !(Number(job[key]))) {
-          formError[key] = constant['HOURS_ERROR'];
-          validForm = false;
+          if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
+            formError[key] = false; 
+            validForm = true;
+          } else {
+            formError[key] = constant['HOURS_ERROR'];
+            validForm = false;
+          }
         } else if (key === 'subTotal' && job['subTotal'] < 100) {
-          formError[key] = constant['MIN_JOB_AMOUNT'];
-          validForm = false;
+          if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
+            formError[key] = false; 
+            validForm = true;
+          } else {
+            formError[key] = constant['MIN_JOB_AMOUNT'];
+            validForm = false;
+          }
         }
         else {
           if(!job[key] && typeof(job[key]) != "number") {
@@ -528,17 +548,23 @@ export default class PostJobComp extends React.Component {
       }
     }
     var paymentDetails = this.state.job.paymentDetails;
-    paymentDetails.forEach(function(paymentDetail,index) {
-      if(!paymentDetail.rate && index == 0){
-        validForm = false;
-        paymentDetail.errorMessage = 'Please enter rate';
-      } else {
-        if(paymentDetail.errorMessage){
-          formError[key] = true;
+    if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
+      paymentDetails.forEach(function(paymentDetail,index) {
+        paymentDetail.rate = '0';
+      });
+    } else {
+      paymentDetails.forEach(function(paymentDetail,index) {
+        if(!paymentDetail.rate && index == 0){
           validForm = false;
+          paymentDetail.errorMessage = 'Please enter rate';
+        } else {
+          if(paymentDetail.errorMessage){
+            formError[key] = true;
+            validForm = false;
+          }
         }
-      }
-    });
+      });
+    }
     jobState.paymentDetails = paymentDetails;
     this.setState({formError: formError});
     this.setState({job: jobState});
@@ -623,6 +649,7 @@ export default class PostJobComp extends React.Component {
 
     job.hours = Number(job.hours);
     job.rate = Number(job.rate);
+    job.duration = Number(job.duration);
     job.zipCode = job.zipCode;
     job.status = status;
     delete job['current_highest_job_step'];
@@ -815,186 +842,206 @@ export default class PostJobComp extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="posting-two-cols">
-              <div className='form-group'>
-                <label className="control-label">ESTIMATED DURATION OF ENGAGEMENT*</label>
-                <div className={this.state.formError.duration ? 'global-error inline-to-block' : 'inline-to-block' }>
-                <input name="duration" className="form-control custom-num" placeholder="00" type="text" value={job.duration} onChange={(e) => this.validateLength(e, 'duration', 999)} onBlur={(e) => this.handleOnBlur(e, 'duration')}/>
-
-                {this.state.formError.duration ? <p><span> {this.state.formError.duration} </span></p> : ''}
-              </div>
-              <ul className="tabbed-radio-btns three-tabs">
-                <li>
-                  <input type="radio" name="d-w-m" checked={job.durationPeriod == utils.ENUM.DURATION_PERIOD.DAYS ? 1 : 0} value={utils.ENUM.DURATION_PERIOD.DAYS} onClick={(e) => this.changeInput(e, 'durationPeriod')}/>
-                    <span>Days</span>
-                </li>
-                <li>
-                  <input type="radio" name="d-w-m" value={utils.ENUM.DURATION_PERIOD.WEEKS} checked={job.durationPeriod == utils.ENUM.DURATION_PERIOD.WEEKS ? 1 : 0}  onClick={(e) => this.changeInput(e, 'durationPeriod')}/>
-                    <span>Weeks</span>
-                </li>
-                <li>
-                  <input type="radio" name="d-w-m" value={utils.ENUM.DURATION_PERIOD.MONTHS} checked={job.durationPeriod == utils.ENUM.DURATION_PERIOD.MONTHS ? 1 : 0}  onClick={(e) => this.changeInput(e, 'durationPeriod')}/>
-                    <span>Months</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="posting-two-cols">
-            <div className='form-group'>
-              <label className="control-label">TARGET RATE*</label>
-              <div className={this.state.formError.rate ? 'global-error inline-to-block' : 'inline-to-block' }>
-              <input className="form-control amount-dollar-bg text-left custom-num" placeholder="Rate" type="text" value={job.rate} onChange={(e) => this.validateAndCalculateAmount(e, 'rate', 999999)} onBlur={(e) => this.handleOnBlur(e, 'rate')}/>
-              {this.state.formError.rate ? <p><span> {this.state.formError.rate} </span></p> : ''}
-            </div>
-            <ul className="tabbed-radio-btns">
-              <li>
-                <input type="radio" name="h-f" checked={job.rateType == utils.ENUM.RATE_TYPE.HOURLY ? 1 : 0} value={utils.ENUM.RATE_TYPE.HOURLY} onClick={(e) => this.onChangeHoursType(e, 'rateType')}/>
-                <span>Hourly</span>
-              </li>
-              <li>
-                <input type="radio" name="h-f" checked={job.rateType == utils.ENUM.RATE_TYPE.FIXED ? 1 : 0} value={utils.ENUM.RATE_TYPE.FIXED} onClick={(e) => this.onChangeHoursType(e, 'rateType')}/>
-                <span>Fixed</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="posting-two-cols hours-col">
-          <div className='form-group'>
-            <label className="control-label">ESTIMATED HOURS OF WORK REQUIRED*</label>
-            <div className={this.state.formError.hours && job.rateType != utils.ENUM.RATE_TYPE.FIXED ? 'global-error inline-to-block' : 'inline-to-block' }>
-              <input className="form-control custom-num" placeholder="00" type="text" value={job.hours} onChange={(e) => this.validateAndCalculateAmount(e, 'hours', 999)} onBlur={(e) => this.handleOnBlur(e, 'hours')} disabled={this.state.diableHours}/>
-              {this.state.formError.hours ? <p><span> {this.state.formError.hours} </span></p> : ''}
-            </div>
-            <div className="pt-ft-w-m">
-              <ul className="tabbed-radio-btns">
-                {this.state.employment_type_dropdown.map((hoursType, index) =>
-                  <li key={index}>
-                    <input type="radio" name="pt-ft" checked={hoursType.value == job.hoursType ? 1 : 0} value={hoursType.value} onClick={(e) => this.changeInput(e, 'hoursType')} disabled={this.state.diableHours}/>
-                    <span>{hoursType.label}</span>
-                  </li>
-                )}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="separator"></div>
-          <div className="estimated-section">
-            <h5>Estimated Amount Payable to Selected Candidate</h5>
-            <p>Based on the information you have provided, the estimated amount payable to your selected candidate is indicated below.</p>
-            <div className="row">
-              <div className="col-sm-4">
-                <div className={this.state.formError.subTotal ? 'form-group global-error' : 'form-group'}>
-                  <label className="control-label">AMOUNT PAYABLE</label>
-                  <input className="form-control amount-dollar-bg" placeholder="Total" type="text" value={job.subTotal} disabled="true"/>
-                  {this.state.formError.subTotal ? <p><span> {this.state.formError.subTotal} </span></p> : ''}
+            {!(job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') &&
+              <div className="posting-two-cols">
+                <div className='form-group'>
+                  <label className="control-label">ESTIMATED DURATION OF ENGAGEMENT*</label>
+                  <div className={this.state.formError.duration ? 'global-error inline-to-block' : 'inline-to-block' }>
+                    <input name="duration" className="form-control custom-num" placeholder="00" type="text" value={job.duration} onChange={(e) => this.validateLength(e, 'duration', 999)} onBlur={(e) => this.handleOnBlur(e, 'duration')}/>
+                    {this.state.formError.duration ? <p><span> {this.state.formError.duration} </span></p> : ''}
+                  </div>
+                  <ul className="tabbed-radio-btns three-tabs">
+                    <li>
+                      <input type="radio" name="d-w-m" checked={job.durationPeriod == utils.ENUM.DURATION_PERIOD.DAYS ? 1 : 0} value={utils.ENUM.DURATION_PERIOD.DAYS} onClick={(e) => this.changeInput(e, 'durationPeriod')}/>
+                        <span>Days</span>
+                    </li>
+                    <li>
+                      <input type="radio" name="d-w-m" value={utils.ENUM.DURATION_PERIOD.WEEKS} checked={job.durationPeriod == utils.ENUM.DURATION_PERIOD.WEEKS ? 1 : 0}  onClick={(e) => this.changeInput(e, 'durationPeriod')}/>
+                        <span>Weeks</span>
+                    </li>
+                    <li>
+                      <input type="radio" name="d-w-m" value={utils.ENUM.DURATION_PERIOD.MONTHS} checked={job.durationPeriod == utils.ENUM.DURATION_PERIOD.MONTHS ? 1 : 0}  onClick={(e) => this.changeInput(e, 'durationPeriod')}/>
+                        <span>Months</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
+            }
+            <div className="posting-two-cols">
+              <div className='form-group'>
+                <label className="control-label">TARGET RATE*</label>
+                <div className={this.state.formError.rate ? 'global-error inline-to-block' : 'inline-to-block' }>
+                <input className="form-control amount-dollar-bg text-left custom-num" placeholder="Rate" type="text" value={job.rate} onChange={(e) => this.validateAndCalculateAmount(e, 'rate', 999999)} onBlur={(e) => this.handleOnBlur(e, 'rate')}/>
+                {this.state.formError.rate ? <p><span> {this.state.formError.rate} </span></p> : ''}
+              </div>
+              <ul className="tabbed-radio-btns">
+                <li>
+                  <input type="radio" name="h-f" checked={job.rateType == utils.ENUM.RATE_TYPE.HOURLY ? 1 : 0} value={utils.ENUM.RATE_TYPE.HOURLY} onClick={(e) => this.onChangeHoursType(e, 'rateType')}/>
+                  <span>Hourly</span>
+                </li>
+                <li>
+                  <input type="radio" name="h-f" checked={job.rateType == utils.ENUM.RATE_TYPE.FIXED ? 1 : 0} value={utils.ENUM.RATE_TYPE.FIXED} onClick={(e) => this.onChangeHoursType(e, 'rateType')}/>
+                  <span>Fixed</span>
+                </li>
+              </ul>
             </div>
-          <div className="separator"></div>
-          <h5>Estimated Payment and Deliverable Schedule</h5>
-          <p>The estimated payment and deliverable schedule allows you to disperse the estimated amount payable to your selected candidate over the course of your project or task based upon the completion of specific deliverables. If there is only one deliverable, simply allocate the estimated amount payable to your selected candidate to that single item. </p>
-          <ul className="hidden-xs row mb-0">
-            <li className="col-sm-4">
-              <label className="control-label">Amount Payable*</label>
-            </li>
-            <li className="col-sm-4">
-              <label className="control-label">On Delivery Of</label>
-            </li>
-            <li className="col-sm-4">
-              <label className="control-label">Due Date</label>
-            </li>
-          </ul>
-          {job.paymentDetails.map((paymentDetail, index) =>
-            <ul className="payment-details row" key={index}>
-              <li className={paymentDetail.errorMessage ? 'global-error col-sm-4' : 'col-sm-4' }>
-                <span className="hidden visible-xs">Amount Payable*</span>
-                <input className="amount-dollar-bg custom-num" type="text" placeholder="Payment" value={paymentDetail.rate} onChange={(e) => this.setPaymentDetails(e, 'rate', index)}/>
-                <p className="static"><span>{paymentDetail.errorMessage || ''}</span></p>
-              </li>
-              <li className="col-sm-4">
-                <span className="hidden visible-xs">On Delivery Of</span>
-                <input type="text" className="form-control" placeholder="Deliverable Description" value={paymentDetail.delivery} onChange={(e) => this.setPaymentDetails(e, 'delivery', index)}/>
-              </li>
-              <li className='col-sm-4'>
-                <span className="hidden visible-xs">Due Date</span>
-                <Datetime onChange={(date) => this.handleDueDate(date, index)}
-                  onBlur={(e) => utils.onCalendarBlur(e)}
-                  value={paymentDetail.dueDate}
-                  input={true}
-                  inputProps={{placeholder: 'Due Date', name: 'searchStartDate', readOnly: true}}
-                  name='start_date'
-                  closeOnSelect={true}
-                  dateFormat={constant['DATE_FORMAT']}
-                  timeFormat={false}
-                  isValidDate={ this.validStartDate }
-                  renderDay={ this.renderDay }
-                  className={ 'date-time' }
-                />
-                { paymentDetail.dueDate ?
-                    <span  className="clear" onClick={(e) => this.handleDueDate('', index)}></span>
-                  :
-                    null
+            </div>
+           {!(job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') &&
+              <div className="posting-two-cols hours-col">
+                <div className='form-group'>
+                  <label className="control-label">ESTIMATED HOURS OF WORK REQUIRED*</label>
+                  <div className={this.state.formError.hours && job.rateType != utils.ENUM.RATE_TYPE.FIXED ? 'global-error inline-to-block' : 'inline-to-block' }>
+                    <input className="form-control custom-num" placeholder="00" type="text" value={job.hours} onChange={(e) => this.validateAndCalculateAmount(e, 'hours', 999)} onBlur={(e) => this.handleOnBlur(e, 'hours')} disabled={this.state.diableHours}/>
+                    {this.state.formError.hours ? <p><span> {this.state.formError.hours} </span></p> : ''}
+                  </div>
+                  <div className="pt-ft-w-m">
+                    <ul className="tabbed-radio-btns">
+                      {this.state.employment_type_dropdown.map((hoursType, index) =>
+                        <li key={index}>
+                          <input type="radio" name="pt-ft" checked={hoursType.value == job.hoursType ? 1 : 0} value={hoursType.value} onClick={(e) => this.changeInput(e, 'hoursType')} disabled={this.state.diableHours}/>
+                          <span>{hoursType.label}</span>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            }
+            <div className="separator"></div>
+            <div className="estimated-section">
+              {!(job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') &&
+              <div className="estimated-amount-section">
+                <h5>Estimated Amount Payable to Selected Candidate</h5>
+                <p>Based on the information you have provided, the estimated amount payable to your selected candidate is indicated below.</p>
+                <div className="row">
+                  <div className="col-sm-4">
+                    <div className={this.state.formError.subTotal ? 'form-group global-error' : 'form-group'}>
+                      <label className="control-label">AMOUNT PAYABLE</label>
+                      <input className="form-control amount-dollar-bg" placeholder="Total" type="text" value={job.subTotal} disabled="true"/>
+                      {this.state.formError.subTotal ? <p><span> {this.state.formError.subTotal} </span></p> : ''}
+                    </div>
+                  </div>
+                </div>
+                <div className="separator"></div>
+              </div>
+              }
+              {!(job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') &&
+              <div className="estimated-schedule-section">
+                <h5>Estimated Payment and Deliverable Schedule</h5>
+                <p>The estimated payment and deliverable schedule allows you to disperse the estimated amount payable to your selected candidate over the course of your project or task based upon the completion of specific deliverables. If there is only one deliverable, simply allocate the estimated amount payable to your selected candidate to that single item. </p>
+                <ul className="hidden-xs row mb-0">
+                  <li className="col-sm-4">
+                    <label className="control-label">Amount Payable*</label>
+                  </li>
+                  <li className="col-sm-4">
+                    <label className="control-label">On Delivery Of</label>
+                  </li>
+                  <li className="col-sm-4">
+                    <label className="control-label">Due Date</label>
+                  </li>
+                </ul>
+                {job.paymentDetails.map((paymentDetail, index) =>
+                  <ul className="payment-details row" key={index}>
+                    <li className={paymentDetail.errorMessage ? 'global-error col-sm-4' : 'col-sm-4' }>
+                      <span className="hidden visible-xs">Amount Payable*</span>
+                      <input className="amount-dollar-bg custom-num" type="text" placeholder="Payment" value={paymentDetail.rate} onChange={(e) => this.setPaymentDetails(e, 'rate', index)}/>
+                      <p className="static"><span>{paymentDetail.errorMessage || ''}</span></p>
+                    </li>
+                    <li className="col-sm-4">
+                      <span className="hidden visible-xs">On Delivery Of</span>
+                      <input type="text" className="form-control" placeholder="Deliverable Description" value={paymentDetail.delivery} onChange={(e) => this.setPaymentDetails(e, 'delivery', index)}/>
+                    </li>
+                    <li className='col-sm-4'>
+                      <span className="hidden visible-xs">Due Date</span>
+                      <Datetime onChange={(date) => this.handleDueDate(date, index)}
+                        onBlur={(e) => utils.onCalendarBlur(e)}
+                        value={paymentDetail.dueDate}
+                        input={true}
+                        inputProps={{placeholder: 'Due Date', name: 'searchStartDate', readOnly: true}}
+                        name='start_date'
+                        closeOnSelect={true}
+                        dateFormat={constant['DATE_FORMAT']}
+                        timeFormat={false}
+                        isValidDate={ this.validStartDate }
+                        renderDay={ this.renderDay }
+                        className={ 'date-time' }
+                      />
+                      { paymentDetail.dueDate ?
+                          <span  className="clear" onClick={(e) => this.handleDueDate('', index)}></span>
+                        :
+                          null
+                      }
+                    </li>
+                    { (job.paymentDetails.length > 0  && index!=0) ?
+                      <p className="less" onClick={(e) => this.removePaymentDetail(index)}>
+                        <i className="fa fa-minus-circle"></i>
+                        <span>Delete</span>
+                      </p> :
+                      <p></p>
+                    }
+                    { (job.paymentDetails.length > 0 && index == job.paymentDetails.length-1 && job.remainingAmount != 0) ?
+                      <p className="add-more" onClick={(e) => this.addPaymentDetail()}>
+                        <i className="fa fa-plus-circle"></i>
+                        <span>Add More</span>
+                      </p> :
+                      <p></p>
+                    }
+                  </ul>
+                )}
+                <ul className="remaining-detail">
+                  <li>
+                    <label className="control-label">REMAINDER TO BE ALLOCATED </label>
+                    <span className="hidden visible-xs">Rate</span>
+                    <input type="text" className="form-control amount-dollar-bg" placeholder="Remaining" value={job.remainingAmount} disabled="true"/>
+                  </li>
+                </ul>
+                <div className="separator"></div>
+              </div>
+              }
+              <div className="estimated-total-cost-section">
+                {!(job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') ? (
+                  <div className="estimated-total-cost">
+                    <h5>Estimated Total Cost</h5>
+                    <p>The estimated total cost of this engagement is indicated below. Please note that this amount is subject to change pending final agreed upon terms negotiated between you and the candidate. Once you have agreed to terms with your candidate and are ready to move forward, the actual total cost will be due and placed in escrow, payable to your candidate per the final agreed upon payment and deliverable schedule.</p>
+                    <p>
+                      <span className="pull-left">Estimated amount payable to selected candidate:</span>
+                      <span className="pull-right">{isNaN((parseFloat(job.subTotal)).toFixed(2))? "$00.00" : '$'+job.subTotal}</span>
+                      <span className="clearfix"></span>
+                    </p>
+                    <p>
+                      <span className="pull-left">Estimated Legably service charge:</span>
+                      <span className="pull-right">{ isNaN((parseFloat(this.state.legablyChargesForFixed)).toFixed(2)) ? '$0.00' : '$'+this.state.legablyChargesForFixed}</span>
+                      <span className="clearfix"></span>
+                    </p>
+                    <p className="clearfix grand-total">
+                      <span className="pull-left">Estimated total cost</span>
+                      <span className="pull-right">{isNaN((parseFloat(job.total)).toFixed(2)) ? '$00.00' : '$'+parseFloat(job.total).toFixed(2)}</span>
+                      <span className="clearfix"></span>
+                    </p>
+                  </div>
+                  ) : (
+                    <p>By posting this job you agree to pay an attorney for the work outlined above based either on the hourly rate or the fixed fee that the you both agree to on the Negotiated Terms screen. You also agree to pay the Legably service charge at the same time of payment to the attorney completing the work.</p>
+                  )
                 }
-              </li>
-              { (job.paymentDetails.length > 0  && index!=0) ?
-                <p className="less" onClick={(e) => this.removePaymentDetail(index)}>
-                  <i className="fa fa-minus-circle"></i>
-                  <span>Delete</span>
-                </p> :
-                <p></p>
-              }
-              { (job.paymentDetails.length > 0 && index == job.paymentDetails.length-1 && job.remainingAmount != 0) ?
-                <p className="add-more" onClick={(e) => this.addPaymentDetail()}>
-                  <i className="fa fa-plus-circle"></i>
-                  <span>Add More</span>
-                </p> :
-                <p></p>
-              }
-            </ul>
-          )}
-          <ul className="remaining-detail">
-            <li>
-              <label className="control-label">REMAINDER TO BE ALLOCATED </label>
-              <span className="hidden visible-xs">Rate</span>
-              <input type="text" className="form-control amount-dollar-bg" placeholder="Remaining" value={job.remainingAmount} disabled="true"/>
-            </li>
-          </ul>
-          <div className="separator"></div>
-            <h5>Estimated Total Cost</h5>
-            <p>The estimated total cost of this engagement is indicated below. Please note that this amount is subject to change pending final agreed upon terms negotiated between you and the candidate. Once you have agreed to terms with your candidate and are ready to move forward, the actual total cost will be due and placed in escrow, payable to your candidate per the final agreed upon payment and deliverable schedule.</p>
-            <p>
-              <span className="pull-left">Estimated amount payable to selected candidate:</span>
-              <span className="pull-right">{isNaN((parseFloat(job.subTotal)).toFixed(2))? "$00.00" : '$'+job.subTotal}</span>
-              <span className="clearfix"></span>
-            </p>
-            <p>
-              <span className="pull-left">Estimated Legably service charge:</span>
-              <span className="pull-right">{ isNaN((parseFloat(this.state.legablyChargesForFixed)).toFixed(2)) ? '$0.00' : '$'+this.state.legablyChargesForFixed}</span>
-              <span className="clearfix"></span>
-            </p>
-            <p className="clearfix grand-total">
-              <span className="pull-left">Estimated total cost</span>
-              <span className="pull-right">{isNaN((parseFloat(job.total)).toFixed(2)) ? '$00.00' : '$'+parseFloat(job.total).toFixed(2)}</span>
-              <span className="clearfix"></span>
-            </p>
+              </div>
+            </div>
           </div>
-        </div>
-        {
-          this.props.isEditJobPage ?
-            <div className="nxt-prev-btns">
-              <button type="submit" name="updateJob" className="d-block btn-primary btn pull-right ml-10" onClick={(e) => this.updateJob(e, job.status)}>Update Job</button>
-              <span className="clear-fix"></span>
-            </div>
-          :
-            <div className="nxt-prev-btns">
-              <button type="submit" name="postJob" className="d-block btn-primary btn pull-right ml-10" onClick={(e) => this.postOrSaveJob(e, constant['STATUS']['ACTIVE'])}>Post Job</button>
-              <button type="submit" name="saveJob" className="d-block btn-primary btn pull-right" onClick={(e) => this.postOrSaveJob(e, constant['STATUS']['INACTIVE'])}>Save Job</button>
-              <span className="clear-fix"></span>
-            </div>
-        }
-      </form>
-      <ModalPopup modalPopupObj={this.state.modalPopupObj} />
-    </div>
+          {
+            this.props.isEditJobPage ?
+              <div className="nxt-prev-btns">
+                <button type="submit" name="updateJob" className="d-block btn-primary btn pull-right ml-10" onClick={(e) => this.updateJob(e, job.status)}>Update Job</button>
+                <span className="clear-fix"></span>
+              </div>
+            :
+              <div className="nxt-prev-btns">
+                <button type="submit" name="postJob" className="d-block btn-primary btn pull-right ml-10" onClick={(e) => this.postOrSaveJob(e, constant['STATUS']['ACTIVE'])}>Post Job</button>
+                <button type="submit" name="saveJob" className="d-block btn-primary btn pull-right" onClick={(e) => this.postOrSaveJob(e, constant['STATUS']['INACTIVE'])}>Save Job</button>
+                <span className="clear-fix"></span>
+              </div>
+          }
+        </form>
+        <ModalPopup modalPopupObj={this.state.modalPopupObj} />
+      </div>
     );
   }
 }

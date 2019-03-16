@@ -458,24 +458,36 @@ function postJobData(req, res, callback) {
       } else {
         req.body.userId = result._id;
         var requiredParameters = ['jobType', 'paymentType' ,'jobHeadline', 'practiceArea', 'skillsNeeded', 'jobDescription', 'city', 'state', 'zipCode', 'setting_id', 'duration', 'durationPeriod', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
-        var validateObj = validator.missingParameters(req.body, requiredParameters);
+        var validateObj = validator.missingJobParameters(req.body, requiredParameters);
         if (validateObj.isValid) {
-          if (validator.maxLength(req.body.jobHeadline, 150 ,true) && validator.maxLength(req.body.jobDescription, 2000 ,true) && validator.maxLength(req.body.zipCode, 5, true) && validator.minLength(req.body.zipCode, 5, true) && validator.maxLength(req.body.duration, 3, true) && validator.maxLength(req.body.rate, 6, true) && validator.maxLength(req.body.hours, 3, false)) {
-            if (req.body.subTotal >= 100) {
-              if (req.body._id) {
+          if (req.body.jobType == '1099' && req.body.paymentType == 'Hourly Rate/Fixed Fee') {
+            if (req.body._id) {
+              _savePostJob(req, res, result, callback);
+            } else {
+              if ((!!req.body.estimatedStartDate && moment(req.body.estimatedStartDate).isSameOrAfter(utils.getCurrentEstDate())) || req.body.estimatedStartDate == '') {
                 _savePostJob(req, res, result, callback);
               } else {
-                if ((!!req.body.estimatedStartDate && moment(req.body.estimatedStartDate).isSameOrAfter(utils.getCurrentEstDate())) || req.body.estimatedStartDate == '') {
-                  _savePostJob(req, res, result, callback);
-                } else {
-                  callback({Code:400, Status:false, Message:constant['INVALID_ESTIMATED_DATE']});
-                }
+                callback({Code:400, Status:false, Message:constant['INVALID_ESTIMATED_DATE']});
               }
-            } else {
-              callback({Code:400, Status:false, Message:constant['MIN_JOB_AMOUNT']});
             }
           } else {
-            callback({Code:400, Status:false, Message:constant['INVALID_FORMAT']});
+            if (validator.maxLength(req.body.jobHeadline, 150 ,true) && validator.maxLength(req.body.jobDescription, 2000 ,true) && validator.maxLength(req.body.zipCode, 5, true) && validator.minLength(req.body.zipCode, 5, true) && validator.maxLength(req.body.duration, 3, true) && validator.maxLength(req.body.rate, 6, true) && validator.maxLength(req.body.hours, 3, false)) {
+              if (req.body.subTotal >= 100) {
+                if (req.body._id) {
+                  _savePostJob(req, res, result, callback);
+                } else {
+                  if ((!!req.body.estimatedStartDate && moment(req.body.estimatedStartDate).isSameOrAfter(utils.getCurrentEstDate())) || req.body.estimatedStartDate == '') {
+                    _savePostJob(req, res, result, callback);
+                  } else {
+                    callback({Code:400, Status:false, Message:constant['INVALID_ESTIMATED_DATE']});
+                  }
+                }
+              } else {
+                callback({Code:400, Status:false, Message:constant['MIN_JOB_AMOUNT']});
+              }
+            } else {
+              callback({Code:400, Status:false, Message:constant['INVALID_FORMAT']});
+            }
           }
         } else {
           callback({Code:400, Status:false, Message: validateObj.message});

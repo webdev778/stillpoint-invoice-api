@@ -7,6 +7,8 @@ require('./static/states');
 require('./static/workLocations');
 require('./static/serviceCharges');
 require('./static/fedTaxClassifications');
+require('./static/jobTypes');
+require('./static/paymentTypes');
 
 require('./users');
 require('./loggedInUsers');

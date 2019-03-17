@@ -20,7 +20,9 @@ export default class NegotiatingTerms extends React.Component {
       legablyServiceCharges: 0,
       remainingAmount: '',
       modalPopupObj: {},
-      freezeActivity: props.stepRelatedData.freeze_activity || false
+      freezeActivity: props.stepRelatedData.freeze_activity || false,
+      jobType: '',
+      paymentType: ''
     }
     this.getAllDropdownsData = this.getAllDropdownsData.bind(this);
     this.validateData = this.validateData.bind(this);
@@ -265,25 +267,37 @@ export default class NegotiatingTerms extends React.Component {
     let validForm = true;
     let stepRelatedData = this.state.stepRelatedData;
     let formError = this.state.formError;
-    if (stepRelatedData.hours == '' && stepRelatedData.rateType === utils.ENUM.RATE_TYPE.HOURLY) {
-      formError.hours = constant['ENTER_HOURS'];
+    if (!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee')) {
+      if (stepRelatedData.hours == '' && stepRelatedData.rateType === utils.ENUM.RATE_TYPE.HOURLY) {
+        formError.hours = constant['ENTER_HOURS'];
+      }
+      (stepRelatedData['subTotal'] < 100) ? (formError['subTotal'] = constant['MIN_JOB_AMOUNT']) : delete formError['subTotal'];
+      stepRelatedData.paymentDetails.forEach((payment) => {
+        if (payment.rate === '') {
+          payment.errorMessage = constant['ENTER_RATE'];
+          if (!formError.paymentDetails) {
+            formError.paymentDetails = constant['ENTER_RATE'];
+          }
+        }
+  
+        if (payment.dueDate === '') {
+          payment.errorMessageDueDate = constant['ENTER_DUE_DATE'];
+          if (!formError.paymentDetails) {
+            formError.paymentDetails = constant['ENTER_DUE_DATE'];
+          }
+        }
+      });
+    } else {
+      if (stepRelatedData.rateType == utils.ENUM.RATE_TYPE.HOURLY) {
+        if (formError.subTotal) {
+          delete formError.subTotal;
+        }
+      } else {
+        if (formError.hours) {
+          delete formError.hours;
+        }
+      }
     }
-    (stepRelatedData['subTotal'] < 100) ? (formError['subTotal'] = constant['MIN_JOB_AMOUNT']) : delete formError['subTotal'];
-    stepRelatedData.paymentDetails.forEach((payment) => {
-      if (payment.rate === '') {
-        payment.errorMessage = constant['ENTER_RATE'];
-        if (!formError.paymentDetails) {
-          formError.paymentDetails = constant['ENTER_RATE'];
-        }
-      }
-
-      if (payment.dueDate === '') {
-        payment.errorMessageDueDate = constant['ENTER_DUE_DATE'];
-        if (!formError.paymentDetails) {
-          formError.paymentDetails = constant['ENTER_DUE_DATE'];
-        }
-      }
-    });
     this.setState({ stepRelatedData: stepRelatedData, formError: formError });
     if (formError && Object.keys(formError).length != 0) {
       validForm = false;
@@ -316,6 +330,8 @@ export default class NegotiatingTerms extends React.Component {
         helper.openNegativeInfoMessagePopup(_this, 'SEQUENTIAL_ORDER_DUE_DATE', null, true);
       } else {
         let req = _this.state.stepRelatedData;
+        req.jobType = this.state.jobType;
+        req.paymentType = this.state.paymentType;
         utils.apiCall('UPDATE_N_TERMS', { 'data': req }, function(err, response) {
           if (err) {
             utils.flashMsg('show', 'Error while updating Negotiating Terms');
@@ -337,6 +353,16 @@ export default class NegotiatingTerms extends React.Component {
         });
       }
     }
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      stepRelatedData: props.stepRelatedData,
+      highestStep: props.highestStep,
+      freezeActivity: props.stepRelatedData.freeze_activity || false,
+      jobType: props.jobType,
+      paymentType: props.paymentType
+    });
   }
 
   componentDidMount() {
@@ -675,6 +701,7 @@ export default class NegotiatingTerms extends React.Component {
                       </ul>
                     </div>{/*form-group*/}
                   </div>{/*posting-two-cols*/}
+                  {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') &&
                   <div className="posting-two-cols hours-col">
                     <div className="form-group">
                       <label className="control-label">ESTIMATED HOURS OF WORK REQUIRED*</label>
@@ -694,8 +721,10 @@ export default class NegotiatingTerms extends React.Component {
                           )}
                         </ul>
                       </div>
-                    </div>{/*form-group*/}
-                  </div>{/*posting-two-cols*/}
+                    </div>
+                  </div>
+                  }
+                  {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') &&
                   <div className="estimated-section">
                     <div className="row">
                       <div className="col-sm-6">
@@ -778,18 +807,20 @@ export default class NegotiatingTerms extends React.Component {
                       </ul>
                     )}
 
-                      <ul className="remaining-detail remaining-button-bar mb-0">
-                        <li className="mb-0">
-                          <label className="control-label">REMAINDER TO BE ALLOCATED </label>
-                          <span className="hidden">Rate</span>
-                          <input type="text" className="form-control amount-dollar-bg" placeholder="Remaining" value={this.state.remainingAmount} readOnly />
-                        </li>
-                      </ul>
+                    <ul className="remaining-detail remaining-button-bar mb-0">
+                      <li className="mb-0">
+                        <label className="control-label">REMAINDER TO BE ALLOCATED </label>
+                        <span className="hidden">Rate</span>
+                        <input type="text" className="form-control amount-dollar-bg" placeholder="Remaining" value={this.state.remainingAmount} readOnly />
+                      </li>
+                    </ul>
                   </div>
+                  }
                   <span className="clearfix"></span>
                 </div>
                 <span className="clearfix"></span>
               </form>
+              {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') &&
               <div>
                 <h6 className="mt-20 mb-10">Estimated Total Cost</h6>
                 <p>
@@ -808,6 +839,7 @@ export default class NegotiatingTerms extends React.Component {
                   <span className="clearfix"></span>
                 </p>
               </div>
+              }
               <div className="d-block remain-buttons text-right">
                 {
                   this.state.highestStep === constant['JOB_STEPS']['J_COMPLETE'] ?

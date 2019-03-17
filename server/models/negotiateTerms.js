@@ -79,88 +79,104 @@ function update(req, res, cb) {
       utils.callCB(cb, resObj);
     } else {
       let reqBody = req['body'];
-      let requiredParameters = ['jobId', 'seekerId', 'posterId', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
-      let validateObj = validator.missingParameters(reqBody, requiredParameters);
+      let validateObj = {};
+      validateObj = validator.missingParameters(reqBody, ['jobType', 'paymentType']);
       if (validateObj['isValid']) {
-        if (validator.maxLength(reqBody['rate'], 6, true) && validator.maxLength(reqBody['hours'], 3, false)) {
-          if (reqBody['subTotal'] >= 100) {
-            let userQueryParams = {
-              'query': {'_id': reqBody['seekerId']}
-            };
-            userSchema.findQuery(userQueryParams, function(uErr, uRes) {
-              if (!!uRes && uRes.length) {
-                let freezeActivity = uRes[0]['freeze_activity'];
-                if (freezeActivity !== reqBody['freeze_activity']) {
-                  resObj['code'] = constant['RES_OBJ']['CODE']['CONFLICT'];
-                  resObj['message'] = constant['RES_OBJ']['MSG']['CONFLICT'];
-                  utils.callCB(cb, resObj);
-                } else if (freezeActivity) {
-                  resObj['code'] = constant['RES_OBJ']['CODE']['LOCKED'];
-                  resObj['message'] = constant['RES_OBJ']['MSG']['LOCKED'];
-                  utils.callCB(cb, resObj);
-                } else {
-                  let reqPaymentDetails = reqBody['paymentDetails'];
-                  let len = reqPaymentDetails.length;
-                  if (len > 0) {
-                    let count = 0;
-                    let timestampArr = [];
-                    for(let i = 0; i < len; i++) {
-                      if (reqPaymentDetails[i].rate === 0 && !reqPaymentDetails[i].delivery && !reqPaymentDetails[i].dueDate) {
-                        reqPaymentDetails.splice(i, 1);
-                        i--;
-                      } else {
-                        if (reqPaymentDetails[i].dueDate && !moment(reqPaymentDetails[i].dueDate).isBefore(utils.getCurrentEstDate())) {
-                          timestampArr.push(new Date(reqPaymentDetails[i].dueDate).getTime());
-                          count++;
+        let requiredParameters = ['jobId', 'seekerId', 'posterId', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
+        if (reqBody.jobType == '1099' && reqBody.paymentType == 'Hourly Rate/Fixed Fee') {
+          validateObj = validator.missingParametersUndefined(reqBody, requiredParameters);
+        } else {
+          validateObj = validator.missingParameters(reqBody, requiredParameters);
+        }
+        if (validateObj['isValid']) {
+          if (validator.maxLength(reqBody['rate'], 6, true) && validator.maxLength(reqBody['hours'], 3, false)) {
+            if (reqBody['subTotal'] >= 100 || (reqBody.jobType == '1099' && reqBody.paymentType == 'Hourly Rate/Fixed Fee' && reqBody.rateType == 'HOURLY')) {
+              let userQueryParams = {
+                'query': {'_id': reqBody['seekerId']}
+              };
+              userSchema.findQuery(userQueryParams, function(uErr, uRes) {
+                if (!!uRes && uRes.length) {
+                  let freezeActivity = uRes[0]['freeze_activity'];
+                  if (freezeActivity !== reqBody['freeze_activity']) {
+                    resObj['code'] = constant['RES_OBJ']['CODE']['CONFLICT'];
+                    resObj['message'] = constant['RES_OBJ']['MSG']['CONFLICT'];
+                    utils.callCB(cb, resObj);
+                  } else if (freezeActivity) {
+                    resObj['code'] = constant['RES_OBJ']['CODE']['LOCKED'];
+                    resObj['message'] = constant['RES_OBJ']['MSG']['LOCKED'];
+                    utils.callCB(cb, resObj);
+                  } else {
+                    let reqPaymentDetails = reqBody['paymentDetails'];
+                    let len = reqPaymentDetails.length;
+                    if (len > 0) {
+                      let count = 0;
+                      let timestampArr = [];
+                      for(let i = 0; i < len; i++) {
+                        if (reqPaymentDetails[i].rate === 0 && !reqPaymentDetails[i].delivery && !reqPaymentDetails[i].dueDate) {
+                          reqPaymentDetails.splice(i, 1);
+                          i--;
                         } else {
-                          resObj['message'] = constant['MILESTONE_DUE_DATE_ERROR'];
-                          utils.callCB(cb, resObj);
-                          return;
-                        }
-                      }
-                    }
-                    if (_isDueDateInSequentialOrder(timestampArr) && (count === len)) {
-                      let dbQueryParams = {
-                        'query': {
-                          'job_id': reqBody['jobId'],
-                          'user_id': reqBody['seekerId']
-                        }
-                      }
-                      jobStatusSchema.findQuery(dbQueryParams, function(jErr, jRes) {
-                        if (!!jRes && jRes.length) {
-                          if (jRes[0]['status'] === constant['JOB_STEPS']['N_TERMS']) {
-                            updateNegotiateTerms(reqBody, function(resp) {
-                              utils.callCB(cb, resp);
-                            });
+                          if (reqPaymentDetails[i].dueDate && !moment(reqPaymentDetails[i].dueDate).isBefore(utils.getCurrentEstDate())) {
+                            timestampArr.push(new Date(reqPaymentDetails[i].dueDate).getTime());
+                            count++;
                           } else {
-                            resObj['code'] = constant['RES_OBJ']['CODE']['CONFLICT'];
-                            resObj['message'] = constant['RES_OBJ']['MSG']['CONFLICT'];
-                            utils.callCB(cb, resObj);
+                            if (reqBody.jobType == '1099' && reqBody.paymentType == 'Hourly Rate/Fixed Fee') {
+                              timestampArr.push(new Date(reqPaymentDetails[i].dueDate).getTime());
+                              count++;
+                            } else {
+                              resObj['message'] = constant['MILESTONE_DUE_DATE_ERROR'];
+                              utils.callCB(cb, resObj);
+                              return;
+                            }
                           }
-                        } else {
-                          utils.callCB(cb, resObj);
-                          utils.writeErrorLog('negotiateTerms', 'update', 'Error while getting job status detail', (jErr || jRes), dbQueryParams['query']);
                         }
-                      });
+                      }
+                      if (_isDueDateInSequentialOrder(timestampArr) && (count === len)) {
+                        let dbQueryParams = {
+                          'query': {
+                            'job_id': reqBody['jobId'],
+                            'user_id': reqBody['seekerId']
+                          }
+                        }
+                        jobStatusSchema.findQuery(dbQueryParams, function(jErr, jRes) {
+                          if (!!jRes && jRes.length) {
+                            if (jRes[0]['status'] === constant['JOB_STEPS']['N_TERMS']) {
+                              updateNegotiateTerms(reqBody, function(resp) {
+                                utils.callCB(cb, resp);
+                              });
+                            } else {
+                              resObj['code'] = constant['RES_OBJ']['CODE']['CONFLICT'];
+                              resObj['message'] = constant['RES_OBJ']['MSG']['CONFLICT'];
+                              utils.callCB(cb, resObj);
+                            }
+                          } else {
+                            utils.callCB(cb, resObj);
+                            utils.writeErrorLog('negotiateTerms', 'update', 'Error while getting job status detail', (jErr || jRes), dbQueryParams['query']);
+                          }
+                        });
+                      } else {
+                        resObj['message'] = constant['MILESTONE_DUE_DATE_ORDER'];
+                        utils.callCB(cb, resObj);
+                      }
                     } else {
-                      resObj['message'] = constant['MILESTONE_DUE_DATE_ORDER'];
                       utils.callCB(cb, resObj);
                     }
-                  } else {
-                    utils.callCB(cb, resObj);
                   }
+                } else {
+                  utils.callCB(cb, resObj);
+                  utils.writeErrorLog('negotiateTerms', 'update', 'Error while getting user detail', (uErr || uRes), userQueryParams['query']);
                 }
-              } else {
-                utils.callCB(cb, resObj);
-                utils.writeErrorLog('negotiateTerms', 'update', 'Error while getting user detail', (uErr || uRes), userQueryParams['query']);
-              }
-            });
+              });
+            } else {
+              resObj['message'] = constant['MIN_JOB_AMOUNT'];
+              utils.callCB(cb, resObj);
+            }
           } else {
-            resObj['message'] = constant['MIN_JOB_AMOUNT'];
+            resObj['message'] = constant['INVALID_FORMAT'];
             utils.callCB(cb, resObj);
           }
         } else {
-          resObj['message'] = constant['INVALID_FORMAT'];
+          resObj['message'] = constant['EMPTY_FIELD_ERROR'];
           utils.callCB(cb, resObj);
         }
       } else {

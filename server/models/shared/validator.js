@@ -98,7 +98,7 @@ const missingParameters = (reqBody, requiredParameters) => {
   return validateObj;
 }
 
-const missingJobParameters = (reqBody, requiredParameters) => {
+const missingParametersUndefined = (reqBody, requiredParameters) => {
   var validateObj = {
     isValid: true
   }
@@ -185,5 +185,5 @@ module.exports = {
   missingParameters: missingParameters,
   returnFileExtAndSize: returnFileExtAndSize,
   validateFile: validateFile,
-  missingJobParameters: missingJobParameters
+  missingParametersUndefined: missingParametersUndefined
 }

@@ -12,7 +12,9 @@ export default class JobStepsView extends React.Component {
       step: props.step || constant['JOB_STEPS']['APPLIED'],
       highestStep: props.step || constant['JOB_STEPS']['APPLIED'],
       stepRelatedData: props.stepRelatedData || [],
-      declinedCandidateList: props.declinedCandidateList || []
+      declinedCandidateList: props.declinedCandidateList || [],
+      jobType: '',
+      paymentType: ''
     }
     this.handler = this.handler.bind(this);
     this.getStepData = this.getStepData.bind(this);
@@ -23,7 +25,9 @@ export default class JobStepsView extends React.Component {
       step: props.step,
       highestStep: props.step,
       stepRelatedData: props.stepRelatedData,
-      declinedCandidateList: props.declinedCandidateList
+      declinedCandidateList: props.declinedCandidateList,
+      jobType: props.jobType,
+      paymentType: props.paymentType
     });
   }
 
@@ -203,7 +207,7 @@ export default class JobStepsView extends React.Component {
             {{
               101: <Applied role={this.props.role} stepRelatedData={this.state.stepRelatedData} declinedCandidateList={this.state.declinedCandidateList} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} />,
               102: <Interviewing role={this.props.role} stepRelatedData={this.state.stepRelatedData} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} freezeActivity={this.props.freezeActivity} />,
-              103: <NegotiatingTerms role={this.props.role} stepRelatedData={this.state.stepRelatedData[0] || {}} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} />,
+              103: <NegotiatingTerms role={this.props.role} stepRelatedData={this.state.stepRelatedData[0] || {}} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} jobType={this.state.jobType} paymentType={this.state.paymentType} handler={this.handler} />,
               104: <StartPending role={this.props.role} stepRelatedData={this.state.stepRelatedData[0] || {}} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} freezeActivity={this.props.freezeActivity} />,
               105: <InProgress role={this.props.role} stepRelatedData={this.state.stepRelatedData} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} />,
               106: <JobComplete role={this.props.role} />

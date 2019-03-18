@@ -302,6 +302,11 @@ export default class NegotiatingTerms extends React.Component {
     if (formError && Object.keys(formError).length != 0) {
       validForm = false;
     }
+    if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee' && stepRelatedData.rateType == utils.ENUM.RATE_TYPE.FIXED) {
+      if (formError.subTotal) {
+        helper.openNegativeInfoMessagePopup(this, formError.subTotal);
+      }
+    }
     return validForm;
   }
 
@@ -324,9 +329,9 @@ export default class NegotiatingTerms extends React.Component {
   submitTerms() {
     let _this = this;
     if (_this.validateForm()) {
-      if (Number(_this.state.remainingAmount) !== 0.00) {
+      if (Number(_this.state.remainingAmount) !== 0.00 && !(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee')) {
         helper.openNegativeInfoMessagePopup(_this, 'REMAINING_AMOUNT_ERROR');
-      } else if (!_this.isValidDueDate()) {
+      } else if (!_this.isValidDueDate() && !(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee')) {
         helper.openNegativeInfoMessagePopup(_this, 'SEQUENTIAL_ORDER_DUE_DATE', null, true);
       } else {
         let req = _this.state.stepRelatedData;

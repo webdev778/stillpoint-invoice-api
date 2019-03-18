@@ -458,7 +458,7 @@ function postJobData(req, res, callback) {
       } else {
         req.body.userId = result._id;
         var validateObj = {};
-        validateObj = validator.missingParameters(reqBody, ['jobType', 'paymentType']);
+        validateObj = validator.missingParameters(req.body, ['jobType', 'paymentType']);
         if (validateObj.isValid) {
           var requiredParameters = ['jobHeadline', 'practiceArea', 'skillsNeeded', 'jobDescription', 'city', 'state', 'zipCode', 'setting_id', 'duration', 'durationPeriod', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
           if (req.body.jobType == '1099' && req.body.paymentType == 'Hourly Rate/Fixed Fee') {

@@ -548,11 +548,7 @@ export default class PostJobComp extends React.Component {
       }
     }
     var paymentDetails = this.state.job.paymentDetails;
-    if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
-      paymentDetails.forEach(function(paymentDetail,index) {
-        paymentDetail.rate = '0';
-      });
-    } else {
+    if (!(job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee')) {
       paymentDetails.forEach(function(paymentDetail,index) {
         if(!paymentDetail.rate && index == 0){
           validForm = false;
@@ -652,6 +648,11 @@ export default class PostJobComp extends React.Component {
     job.duration = Number(job.duration);
     job.zipCode = job.zipCode;
     job.status = status;
+    if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
+      job.paymentDetails = [
+        {rate: Number(0), delivery: '', dueDate: ''}
+      ];
+    }
     delete job['current_highest_job_step'];
 
     utils.apiCall('CREATE_JOB', { 'data': job }, function(err, response) {

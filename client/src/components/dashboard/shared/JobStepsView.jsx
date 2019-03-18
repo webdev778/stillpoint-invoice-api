@@ -13,8 +13,8 @@ export default class JobStepsView extends React.Component {
       highestStep: props.step || constant['JOB_STEPS']['APPLIED'],
       stepRelatedData: props.stepRelatedData || [],
       declinedCandidateList: props.declinedCandidateList || [],
-      jobType: '',
-      paymentType: ''
+      jobType: props.jobType || '',
+      paymentType: props.paymentType || ''
     }
     this.handler = this.handler.bind(this);
     this.getStepData = this.getStepData.bind(this);

@@ -21,8 +21,8 @@ export default class NegotiatingTerms extends React.Component {
       remainingAmount: '',
       modalPopupObj: {},
       freezeActivity: props.stepRelatedData.freeze_activity || false,
-      jobType: '',
-      paymentType: ''
+      jobType: props.jobType || '',
+      paymentType: props.paymentType || ''
     }
     this.getAllDropdownsData = this.getAllDropdownsData.bind(this);
     this.validateData = this.validateData.bind(this);
@@ -561,74 +561,78 @@ export default class NegotiatingTerms extends React.Component {
                           </ul>
                         </div>{/*form-group*/}
                       </div>{/*posting-two-cols*/}
-                      <div className="posting-two-cols hours-col">
-                        <div className="form-group">
-                          <label className="control-label">ESTIMATED HOURS OF WORK REQUIRED*</label>
-                          <div className="inline-to-block">
-                            <input type="text" className="form-control custom-num" placeholder="00" defaultValue={stepRelatedData.hours} readOnly />
-                          </div>
-                          <div className="pt-ft-w-m">
-                            <ul className="tabbed-radio-btns">
-                              {this.state.employment_type_dropdown.map((hoursType, index) =>
-                                <li key={index}>
-                                  <input type="radio" name="pt-ft" defaultChecked={hoursType.value == stepRelatedData.hoursType ? 1 : 0} defaultValue={hoursType.value} disabled="true" />
-                                  <span>{hoursType.label}</span>
-                                </li>
-                              )}
-                            </ul>
-                          </div>
-                        </div>{/*form-group*/}
-                      </div>{/*posting-two-cols*/}
-                      <div className="estimated-section">
-                        <div className="row">
-                          <div className="col-sm-4">
-                            <div className="form-group">
-                              <label className="control-label">ESTIMATED AMOUNT PAYABLE TO CANDIDATE</label>
-                              <input type="text" className="form-control amount-dollar-bg" placeholder="Total" defaultValue={stepRelatedData.subTotal} readOnly />
+                      {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') &&
+                        <div className="posting-two-cols hours-col">
+                          <div className="form-group">
+                            <label className="control-label">ESTIMATED HOURS OF WORK REQUIRED*</label>
+                            <div className="inline-to-block">
+                              <input type="text" className="form-control custom-num" placeholder="00" defaultValue={stepRelatedData.hours} readOnly />
+                            </div>
+                            <div className="pt-ft-w-m">
+                              <ul className="tabbed-radio-btns">
+                                {this.state.employment_type_dropdown.map((hoursType, index) =>
+                                  <li key={index}>
+                                    <input type="radio" name="pt-ft" defaultChecked={hoursType.value == stepRelatedData.hoursType ? 1 : 0} defaultValue={hoursType.value} disabled="true" />
+                                    <span>{hoursType.label}</span>
+                                  </li>
+                                )}
+                              </ul>
                             </div>
                           </div>
                         </div>
-                        <h6>Estimated Payment and Deliverable Schedule</h6>
-                        <ul className="hidden-xs row mb-0">
-                          <li className="col-sm-4">
-                            <label className="control-label">Amount Payable</label>
-                          </li>
-                          <li className="col-sm-4">
-                            <label className="control-label">On Delivery Of</label>
-                          </li>
-                          <li className="col-sm-4">
-                            <label className="control-label">Due Date</label>
-                          </li>
-                        </ul>
-                        {stepRelatedData.paymentDetails.map((payment, index) =>
-                          <ul className="payment-details row" key={index}>
+                      }
+                      {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') &&
+                        <div className="estimated-section">
+                          <div className="row">
+                            <div className="col-sm-4">
+                              <div className="form-group">
+                                <label className="control-label">ESTIMATED AMOUNT PAYABLE TO CANDIDATE</label>
+                                <input type="text" className="form-control amount-dollar-bg" placeholder="Total" defaultValue={stepRelatedData.subTotal} readOnly />
+                              </div>
+                            </div>
+                          </div>
+                          <h6>Estimated Payment and Deliverable Schedule</h6>
+                          <ul className="hidden-xs row mb-0">
                             <li className="col-sm-4">
-                              <span className="hidden visible-xs">Amount Payable*</span>
-                              <input type="text" className="form-control amount-dollar-bg custom-num" placeholder="Payment"
-                              defaultValue={payment.rate} readOnly />
-                              <p className="static"><span></span></p>
+                              <label className="control-label">Amount Payable</label>
                             </li>
-
                             <li className="col-sm-4">
-                              <span className="hidden visible-xs">On Delivery Of</span>
-                              <input type="text" className="form-control" placeholder="Deliverable Description" defaultValue={payment.delivery || ''} readOnly />
+                              <label className="control-label">On Delivery Of</label>
                             </li>
-
                             <li className="col-sm-4">
-                              <span className="hidden visible-xs">Due Date</span>
-                              <div className="rdt">
-                                <input type="text" className="form-control" value={payment.dueDate || ''} placeholder="Due Date" name="searchStartDate" readOnly />
-                                <div className="rdtPicker">
-                                  <div className="rdtDays">
+                              <label className="control-label">Due Date</label>
+                            </li>
+                          </ul>
+                          {stepRelatedData.paymentDetails.map((payment, index) =>
+                            <ul className="payment-details row" key={index}>
+                              <li className="col-sm-4">
+                                <span className="hidden visible-xs">Amount Payable*</span>
+                                <input type="text" className="form-control amount-dollar-bg custom-num" placeholder="Payment"
+                                defaultValue={payment.rate} readOnly />
+                                <p className="static"><span></span></p>
+                              </li>
+
+                              <li className="col-sm-4">
+                                <span className="hidden visible-xs">On Delivery Of</span>
+                                <input type="text" className="form-control" placeholder="Deliverable Description" defaultValue={payment.delivery || ''} readOnly />
+                              </li>
+
+                              <li className="col-sm-4">
+                                <span className="hidden visible-xs">Due Date</span>
+                                <div className="rdt">
+                                  <input type="text" className="form-control" value={payment.dueDate || ''} placeholder="Due Date" name="searchStartDate" readOnly />
+                                  <div className="rdtPicker">
+                                    <div className="rdtDays">
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </li>
-                          <p></p>
-                          <p></p>
-                          </ul>
-                        )}
-                      </div>
+                              </li>
+                            <p></p>
+                            <p></p>
+                            </ul>
+                          )}
+                        </div>
+                      }
                       <span className="clearfix"></span>
                     </div>
                     <div className="text-right d-block p-0">

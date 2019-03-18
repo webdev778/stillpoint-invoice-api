@@ -96,7 +96,7 @@ function _savePostJob(req, res, userData, callback) {
           if (Number(req.body.subTotal).toFixed(2) == subtotalAmt) {
             var total = Number(subtotalAmt) + Number((subtotalAmt * req.body.currentRate/100));
             if (Number(req.body.total).toFixed(2) == Number(total).toFixed(2)) {
-              if (req.body.paymentDetails.length>0) {
+              if (req.body.paymentDetails.length>0 && !(req.body.jobType == '1099' && req.body.paymentType == 'Hourly Rate/Fixed Fee')) {
                 var count = 0;
                 for (var i=0; i<req.body.paymentDetails.length; i++) {
                   if (req.body.paymentDetails[i].rate == 0 && !req.body.paymentDetails[i].delivery && !req.body.paymentDetails[i].dueDate) {

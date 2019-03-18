@@ -112,26 +112,21 @@ function update(req, res, cb) {
                       let count = 0;
                       let timestampArr = [];
                       for(let i = 0; i < len; i++) {
-                        if (reqPaymentDetails[i].rate === 0 && !reqPaymentDetails[i].delivery && !reqPaymentDetails[i].dueDate) {
+                        if (reqPaymentDetails[i].rate === 0 && !reqPaymentDetails[i].delivery && !reqPaymentDetails[i].dueDate && !(req.body.jobType == '1099' && req.body.paymentType == 'Hourly Rate/Fixed Fee')) {
                           reqPaymentDetails.splice(i, 1);
                           i--;
                         } else {
-                          if (reqPaymentDetails[i].dueDate && !moment(reqPaymentDetails[i].dueDate).isBefore(utils.getCurrentEstDate())) {
+                          if ((reqPaymentDetails[i].dueDate && !moment(reqPaymentDetails[i].dueDate).isBefore(utils.getCurrentEstDate())) || (req.body.jobType == '1099' && req.body.paymentType == 'Hourly Rate/Fixed Fee')) {
                             timestampArr.push(new Date(reqPaymentDetails[i].dueDate).getTime());
                             count++;
                           } else {
-                            if (reqBody.jobType == '1099' && reqBody.paymentType == 'Hourly Rate/Fixed Fee') {
-                              timestampArr.push(new Date(reqPaymentDetails[i].dueDate).getTime());
-                              count++;
-                            } else {
-                              resObj['message'] = constant['MILESTONE_DUE_DATE_ERROR'];
-                              utils.callCB(cb, resObj);
-                              return;
-                            }
+                            resObj['message'] = constant['MILESTONE_DUE_DATE_ERROR'];
+                            utils.callCB(cb, resObj);
+                            return;
                           }
                         }
                       }
-                      if (_isDueDateInSequentialOrder(timestampArr) && (count === len)) {
+                      if ((_isDueDateInSequentialOrder(timestampArr) || (req.body.jobType == '1099' && req.body.paymentType == 'Hourly Rate/Fixed Fee')) && (count === len)) {
                         let dbQueryParams = {
                           'query': {
                             'job_id': reqBody['jobId'],

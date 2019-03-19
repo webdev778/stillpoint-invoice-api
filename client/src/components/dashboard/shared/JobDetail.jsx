@@ -228,6 +228,7 @@ export default class JobDetail extends React.Component {
     jobDetails.jobId = jobData._id;
     jobDetails.jobType = jobData.jobType;
     jobDetails.paymentType = jobData.paymentType;
+    jobDetails.userId = jobData.userId;
 
     this.setState({
       jobDetails: jobDetails,
@@ -312,12 +313,12 @@ export default class JobDetail extends React.Component {
 
               { this.isFromPostedJob(fromRoute) ?
                   this.state.posterJobStatus === constant['STATUS']['ACTIVE'] ?
-                    <JobStepsView role='poster' jobType={jobDetails.jobType} paymentType={jobDetails.paymentType} step={jobDetails.currentHighestJobStep} stepRelatedData={jobDetails.stepData} declinedCandidateList={jobDetails.declinedCandidates} jobId={jobDetails.jobId} />
+                    <JobStepsView role='poster' jobType={jobDetails.jobType} paymentType={jobDetails.paymentType} step={jobDetails.currentHighestJobStep} stepRelatedData={jobDetails.stepData} declinedCandidateList={jobDetails.declinedCandidates} jobId={jobDetails.jobId} userId={jobDetails.userId} />
                   :
                     null
                 :
                   jobStatus !== constant['JOB_STEPS']['APPLY'] ?
-                    <JobStepsView role='seeker' jobType={jobDetails.jobType} paymentType={jobDetails.paymentType} step={jobStatus} stepRelatedData={jobDetails.stepData} jobId={jobDetails.jobId} freezeActivity={this.state.freezeActivity} />
+                    <JobStepsView role='seeker' jobType={jobDetails.jobType} paymentType={jobDetails.paymentType} step={jobStatus} stepRelatedData={jobDetails.stepData} jobId={jobDetails.jobId} freezeActivity={this.state.freezeActivity} userId={jobDetails.userId}/>
                   :
                     null
               }

@@ -98,22 +98,6 @@ const missingParameters = (reqBody, requiredParameters) => {
   return validateObj;
 }
 
-const missingParametersUndefined = (reqBody, requiredParameters) => {
-  var validateObj = {
-    isValid: true
-  }
-
-  for (var i = 0; i < requiredParameters.length; i++) {
-    var param = requiredParameters[i];
-    if (typeof(reqBody[param]) === 'undefined') {
-      validateObj['isValid'] = false;
-      validateObj['message'] = constant['EMPTY_FIELD_ERROR'];
-      break;
-    }
-  }
-  return validateObj;
-}
-
 const returnFileExtAndSize = (fileObj) => {
   var dataExp = fileObj['dataUrl'].split(';');
   var ext = dataExp[0].split('/');
@@ -185,5 +169,4 @@ module.exports = {
   missingParameters: missingParameters,
   returnFileExtAndSize: returnFileExtAndSize,
   validateFile: validateFile,
-  missingParametersUndefined: missingParametersUndefined
 }

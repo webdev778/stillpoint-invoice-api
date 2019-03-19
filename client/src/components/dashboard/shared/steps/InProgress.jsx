@@ -28,7 +28,7 @@ export default class InProgress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stepRelatedData: props.stepRelatedData['data'],
+      stepRelatedData: props.stepRelatedData['data'] || [],
       deliverableType: TAB_TYPE['PENDING'],
       sortBy: SORT['BY']['DUE_DATE'],
       sortOrder: SORT['ORDER']['ASC'],

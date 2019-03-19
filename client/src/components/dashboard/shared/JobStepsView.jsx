@@ -14,7 +14,8 @@ export default class JobStepsView extends React.Component {
       stepRelatedData: props.stepRelatedData || [],
       declinedCandidateList: props.declinedCandidateList || [],
       jobType: props.jobType || '',
-      paymentType: props.paymentType || ''
+      paymentType: props.paymentType || '',
+      userId: props.userId || ''
     }
     this.handler = this.handler.bind(this);
     this.getStepData = this.getStepData.bind(this);
@@ -27,7 +28,8 @@ export default class JobStepsView extends React.Component {
       stepRelatedData: props.stepRelatedData,
       declinedCandidateList: props.declinedCandidateList,
       jobType: props.jobType,
-      paymentType: props.paymentType
+      paymentType: props.paymentType,
+      userId: props.userId
     });
   }
 
@@ -59,9 +61,17 @@ export default class JobStepsView extends React.Component {
       }
     } else {
       if (newHighestStep > this.state.highestStep) {
-        this.setState({
-          highestStep: newHighestStep
-        });
+        if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') {
+          this.setState({
+            highestStep: newHighestStep,
+            step: newHighestStep
+          });
+          this.getStepData(this.props.jobId, newHighestStep, this.props.role, true);
+        } else {
+          this.setState({
+            highestStep: newHighestStep
+          });
+        }
       }
     }
   }
@@ -74,6 +84,7 @@ export default class JobStepsView extends React.Component {
       highestStep: that.state.highestStep,
       user_role: userRole
     }
+
     utils.apiCall('GET_STEP_DATA', { 'data': req }, function(err, response) {
       if (err) {
         utils.flashMsg('show', 'Error while getting Step Data');
@@ -207,8 +218,8 @@ export default class JobStepsView extends React.Component {
             {{
               101: <Applied role={this.props.role} stepRelatedData={this.state.stepRelatedData} declinedCandidateList={this.state.declinedCandidateList} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} />,
               102: <Interviewing role={this.props.role} stepRelatedData={this.state.stepRelatedData} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} freezeActivity={this.props.freezeActivity} />,
-              103: <NegotiatingTerms role={this.props.role} stepRelatedData={this.state.stepRelatedData[0] || {}} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} jobType={this.state.jobType} paymentType={this.state.paymentType} handler={this.handler} />,
-              104: <StartPending role={this.props.role} stepRelatedData={this.state.stepRelatedData[0] || {}} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} freezeActivity={this.props.freezeActivity} />,
+              103: <NegotiatingTerms jobType={this.state.jobType} paymentType={this.state.paymentType} role={this.props.role} stepRelatedData={this.state.stepRelatedData[0] || {}} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} />,
+              104: <StartPending jobType={this.state.jobType} paymentType={this.state.paymentType} role={this.props.role} stepRelatedData={this.state.stepRelatedData[0] || {}} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} freezeActivity={this.props.freezeActivity} userId={this.props.userId}/>,
               105: <InProgress role={this.props.role} stepRelatedData={this.state.stepRelatedData} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} />,
               106: <JobComplete role={this.props.role} />
             }[absStepVal]}

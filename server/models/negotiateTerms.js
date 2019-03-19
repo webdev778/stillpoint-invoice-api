@@ -82,10 +82,11 @@ function update(req, res, cb) {
       let validateObj = {};
       validateObj = validator.missingParameters(reqBody, ['jobType', 'paymentType']);
       if (validateObj['isValid']) {
-        let requiredParameters = ['jobId', 'seekerId', 'posterId', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
         if (reqBody.jobType == '1099' && reqBody.paymentType == 'Hourly Rate/Fixed Fee') {
-          validateObj = validator.missingParametersUndefined(reqBody, requiredParameters);
+          let requiredParameters = ['jobId', 'seekerId', 'posterId', 'rate', 'rateType', 'hoursType'];
+          validateObj = validator.missingParameters(reqBody, requiredParameters);
         } else {
+          let requiredParameters = ['jobId', 'seekerId', 'posterId', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
           validateObj = validator.missingParameters(reqBody, requiredParameters);
         }
         if (validateObj['isValid']) {

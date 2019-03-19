@@ -24,7 +24,9 @@ export default class StartPending extends React.Component {
       isEditableMode: false,
       taxpayerIdType: 'SSN',
       showFederalTaxOther: false,
-      termsChecked: null
+      termsChecked: null,
+      jobType: props.jobType,
+      paymentType: props.paymentType,
     }
     this.onSendMsgBtnClick = this.onSendMsgBtnClick.bind(this);
     this.transferFunds = this.transferFunds.bind(this);
@@ -47,10 +49,56 @@ export default class StartPending extends React.Component {
 
   componentDidMount() {
     this.isSeekerProfile() && !this.state.stepRelatedData['declined_by'] && this.getAllDropdownsData();
+    if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') {
+      this.isSeekerProfile() ? this.getStepData(constant['ROLE']['POSTER'], this.props.userId) : this.getStepData(constant['ROLE']['SEEKER'], this.state.stepRelatedData.seekerId);
+    }
   }
 
   isSeekerProfile() {
     return this.props.role === constant['ROLE']['SEEKER'];
+  }
+
+  getStepData(userRole, userId) {
+    let that = this;
+    let req = {
+      job_id: that.props.jobId,
+      step: that.props.step,
+      highestStep: that.props.highestStep + 1,
+      user_role: userRole,
+      userId: userId
+    }
+    utils.apiCall('GET_STEP_DATA', { 'data': req }, function(err, response) {
+      if (err) {
+        utils.flashMsg('show', 'Error while getting Step Data');
+        utils.logger('error', 'Get Step Data Error -->', err);
+      } else {
+        if (utils.isResSuccess(response)) {
+          let stepData =  utils.getDataFromRes(response, 'step_data');
+          let stepDataObj = (stepData && stepData.length) ? stepData[0] : null;
+          if (stepDataObj) {
+            if (that.isSeekerProfile()) {
+              if (that.state.stepRelatedData.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] && 
+                  stepDataObj.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] &&
+                  that.state.stepRelatedData.w_nine_info)
+              {
+                that.props.handler(constant['JOB_STEPS']['IN_PROGRESS'], constant['JOB_STEPS']['IN_PROGRESS']);
+              }
+            } else {
+              if (that.state.stepRelatedData.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] && 
+                  stepDataObj.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] &&
+                  stepDataObj.w_nine_info)
+              {
+                that.props.handler(constant['JOB_STEPS']['IN_PROGRESS'], constant['JOB_STEPS']['IN_PROGRESS']);
+              }
+            }
+          } else {
+            utils.flashMsg('show', utils.getServerErrorMsg(response));
+          }
+        } else {
+          utils.flashMsg('show', utils.getServerErrorMsg(response));
+        }
+      }
+    });
   }
 
   transferFunds(jobId) {
@@ -694,9 +742,11 @@ export default class StartPending extends React.Component {
                           <span className="d-block mb-20">
                             Thank you for providing your W-9 tax information.
                           </span>
-                          <span className="d-block">
-                            Once the job poster has transferred the job amount to Legably the job status will be changed to In Progress and you will be notified so you can begin work.
-                          </span>
+                          {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') &&
+                            <span className="d-block">
+                              Once the job poster has transferred the job amount to Legably the job status will be changed to In Progress and you will be notified so you can begin work.
+                            </span>
+                          }
                         </span>
                       </p>
                     :
@@ -985,8 +1035,9 @@ export default class StartPending extends React.Component {
                     </button>
                   </div>
               }
-              {
-                isFundsNotTransfer ?
+              {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') &&
+                (
+                  isFundsNotTransfer ?
                   <div>
                     <p className="d-flex">
                       <i className="fa fa-exclamation-circle"></i>
@@ -996,11 +1047,12 @@ export default class StartPending extends React.Component {
                       Transfer Funds
                     </button>
                   </div>
-                :
+                  :
                   <p className="d-flex">
                     <i className="fa fa-check-circle"></i>
                     <span className="pl-10">The transfer of ${this.getFormattedAmount(stepRelatedData.amount)} to Legably has been started. Once the transfer is complete (it can take up to two days) the job status will be changed to In Progress and your candidate will be notified so they can begin work.</span>
                   </p>
+                )
               }
               <div className="preference-msg-btns pl-25">
                 {

@@ -460,10 +460,11 @@ function postJobData(req, res, callback) {
         var validateObj = {};
         validateObj = validator.missingParameters(req.body, ['jobType', 'paymentType']);
         if (validateObj.isValid) {
-          var requiredParameters = ['jobHeadline', 'practiceArea', 'skillsNeeded', 'jobDescription', 'city', 'state', 'zipCode', 'setting_id', 'duration', 'durationPeriod', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
           if (req.body.jobType == '1099' && req.body.paymentType == 'Hourly Rate/Fixed Fee') {
-            validateObj = validator.missingParametersUndefined(req.body, requiredParameters);
+            var requiredParameters = ['jobHeadline', 'practiceArea', 'skillsNeeded', 'jobDescription', 'city', 'state', 'zipCode', 'setting_id', 'rate', 'rateType', 'hoursType'];
+            validateObj = validator.missingParameters(req.body, requiredParameters);
           } else {
+            var requiredParameters = ['jobHeadline', 'practiceArea', 'skillsNeeded', 'jobDescription', 'city', 'state', 'zipCode', 'setting_id', 'duration', 'durationPeriod', 'rate', 'rateType', 'hoursType', 'subTotal', 'total', 'currentRate'];
             validateObj = validator.missingParameters(req.body, requiredParameters);
           }
           if (validateObj.isValid) {
@@ -754,7 +755,7 @@ function getStepData(req, res, cb) {
       var stepDataObj = {
         jobId: reqBody['job_id'],
         step: step,
-        userId: result['_id'],
+        userId: reqBody['userId'] ? reqBody['userId'] : result['_id'],
         userRole: reqBody['user_role'],
         filterObj: reqBody['filterObj'],
         userData: result

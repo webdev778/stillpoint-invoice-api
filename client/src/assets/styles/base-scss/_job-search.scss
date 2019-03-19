@@ -557,6 +557,19 @@
       }
     }
   }
+  .rating-box {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+
+    .star-rating {
+      .fa {
+        margin-right: 5px;
+        color: $clr-secondary;
+        border-color: $clr-secondary;
+      }
+    }
+  }
 }
 
 

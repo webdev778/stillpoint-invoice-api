@@ -61,7 +61,7 @@ export default class JobStepsView extends React.Component {
       }
     } else {
       if (newHighestStep > this.state.highestStep) {
-        if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') {
+        if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee' && newHighestStep == constant['JOB_STEPS']['IN_PROGRESS']) {
           this.setState({
             highestStep: newHighestStep,
             step: newHighestStep

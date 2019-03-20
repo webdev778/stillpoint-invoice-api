@@ -54,7 +54,14 @@ nTerms.statics.getDeliverables = function(data, callback) {
   let condition = {
     $and: [
       {
-        'paymentDetails.dueDate': { $gte: utils.getCurrentEstDate() }
+        $or: [
+          {
+            'paymentDetails.dueDate': { $gte: utils.getCurrentEstDate() }
+          },
+          {
+            'paymentDetails.dueDate': { $eq: '' }
+          }
+        ]
       },
       {
         'paymentDetails.status': { $lt: approvedStatus }

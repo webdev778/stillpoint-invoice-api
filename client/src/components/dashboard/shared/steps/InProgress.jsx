@@ -36,7 +36,11 @@ export default class InProgress extends React.Component {
       totalDeliverables: props.stepRelatedData['count'],
       activePage: 1,
       itemsCountPerPage: 10,
-      actionMilestoneId: props.stepRelatedData['action_milestone_id']
+      actionMilestoneId: props.stepRelatedData['action_milestone_id'],
+      jobType: props.jobType,
+      paymentType: props.paymentType,
+      rate: 0,
+      rateType: utils.ENUM.RATE_TYPE.HOURLY
     }
 
     this.onSubmitBtnClick = this.onSubmitBtnClick.bind(this);
@@ -48,6 +52,37 @@ export default class InProgress extends React.Component {
 
     $(document).on('slide.bs.carousel', '#deliverables_carousel', (e) => {
       this.onTabChange(e, $(e.relatedTarget).attr('data-tab-type'));
+    });
+  }
+
+  componentDidMount() {
+    if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') {
+      this.onTabChange(null, this.state.deliverableType);    
+      this.getJobDetails();
+    }
+  }
+
+  getJobDetails() {
+    let that = this;
+    let userRole = constant['ROLE']['POSTER'];
+    if (this.isSeeker()) {
+      userRole = constant['ROLE']['SEEKER'];
+    }
+    utils.apiCall('GET_JOB_DETAIL', { 'params': [that.props.jobId, userRole] }, function(err, response) {
+      if (err) {
+        utils.flashMsg('show', 'Error while getting Job Detail');
+        utils.logger('error', 'Get Job Detail Error -->', err);
+      } else {
+        if (utils.isResSuccess(response)) {
+          let responseData = utils.getDataFromRes(response, 'job_detail');
+          that.setState({
+            rate: responseData.rate,
+            rateType: responseData.rateType
+          });
+        } else {
+          utils.flashMsg('show', utils.getServerErrorMsg(response));
+        }
+      }
     });
   }
 
@@ -123,13 +158,25 @@ export default class InProgress extends React.Component {
                       <span>{item.paymentDetails.milestone}</span>
                     </div>
                     <div className="custom-td">
+                      {(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') ?
+                      <span className="delivery-break-word" title="On Completion">On Completion</span>
+                      :
                       <span className="delivery-break-word" title={item.paymentDetails.delivery}>{item.paymentDetails.delivery || noDataSymbol}</span>
+                      }
                     </div>
                     <div className="custom-td">
+                      {(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') ?
+                      <span>N/A</span>
+                      :
                       <span>{item.paymentDetails.dueDate ? moment(item.paymentDetails.dueDate).format(constant['JOB_DATE_FORMAT']) : noDataSymbol}</span>
+                      }
                     </div>
                     <div className="custom-td">
-                      <span title={item.paymentDetails.rate}>${item.paymentDetails.rate}</span>
+                      {(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') ?
+                        <span title={this.state.rate}>${this.state.rate}{this.state.rateType == utils.ENUM.RATE_TYPE.HOURLY && '/Hour'}</span>
+                        :
+                        <span title={item.paymentDetails.rate}>${item.paymentDetails.rate}</span>
+                      }
                     </div>
                     <div className="custom-td">
                       {
@@ -364,15 +411,19 @@ export default class InProgress extends React.Component {
   }
 
   onTabChange(evt, type) {
-    if (type !== this.state.deliverableType) {
-      let filterObj = {
-        deliverableType: type,
-        sortBy: SORT['BY']['DUE_DATE'],
-        sortOrder: SORT['ORDER']['ASC'],
-        pageNo: 1,
-        limit: this.state.itemsCountPerPage
-      }
+    let filterObj = {
+      deliverableType: type,
+      sortBy: SORT['BY']['DUE_DATE'],
+      sortOrder: SORT['ORDER']['ASC'],
+      pageNo: 1,
+      limit: this.state.itemsCountPerPage
+    }
+    if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') {
       this.getStepData(filterObj);
+    } else {
+      if (type !== this.state.deliverableType) {
+        this.getStepData(filterObj);
+      }
     }
   }
 
@@ -454,21 +505,29 @@ export default class InProgress extends React.Component {
 
   render() {
     let deliverableType = this.state.deliverableType;
-
     return (
       <div>
         <div ref="inProgressRef">
           <div className="status-content in-progress-status">
+          {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') ? 
             <h6>This job is in progress. Here’s a look at your upcoming and completed deliverables{ this.isSeeker() ? '.' : ' for this project.' }</h6>
+            :
+            <h6>This job is in progress. Here’s a look at your upcoming deliverable{ this.isSeeker() ? '.' : ' for this project.' }</h6>
+          }
           </div>
-
           <div className="in-progress-desktop">
+            {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') ?
             <ul className="nav nav-pills nav-justified">
               <li className="active"><a data-toggle="pill" href="#pending_deliverables" onClick={(e) => this.onTabChange(e, TAB_TYPE['PENDING'])}>Pending Deliverables</a></li>
               <li><a data-toggle="pill" href="#past_deliverables" onClick={(e) => this.onTabChange(e, TAB_TYPE['PAST'])}>Past Due Deliverables</a></li>
               <li><a data-toggle="pill" href="#completed_deliverables" onClick={(e) => this.onTabChange(e, TAB_TYPE['COMPLETED'])}>Completed Deliverables</a></li>
             </ul>
-            {/*<div className="separator"></div>*/}
+            :
+            <ul className="nav nav-pills nav-justified">
+              <li className="active"><a data-toggle="pill" href="#pending_deliverables" onClick={(e) => this.onTabChange(e, TAB_TYPE['PENDING'])}>Pending Deliverables</a></li>
+            </ul>
+            }
+            {!(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') ? 
             <div className="tab-content">
               <div id="pending_deliverables" className="tab-pane fade in active">
                 {
@@ -487,7 +546,16 @@ export default class InProgress extends React.Component {
                   deliverableType === TAB_TYPE['COMPLETED'] && this.getDeliverables(TAB_TYPE['COMPLETED'])
                 }
               </div>
-            </div>{/*tab-content*/}
+            </div>
+            :
+            <div className="tab-content">
+              <div id="pending_deliverables" className="tab-pane active">
+                {
+                  deliverableType === TAB_TYPE['PENDING'] && this.getDeliverables(TAB_TYPE['PENDING'])
+                }
+              </div>
+            </div>
+            }
           </div>{/*in-progress-desktop*/}
 
           <div className="in-progress-responsive">

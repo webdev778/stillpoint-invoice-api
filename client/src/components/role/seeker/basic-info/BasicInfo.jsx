@@ -1121,7 +1121,7 @@ export default class SeekerBasicInfo extends React.Component {
               <div className="row">
                 <div className="col-sm-6">
                   <div className={(this.state.formVal.showOthers == 'true' || this.state.formVal.showOthers == true) ? 'form-group' : 'form-group d-none'} >
-                    <label htmlFor="Others" className="control-label">Others</label>
+                    <label htmlFor="Others" className="control-label">Other Skills</label>
                     <input value={this.state.formVal.others} onBlur={(e) => this.handleInputOnBlur(e)} onChange={(e) => this.handleUserInput(e)} name="others" type="text" id="others" className="form-control" placeholder="Other Skills"/>
                     <p><span>{this.state.formErrors.others !== '' ? this.state.formErrors.others : ''}</span></p>
                   </div>

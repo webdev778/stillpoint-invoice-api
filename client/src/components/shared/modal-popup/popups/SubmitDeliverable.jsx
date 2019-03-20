@@ -125,7 +125,11 @@ export default class SubmitDeliverable extends React.Component {
                     <span>{jobData.paymentDetails.milestone}</span>
                   </div>
                   <div className="custom-td width-70">
+                    {(jobData.jobType == '1099' && jobData.paymentType == 'Hourly Rate/Fixed Fee') ?
+                    <span>On Completion</span>
+                    :
                     <span>{jobData.paymentDetails.delivery || noDataSymbol}</span>
+                    }
                   </div>
                 </div>{/*tr*/}
               </div>{/*custom-tbody*/}

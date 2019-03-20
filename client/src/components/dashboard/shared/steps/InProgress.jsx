@@ -345,6 +345,8 @@ export default class InProgress extends React.Component {
   getDeliverablesAction(data) {
     let status = data['paymentDetails']['status'];
     data['jobId'] = this.props.jobId;
+    data['jobType'] = this.state.jobType;
+    data['paymentType'] = this.state.paymentType;
 
     let id = data['seekerId'],
     disableBtn = (status < constant['DELIVERABLE_STATUS']['SUBMITTED']),

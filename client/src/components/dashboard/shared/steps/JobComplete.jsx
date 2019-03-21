@@ -1,6 +1,5 @@
 import React from 'react';
 import Rating from 'react-rating';
-import { constant } from '../../../../shared/index';
 import { config, constant, helper, utils } from '../../../../shared/index';
 
 export default class JobComplete extends React.Component {

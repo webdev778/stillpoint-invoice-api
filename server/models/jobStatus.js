@@ -494,10 +494,15 @@ function getAll(req, res, cb) {
   })
 }
 
+function saveRating(req, res, cb) {
+  console.log('Inside the saverating function')
+}
+
 module.exports =  {
   getStripeChargeDetails,
   getHighestJobStep,
   getJobDetail,
   updateJobStatus,
-  getAll
+  getAll,
+  saveRating
 }

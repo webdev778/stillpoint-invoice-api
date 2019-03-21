@@ -17,7 +17,15 @@ function getAll(req, res) {
   jobStatusModel.getAll(req, res, cb);
 }
 
+function saveRating(req, res) {
+  var cb = function(result) {
+    utils.sendResponse(res, result);
+  }
+  jobStatusModel.saveRating(req, res, cb);
+}
+
 module.exports = {
   updateJobStatus,
-  getAll
+  getAll,
+  saveRating
 }

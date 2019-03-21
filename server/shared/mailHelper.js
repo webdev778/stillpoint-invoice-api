@@ -74,6 +74,8 @@ const _getMailContent = (key, dataObj) => {
     break;
     case 17: content = _getJobCompletedMailContent(dataObj);
     break;
+    case 18: content = _getCandidateAppliedToJobMailContent(dataObj);
+    break;
   }
   return content;
 }
@@ -186,6 +188,11 @@ const _getPaymantReleasedFromEscrowMailContentForSeeker = (dataObj) => {
 const _getJobCompletedMailContent = (dataObj) => {
   return `<p> Hi ${dataObj.recieverFirstName},</p>
     <p>This email is being sent to let you know that <b>${dataObj.jobName}</b> has been completed.</p>`;
+}
+
+const _getCandidateAppliedToJobMailContent = (dataObj) => {
+  return `<p> Hi ${dataObj.posterName},</p>
+    <p>This email is being sent to you to let you know that ${dataObj.seekerName} has applied for the job ${dataObj.jobName}.</p>`;
 }
 
 const getMailTmpl = (mailTypeKey, dataObj, options = {}) => {

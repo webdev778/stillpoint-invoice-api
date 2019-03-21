@@ -81,11 +81,29 @@ function _sendAppliedMail(dataObj, cb) {
 
   getJobDetail(dataObj['jobId'], function(pErr, pResult) {
     if (!!pResult && pResult.length) {
-      let mailObj = {
-        seekerName: dataObj['first_name'],
-        jobName: utils.toTitleCase(pResult[0]['jobHeadline'])
+
+      let posterQuery = {
+        'query': {'_id': pResult[0].userId}
       }
-      mailHelper.sendMailInBackground(dataObj['seekerEmail'], 'Job Application Sent', 'JOB_APPLIED', mailObj);
+
+      userSchema.findQuery(posterQuery, function(uErr, uRes){
+        if (!!uRes && uRes.length) {
+
+          let seekerMailObj = {
+            seekerName: dataObj['first_name'],
+            jobName: utils.toTitleCase(pResult[0]['jobHeadline'])
+          }
+
+          let posterMailObj = {
+            posterName: uRes[0]['first_name'],
+            seekerName: `${dataObj['first_name']} ${dataObj['last_name']}` ,
+            jobName: utils.toTitleCase(pResult[0]['jobHeadline'])
+          }
+
+          mailHelper.sendMailInBackground(dataObj['seekerEmail'], 'Job Application Sent', 'JOB_APPLIED', seekerMailObj);
+          mailHelper.sendMailInBackground(uRes[0]['email'], 'Candidate Applied To Job', 'CANDIDATE_COMPLETED', posterMailObj);
+        }
+      })
     }
   });
 
@@ -499,5 +517,6 @@ module.exports =  {
   getHighestJobStep,
   getJobDetail,
   updateJobStatus,
-  getAll
+  getAll,
+  _sendAppliedMail
 }

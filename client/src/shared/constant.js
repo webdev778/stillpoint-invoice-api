@@ -387,6 +387,10 @@ module.exports = {
     'RELEASE_FUND': {
       'name': '/realeaseFund',
       'type': 'post'
+    },
+    'SAVE_RATING': {
+      'name': '/saveRating',
+      'type': 'post'
     }
   },
   'HTTP_STATUS_CODES': {

@@ -1,22 +1,49 @@
 import React from 'react';
 import Rating from 'react-rating';
 import { constant } from '../../../../shared/index';
+import { config, constant, helper, utils } from '../../../../shared/index';
 
 export default class JobComplete extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isInfoHovered: true
+      isInfoHovered: false,
+      currentRating: 3,
+      isSaved: false
     };
 
     this.hoverOnInfo = this.hoverOnInfo.bind(this);
     this.hoverOffInfo = this.hoverOffInfo.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleStarClick = this.handleStarClick.bind(this);
   }
 
-  handleClick() {}
+  handleSubmit() {
+    const {currentRating} = this.state
+    console.log('being submitted')
+    const req = {
+      rating: currentRating
+    }
+
+    utils.apiCall('SAVE_RATING', {'data': req}, function(err, response) {
+      if (err) {
+        utils.flashMsg('show', 'Error while saving the rating');
+        utils.logger('error', 'Save rating error -->', err);
+      } else {
+        if (urls.isResSuccess(response)) {
+          this.setState({
+            isSaved: true
+          })
+        }
+      }
+    })
+  }
+
+  handleStarClick(value) {
+    this.setState({currentRating: value})
+  }
 
   hoverOnInfo() {
-    console.log('hovered');
     this.setState({
       isInfoHovered: true
     });
@@ -48,7 +75,7 @@ export default class JobComplete extends React.Component {
 
   render() {
     const isSeeker = this.props.role === constant['ROLE']['SEEKER'];
-    const { isInfoHovered } = this.state;
+    const { isInfoHovered, currentRating, isSaved } = this.state;
 
     return (
       <div>
@@ -91,9 +118,15 @@ export default class JobComplete extends React.Component {
           </span>
         </div>
         <div className="rating-box mt-20 ml-10">
-          <Rating className="star-rating ml-10" emptySymbol="fa fa-star-o fa-2x" fullSymbol="fa fa-star fa-2x" stop={4} initialRating={3} />
-          <button type="button" className="btn ml-30 btn-primary" onClick={this.handleClick}>
-            Save rating
+          <Rating
+            className="star-rating ml-10"
+            emptySymbol="fa fa-star-o fa-2x"
+            fullSymbol="fa fa-star fa-2x"
+            stop={4}
+            initialRating={currentRating}
+            onClick={this.handleStarClick}/>
+          <button type="button" className="btn ml-30 btn-primary" disabled={isSaved} onClick={this.handleSubmit}>
+            {!isSaved ? 'Save rating' : 'Saved'}
           </button>
         </div>
       </div>

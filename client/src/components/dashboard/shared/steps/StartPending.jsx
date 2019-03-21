@@ -49,56 +49,10 @@ export default class StartPending extends React.Component {
 
   componentDidMount() {
     this.isSeekerProfile() && !this.state.stepRelatedData['declined_by'] && this.getAllDropdownsData();
-    if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') {
-      this.isSeekerProfile() ? this.getStepData(constant['ROLE']['POSTER'], this.props.userId) : this.getStepData(constant['ROLE']['SEEKER'], this.state.stepRelatedData.seekerId);
-    }
   }
 
   isSeekerProfile() {
     return this.props.role === constant['ROLE']['SEEKER'];
-  }
-
-  getStepData(userRole, userId) {
-    let that = this;
-    let req = {
-      job_id: that.props.jobId,
-      step: that.props.step,
-      highestStep: that.props.highestStep + 1,
-      user_role: userRole,
-      userId: userId
-    }
-    utils.apiCall('GET_STEP_DATA', { 'data': req }, function(err, response) {
-      if (err) {
-        utils.flashMsg('show', 'Error while getting Step Data');
-        utils.logger('error', 'Get Step Data Error -->', err);
-      } else {
-        if (utils.isResSuccess(response)) {
-          let stepData =  utils.getDataFromRes(response, 'step_data');
-          let stepDataObj = (stepData && stepData.length) ? stepData[0] : null;
-          if (stepDataObj) {
-            if (that.isSeekerProfile()) {
-              if (that.state.stepRelatedData.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] && 
-                  stepDataObj.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] &&
-                  that.state.stepRelatedData.w_nine_info)
-              {
-                that.props.handler(constant['JOB_STEPS']['IN_PROGRESS'], constant['JOB_STEPS']['IN_PROGRESS']);
-              }
-            } else {
-              if (that.state.stepRelatedData.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] && 
-                  stepDataObj.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] &&
-                  stepDataObj.w_nine_info)
-              {
-                that.props.handler(constant['JOB_STEPS']['IN_PROGRESS'], constant['JOB_STEPS']['IN_PROGRESS']);
-              }
-            }
-          } else {
-            utils.flashMsg('show', utils.getServerErrorMsg(response));
-          }
-        } else {
-          utils.flashMsg('show', utils.getServerErrorMsg(response));
-        }
-      }
-    });
   }
 
   transferFunds(jobId) {

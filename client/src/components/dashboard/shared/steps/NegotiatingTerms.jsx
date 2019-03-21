@@ -462,9 +462,15 @@ export default class NegotiatingTerms extends React.Component {
           }
 
           utils.isFunction(callback) && callback();
-
-          let hStep = utils.getDataFromRes(response, 'current_highest_job_step');
-          that.props.handler(req['status'], hStep);
+          if (that.state.jobType == '1099' && that.state.paymentType == 'Hourly Rate/Fixed Fee' && !withdrawBy && req['status'] === constant['JOB_STEPS']['S_PENDING']) {
+            that.getPendingStepData(constant['ROLE']['POSTER'], that.state.stepRelatedData.seekerId, req['status']);
+          }
+          else if (that.state.jobType == '1099' && that.state.paymentType == 'Hourly Rate/Fixed Fee' && !withdrawBy && req['status'] === constant['JOB_STEPS']['IN_PROGRESS']) {
+            that.props.handler(constant['JOB_STEPS']['IN_PROGRESS'], constant['JOB_STEPS']['IN_PROGRESS']);
+          } else {
+            let hStep = utils.getDataFromRes(response, 'current_highest_job_step');
+            that.props.handler(req['status'], hStep);
+          }
         } else if (utils.isResConflict(response)) {
           helper.openConflictPopup(that);
         } else if (utils.isResBarIdValid(response)) {
@@ -472,6 +478,58 @@ export default class NegotiatingTerms extends React.Component {
         } else if (utils.isResLocked(response)) {
           let key = (withdrawBy === constant['ROLE']['POSTER']) ? 'ACCOUNT_FROZEN_POSTER' : 'ACCOUNT_FROZEN_SEEKER';
           helper.openFreezeActivityPopup(that, key);
+        } else {
+          utils.flashMsg('show', utils.getServerErrorMsg(response));
+        }
+      }
+    });
+  }
+
+  checkPayAvailability(pendingStepDataObj) {
+    let that = this;
+    utils.apiCall('GET_JOB_DETAIL', { 'params': [that.props.jobId, constant['ROLE']['SEEKER']] }, function(err, response) {
+      if (err) {
+        utils.flashMsg('show', 'Error while getting Job Detail');
+        utils.logger('error', 'Get Job Detail Error -->', err);
+      } else {
+        if (utils.isResSuccess(response)) {
+          let responseData = utils.getDataFromRes(response, 'job_detail');
+          let seekerStepData = responseData.step_data[0];
+          if (seekerStepData && pendingStepDataObj.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] && 
+              seekerStepData.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] &&
+              seekerStepData.is_w_nine_info_complete)
+          {
+            that.updateCandidateJobStatus(that.props.jobId, constant['JOB_STEPS']['IN_PROGRESS'], that.state.stepRelatedData.seekerId, null);
+          }
+        } else {
+          utils.flashMsg('show', utils.getServerErrorMsg(response));
+        }
+      }
+    });
+  }
+
+  getPendingStepData(userRole, userId, status) {
+    let that = this;
+    let req = {
+      job_id: that.props.jobId,
+      step: status,
+      highestStep: status,
+      user_role: userRole,
+      userId: userId
+    }
+    utils.apiCall('GET_STEP_DATA', { 'data': req }, function(err, response) {
+      if (err) {
+        utils.flashMsg('show', 'Error while getting Step Data');
+        utils.logger('error', 'Get Step Data Error -->', err);
+      } else {
+        if (utils.isResSuccess(response)) {
+          let stepData =  utils.getDataFromRes(response, 'step_data');
+          let pendingStepDataObj = (stepData && stepData.length) ? stepData[0] : null;
+          if (pendingStepDataObj) {
+            that.checkPayAvailability(pendingStepDataObj);
+          } else {
+            utils.flashMsg('show', utils.getServerErrorMsg(response));
+          }
         } else {
           utils.flashMsg('show', utils.getServerErrorMsg(response));
         }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Rating from 'react-rating';
+import classNames from 'classnames'
 import { config, constant, helper, utils } from '../../../../shared/index';
 
 export default class JobComplete extends React.Component {
@@ -18,18 +19,25 @@ export default class JobComplete extends React.Component {
   }
 
   handleSubmit() {
-    const {currentRating} = this.state
-    console.log('being submitted')
+    const {currentRating} = this.state;
+    const {role, jobId, stepRelatedData} = this.props;
+
     const req = {
+      role,
+      jobId,
       rating: currentRating
     }
 
-    utils.apiCall('SAVE_RATING', {'data': req}, function(err, response) {
+    if (role === 'poster') {
+      req['seekerId'] = stepRelatedData[0].seekerId
+    }
+
+    utils.apiCall('SAVE_RATING', {'data': req}, (err, response) => {
       if (err) {
         utils.flashMsg('show', 'Error while saving the rating');
         utils.logger('error', 'Save rating error -->', err);
       } else {
-        if (urls.isResSuccess(response)) {
+        if (utils.isResSuccess(response)) {
           this.setState({
             isSaved: true
           })
@@ -75,6 +83,7 @@ export default class JobComplete extends React.Component {
   render() {
     const isSeeker = this.props.role === constant['ROLE']['SEEKER'];
     const { isInfoHovered, currentRating, isSaved } = this.state;
+    const ratingBtnClass = classNames("btn", "ml-30", {"btn-applied": isSaved, "btn-primary": !isSaved})
 
     return (
       <div>
@@ -124,7 +133,7 @@ export default class JobComplete extends React.Component {
             stop={4}
             initialRating={currentRating}
             onClick={this.handleStarClick}/>
-          <button type="button" className="btn ml-30 btn-primary" disabled={isSaved} onClick={this.handleSubmit}>
+          <button type="button" className={ratingBtnClass} disabled={isSaved} onClick={this.handleSubmit}>
             {!isSaved ? 'Save rating' : 'Saved'}
           </button>
         </div>

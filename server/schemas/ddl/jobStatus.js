@@ -12,6 +12,8 @@ var jobStatus = new Schema({
   user_id: {type: ObjectId},
   job_id: {type: ObjectId},
   status: {type: Number},
+  rating_seeker: {type: Number},
+  rating_poster: {type: Number},
   declined_by: {type: String, default: ''},
   created_at: {type: Date, default: utils.getCurrentDate()},
   updated_at: {type: Date, default: utils.getCurrentDate()}
@@ -25,7 +27,7 @@ jobStatus.statics.updateQuery = function(data, callback) {
   var _that = this;
   _that.find({user_id: data.user_id, job_id: data.job_id}).exec(function(err, res) {
     if (!err) {
-      if (res.length > 0 && Number(data.status) == res[0].status) {
+      if (res.length > 0 && Number(data.status) == res[0].status && Number(data.status) != constant['JOB_STEPS']['J_COMPLETE']) {
         var msg = '';
         switch(Number(data.status)) {
           case 101: msg = constant['APPLIED_ERROR'];

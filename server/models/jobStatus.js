@@ -495,7 +495,41 @@ function getAll(req, res, cb) {
 }
 
 function saveRating(req, res, cb) {
-  console.log('Inside the saverating function')
+  let resObj = Object.assign({}, utils.getErrorResObj());
+  utils.writeInsideFunctionLog('jobStatus', 'saveRating', req['body']);
+
+  helper.checkUserLoggedIn(req.headers.token, function(err, result) {
+    if (err) {
+      resObj['message'] = constant['AUTH_FAIL'];
+      resObj['code'] = constant['RES_OBJ']['CODE']['UNAUTHORIZED'];
+      utils.callCB(cb, resObj);
+    } else {
+      const {role, rating, jobId, seekerId} = req['body']
+      const ratingUpdateQuery = {
+        job_id: jobId,
+        status: constant['JOB_STEPS']['J_COMPLETE'],
+      }
+      const ratingName = role === 'seeker' ? 'rating_poster' : 'rating_seeker'
+      const userId = role === 'seeker' ? result._id : seekerId
+
+      ratingUpdateQuery[ratingName] = rating
+      ratingUpdateQuery['user_id'] = userId
+
+      jobStatusSchema.updateQuery(ratingUpdateQuery, function(jErr, jRes) {
+        if (jErr) {
+          utils.callCB(cb, jErr);
+          utils.writeErrorLog('jobStatus', 'saveRating', 'Error while saving job rating', jErr, ratingUpdateQuery);
+        } else {
+          resObj = Object.assign({}, utils.getSuccessResObj());
+          resObj['data'] = {
+            'status': jRes
+          }
+
+          utils.callCB(cb, resObj);
+        }
+      })
+    }
+  })
 }
 
 module.exports =  {

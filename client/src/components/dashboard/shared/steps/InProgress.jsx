@@ -38,9 +38,7 @@ export default class InProgress extends React.Component {
       itemsCountPerPage: 10,
       actionMilestoneId: props.stepRelatedData['action_milestone_id'],
       jobType: props.jobType,
-      paymentType: props.paymentType,
-      rate: 0,
-      rateType: utils.ENUM.RATE_TYPE.HOURLY
+      paymentType: props.paymentType
     }
 
     this.onSubmitBtnClick = this.onSubmitBtnClick.bind(this);
@@ -58,32 +56,7 @@ export default class InProgress extends React.Component {
   componentDidMount() {
     if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') {
       this.onTabChange(null, this.state.deliverableType);    
-      this.getJobDetails();
     }
-  }
-
-  getJobDetails() {
-    let that = this;
-    let userRole = constant['ROLE']['POSTER'];
-    if (this.isSeeker()) {
-      userRole = constant['ROLE']['SEEKER'];
-    }
-    utils.apiCall('GET_JOB_DETAIL', { 'params': [that.props.jobId, userRole] }, function(err, response) {
-      if (err) {
-        utils.flashMsg('show', 'Error while getting Job Detail');
-        utils.logger('error', 'Get Job Detail Error -->', err);
-      } else {
-        if (utils.isResSuccess(response)) {
-          let responseData = utils.getDataFromRes(response, 'job_detail');
-          that.setState({
-            rate: responseData.rate,
-            rateType: responseData.rateType
-          });
-        } else {
-          utils.flashMsg('show', utils.getServerErrorMsg(response));
-        }
-      }
-    });
   }
 
   setStateObj(obj) {
@@ -173,7 +146,7 @@ export default class InProgress extends React.Component {
                     </div>
                     <div className="custom-td">
                       {(this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') ?
-                        <span title={this.state.rate}>${this.state.rate}{this.state.rateType == utils.ENUM.RATE_TYPE.HOURLY && '/Hour'}</span>
+                        <span title={item.rate}>${item.rate}{item.rateType == utils.ENUM.RATE_TYPE.HOURLY && '/Hour'}</span>
                         :
                         <span title={item.paymentDetails.rate}>${item.paymentDetails.rate}</span>
                       }
@@ -347,7 +320,6 @@ export default class InProgress extends React.Component {
     data['jobId'] = this.props.jobId;
     data['jobType'] = this.state.jobType;
     data['paymentType'] = this.state.paymentType;
-
     let id = data['seekerId'],
     disableBtn = (status < constant['DELIVERABLE_STATUS']['SUBMITTED']),
     imgTitle = (disableBtn ? '' : 'Review'),

@@ -772,7 +772,7 @@ export default class PostJobComp extends React.Component {
               <div className="col-sm-4">
                 <div className={(job.showOthers == 'true' || job.showOthers == true)? 'form-group' : 'form-group d-none'}>
                   <label className="control-label">Others</label>
-                  <input value={job.others} onBlur={(e) => this.handleOnBlur(e, 'others')} onChange={(e) => this.changeInput(e, 'others')} name="others" className="form-control" placeholder="Others" type="text" />
+                  <input value={job.others} onBlur={(e) => this.handleOnBlur(e, 'others')} onChange={(e) => this.changeInput(e, 'others')} name="others" className="form-control" placeholder="Other" type="text" />
                 </div>
               </div>
             </div>

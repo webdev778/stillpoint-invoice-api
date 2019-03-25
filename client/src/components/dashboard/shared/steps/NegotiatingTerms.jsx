@@ -500,6 +500,8 @@ export default class NegotiatingTerms extends React.Component {
               seekerStepData.is_w_nine_info_complete)
           {
             that.updateCandidateJobStatus(that.props.jobId, constant['JOB_STEPS']['IN_PROGRESS'], that.state.stepRelatedData.seekerId, null);
+          } else {
+            that.props.handler(constant['JOB_STEPS']['S_PENDING'],constant['JOB_STEPS']['S_PENDING']);
           }
         } else {
           utils.flashMsg('show', utils.getServerErrorMsg(response));

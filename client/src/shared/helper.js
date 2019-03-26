@@ -146,7 +146,7 @@ const openSubmitDeliverablePopup = (self, role, paymentDetails, cb) => {
               setTimeout(() => {
                 openSuccessMessagePopup(self, deliverableMsgKey, () => {
                   let resData = (utils.getDataFromRes(response) || {});
-                  utils.isFunction(cb) && cb(paymentDetails['paymentDetails'], deliverableStatus, resData['job_completed'], (resData['url'] || ''));
+                  utils.isFunction(cb) && cb(self.props.stepRelatedData['data'], paymentDetails['paymentDetails'], deliverableStatus, resData['job_completed'], (resData['url'] || ''));
                 });
               }, 600);
             } else {
@@ -227,6 +227,25 @@ const openFreezeActivityPopup = (self, key) => {
   }, 400);
 }
 
+const openTransferFundsPopup = (self, stepRelatedData) => {
+  let popupType = constant['POPUP_TYPES']['TRANSFER_FUNDS'];
+  self.setState({
+    modalPopupObj: {
+      type: popupType,
+      stepRelatedData: stepRelatedData || {},
+      size: 'nl',
+      noBtnAction: function() {
+        utils.modalPopup(popupType, 'hide', self);
+      },
+      yesBtnAction: function(stepRelatedData) {
+        
+      }
+    }
+  }, function() {
+    utils.modalPopup(popupType, 'show', self);
+  });
+}
+
 const openReleasePaymentPopup = (self, summaryDetails) => {
   let popupType = constant['POPUP_TYPES']['RELEASE_PAYMENT'];
   self.setState({
@@ -299,6 +318,7 @@ module.exports = {
   openEmailVerificationRequiredPopup,
   openFreezeActivityPopup,
   openReleasePaymentPopup,
+  openTransferFundsPopup,
   closeLeftPanel,
   getValidationMsg
 }

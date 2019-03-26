@@ -4,6 +4,7 @@ import Pagination from 'react-js-pagination';
 
 import { constant, helper, utils } from '../../../../shared/index';
 import ModalPopup from '../../../shared/modal-popup/ModalPopup';
+import { PresignedPost } from 'aws-sdk/clients/s3';
 let classNames = require('classnames');
 
 const TAB_TYPE = {
@@ -66,7 +67,7 @@ export default class InProgress extends React.Component {
   }
 
   onSubmitBtnClick(role, data) {
-    helper.openSubmitDeliverablePopup(this, role, data, (paymentDetailObj, status, isJobCompleted, url) => {
+    helper.openSubmitDeliverablePopup(this, role, data, (prevStepRelatedData, paymentDetailObj, status, isJobCompleted, url) => {
       let stepRelatedData = this.state.stepRelatedData;
       stepRelatedData.find((o, i) => {
         if (o['paymentDetails']['milestone'] === paymentDetailObj['milestone']) {
@@ -81,7 +82,11 @@ export default class InProgress extends React.Component {
             }
             if (!!url) {
               setTimeout(() => {
-                helper.openReleasePaymentPopup(this, paymentDetailObj);
+                if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee') {
+                  helper.openTransferFundsPopup(this, prevStepRelatedData[0]);
+                } else {
+                  helper.openReleasePaymentPopup(this, paymentDetailObj);
+                }
               }, 600);
             }
           } else {

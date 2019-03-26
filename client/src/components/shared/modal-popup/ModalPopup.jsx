@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Info, Confirm, ViewFile, SendMsg, SubmitDeliverable, ReleasePayment } from './index';
+import { Info, Confirm, ViewFile, SendMsg, SubmitDeliverable, ReleasePayment, TransferFunds } from './index';
 
 export default class ModalPopup extends React.Component {
   render() {
@@ -15,7 +15,8 @@ export default class ModalPopup extends React.Component {
               view_file_popup: <ViewFile popupObj={modalPopupObj} />,
               send_msg_popup: <SendMsg popupObj={modalPopupObj} />,
               submit_deliverable_popup: <SubmitDeliverable popupObj={modalPopupObj} />,
-              release_payment_popup: <ReleasePayment popupObj={modalPopupObj} />
+              release_payment_popup: <ReleasePayment popupObj={modalPopupObj} />,
+              transfer_funds_popup: <TransferFunds popupObj={modalPopupObj} />
             }[modalPopupObj.type]}
           </div>
         </div>

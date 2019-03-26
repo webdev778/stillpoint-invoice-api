@@ -665,7 +665,7 @@ export default class SeekerBasicInfo extends React.Component {
             fieldValidationErrors.bar_admission[index].bar_registration_number = constant.ENTER_BAR_NO;
            }
            else{
-            var text = /^[0-9]+$/;
+            var text = /^[0-9A-Z]+$/;
             if(value.length <= 15){
             if (!text.test(value)) {
                 fieldValidationErrors.bar_admission[index].bar_registration_number  = constant.ONLY_NUMERIC_ERROR;

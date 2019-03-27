@@ -162,7 +162,6 @@ export default class Dashboard extends React.Component {
                     <i className="fa fa-usd" aria-hidden="true"></i>
                   Payments</a>
                 </li> */}
-
                 <li onClick={() => this.moveToPage(routesPath['POST_JOB'], 'poster')} className={selectedPage.includes('post-job') ? 'active' : ''}>
                   <a>
                     <i className="fa fa-pencil-square-o" aria-hidden="true"></i>

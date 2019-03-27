@@ -22,6 +22,7 @@ const ROUTES_PATH = {
   'JOB_SEARCH': '/job-search',
   'MY_APPLIED_JOBS': '/my-applied-jobs',
   'MY_POSTED_JOBS': '/my-posted-jobs',
+  'CANDIDATE_SEARCH': '/candidate-search',
   'POST_JOB': '/post-job',
   'VERIFY_EMAIL': '/verify-email',
   'CREATE_STRIPE_ACCOUNT': '/create-stripe-account'

@@ -48,6 +48,7 @@ import AppliedJobs from './components/dashboard/seeker-jobs/AppliedJobs';
 import PostedJobs from './components/dashboard/poster-jobs/PostedJobs';
 import EditAJob from './components/dashboard/poster-jobs/EditAJob';
 import PostAJob from './components/dashboard/poster-jobs/PostAJob';
+import CandidateSearch from './components/dashboard/poster-jobs/CandidateSearch';
 import CreateStripeAccount from './components/dashboard/shared/CreateStripeAccount';
 
 var routesPath = constant['ROUTES_PATH'];
@@ -91,6 +92,7 @@ module.exports = (
         <Route path={routesPath['MY_POSTED_JOBS']} component={PostedJobs} />
         <Route path={routesPath['MY_POSTED_JOBS'] + '/:jobId'} component={JobDetail} />
         <Route path={routesPath['MY_POSTED_JOBS'] + '/:jobId/edit'} component={EditAJob} />
+        <Route path={routesPath['CANDIDATE_SEARCH']} component={CandidateSearch} />
         <Route path={routesPath['POST_JOB']} component={PostAJob} />
         <Route path={routesPath['CREATE_STRIPE_ACCOUNT']} component={CreateStripeAccount} />
       </Route>

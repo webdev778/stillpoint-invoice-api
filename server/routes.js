@@ -75,6 +75,7 @@ postHandler['/updateJobStatus'] = jobStatusCtlr.updateJobStatus;
 
 postHandler['/updateNegotiateTerms'] = negotiateTermsCtlr.update;
 postHandler['/updateDeliverableStatus'] = negotiateTermsCtlr.updateDeliverableStatus;
+postHandler['/updateHourlyFixedTerms'] = negotiateTermsCtlr.updateHourlyFixedTerms;
 postHandler['/downloadDeliverableFile'] = negotiateTermsCtlr.downloadDeliverableFile;
 
 postHandler['/getReleaseFundUrl'] = stripeAccCtlr.getReleaseFundUrl;

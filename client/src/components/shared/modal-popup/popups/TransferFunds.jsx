@@ -81,7 +81,7 @@ export default class TransferFunds extends React.Component {
       var subtotal = utils.ENUM.RATE_TYPE.FIXED == paymentDetails.rateType ? (paymentDetails.rate || 0) : (paymentDetails.rate || 0) * (paymentDetails.hours || 0);
 
       isNaN(subtotal) && (subtotal = 0);
-      paymentDetails.subTotal = parseFloat(subtotal).toFixed(2);
+      paymentDetails.subTotal = subtotal;
       formError.subTotal = (paymentDetails.subTotal < 100) ? constant['MIN_JOB_AMOUNT'] : false;
       var total = parseFloat(paymentDetails.subTotal) + parseFloat(parseFloat(paymentDetails.subTotal * paymentDetails.currentRate / 100).toFixed(2));
 
@@ -116,6 +116,7 @@ export default class TransferFunds extends React.Component {
     if (!paymentDetails['hours']) {
       formError['hours'] = constant['ENTER_HOURS'];
       validForm = false;
+
     } else if (!(Number(paymentDetails['hours']))) {
       formError['hours'] = constant['HOURS_ERROR'];
       validForm = false;
@@ -129,12 +130,12 @@ export default class TransferFunds extends React.Component {
 
   onYesBtnClick() {
     if (this.popupObj.yesBtnAction) {
-      if (this.state.paymentDetails['rate'] != utils.ENUM.RATE_TYPE.FIXED) {
+      if (this.state.paymentDetails['rateType'] != utils.ENUM.RATE_TYPE.FIXED) {
         if(!this.validateForm()) {
           return;
         }
       }
-      // this.popupObj.yesBtnAction({});
+      this.popupObj.yesBtnAction(this.state.paymentDetails);
     }
   }
   onNoBtnClick() {

@@ -342,6 +342,10 @@ module.exports = {
       'name': '/updateDeliverableStatus',
       'type': 'post'
     },
+    'UPDATE_HOURLY_FIXED_TERMS': {
+      'name': '/updateHourlyFixedTerms',
+      'type': 'post'
+    },
     'DOWNLOAD_DELIVERABLE_FILE': {
       'name': '/downloadDeliverableFile',
       'type': 'post'

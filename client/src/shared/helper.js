@@ -237,12 +237,77 @@ const openTransferFundsPopup = (self, stepRelatedData) => {
       noBtnAction: function() {
         utils.modalPopup(popupType, 'hide', self);
       },
-      yesBtnAction: function(stepRelatedData) {
-        
+      yesBtnAction: function(paymentDetails) {
+        let req = stepRelatedData;
+        req.hours = paymentDetails.hours ? paymentDetails.hours : 0;
+        req.subTotal = paymentDetails.subTotal;
+        req.total = paymentDetails.total;
+        utils.apiCall('UPDATE_HOURLY_FIXED_TERMS', { 'data': req }, function(err, response) {
+          if (err) {
+            utils.flashMsg('show', 'Error while updating Negotiating Terms');
+            utils.logger('error', 'Update Negotiating Terms Error -->', err);
+          } else {
+            if (utils.isResSuccess(response)) {
+              req.freeze_activity = utils.getDataFromRes(response, 'freeze_activity');
+              _transferAndReleaseFunds(self, popupType, req);
+            } else if (utils.isResConflict(response)) {
+              utils.modalPopup(popupType, 'hide', self);
+              setTimeout(() => {
+                openConflictPopup(self);
+              }, 600);
+            } else if (utils.isResBarIdValid(response)) {
+              utils.modalPopup(popupType, 'hide', self);
+              setTimeout(() => {
+                openBarIdInvalidPopup(self);
+              }, 600);
+            } else if (utils.isResLocked(response)) {
+              utils.modalPopup(popupType, 'hide', self);
+              setTimeout(() => {
+                openFreezeActivityPopup(self, 'ACCOUNT_FROZEN_POSTER');
+              }, 600);
+            } else {
+              utils.flashMsg('show', utils.getServerErrorMsg(response));
+            }
+          }
+        });
       }
     }
   }, function() {
     utils.modalPopup(popupType, 'show', self);
+  });
+}
+
+const _transferAndReleaseFunds = (self, popupType, stepRelatedData) => {
+  let req = {
+    job_id: stepRelatedData.jobId,
+    user_id: stepRelatedData.seekerId,
+    freeze_activity: stepRelatedData.freeze_activity
+  };
+  utils.apiCall('TRANSFER_FUNDS', { 'data': req }, function(err, response) {
+    if (err) {
+      utils.flashMsg('show', 'Error while transferring Funds');
+      utils.logger('error', 'Transfer Funds Error -->', err);
+    } else {
+      if (utils.isResSuccess(response)) {
+        let milestoneObj = {
+          milestone: stepRelatedData.paymentDetails['milestone'],
+          _id: stepRelatedData.paymentDetails['_id']
+        };
+        _releasePayment(self, popupType, milestoneObj);
+      } else if (utils.isResConflict(response)) {
+        utils.modalPopup(popupType, 'hide', self);
+        setTimeout(() => {
+          openConflictPopup(self);
+        }, 600);
+      } else if (utils.isResLocked(response)) {
+        utils.modalPopup(popupType, 'hide', self);
+        setTimeout(() => {
+          openFreezeActivityPopup(self, 'ACCOUNT_FROZEN_POSTER');
+        }, 600);
+      } else {
+        utils.flashMsg('show', utils.getServerErrorMsg(response));
+      }
+    }
   });
 }
 

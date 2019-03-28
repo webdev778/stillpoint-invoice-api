@@ -175,12 +175,12 @@ export default class JobSearch extends React.Component {
               <p>Job Search</p>
             </ol>
           </div>
-          <div className="job-search-card mb-30">
+          <div className="job-search-card mb-30 column-flex">
             <div className="card-head hide"></div>
-            <div className="search-filter-box">
-              <div className="col-sm-4">
+            <div className="search-filter-box m-30">
+              <div className="col-sm-5">
                 <div className="form-group">
-                  <label className="control-label">PRACTICE AREA(S)*</label>
+                  <label className="control-label">Practice Area</label>
                   <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
                     onChange={(val) => this.setMultiSelectValues(val, 'practiceAreas')}
                     options={this.state.practice_area_dropdown}
@@ -188,9 +188,9 @@ export default class JobSearch extends React.Component {
                     value={practiceAreas} />
                 </div>
               </div>
-              <div className="col-sm-4">
+              <div className="col-sm-5">
                 <div className="form-group">
-                  <label className="control-label">State(s)*</label>
+                  <label className="control-label">State</label>
                   <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
                     onChange={(val) => this.setMultiSelectValues(val, 'states')}
                     options={this.state.state_dropdown}
@@ -198,7 +198,7 @@ export default class JobSearch extends React.Component {
                     value={states} />
                 </div>
               </div>
-              <button type="button" className="btn ml-10 btn-primary" onClick={this.handleSearch}>
+              <button type="button" className="btn ml-10 btn-primary mt-30" onClick={this.handleSearch}>
                 Search
               </button>
             </div>

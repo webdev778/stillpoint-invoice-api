@@ -1,5 +1,6 @@
 import React from 'react';
 import Pagination from 'react-js-pagination';
+import Select from 'react-select';
 
 import { Dashboard, Job, NoRecordFound } from '../../index';
 import { constant, utils, cookieManager } from '../../../shared/index';
@@ -17,11 +18,17 @@ export default class JobSearch extends React.Component {
       userRelatedData: '',
       isResponse: false,
       modalPopupObj: {},
-      freezeActivity: false
+      freezeActivity: false,
+      practice_area_dropdown:[],
+      state_dropdown: [],
+      practiceAreas: [],
+      states: []
     };
+
     this.getJobListings = this.getJobListings.bind(this);
     this.getAllDropdownsData = this.getAllDropdownsData.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.setMultiSelectValues = this.setMultiSelectValues.bind(this)
   }
 
   getFilterData(filterArr = [], filterId) {
@@ -31,7 +38,10 @@ export default class JobSearch extends React.Component {
   }
 
   getAllDropdownsData() {
-    let that = this;
+    const that = this;
+    const practiceAreas = [];
+    const states = [];
+
     utils.apiCall('GET_ALL_LISTS', {}, function(err, response) {
       if (err) {
         utils.flashMsg('show', 'Error while getting Dropdown Data');
@@ -39,7 +49,18 @@ export default class JobSearch extends React.Component {
       } else {
         if (utils.isResSuccess(response)) {
           let data = utils.getDataFromRes(response);
+
+          for (let pAreasObj of data['practice_areas']) {
+            practiceAreas.push({value: pAreasObj['_id'], label: pAreasObj['name']});
+          }
+
+          for (let statesObj of data['states']) {
+            states.push({value: statesObj['_id'], label: statesObj['name']});
+          }
+
           that.setState({
+            practice_area_dropdown: practiceAreas,
+            state_dropdown: states,
             userRelatedData: data
           });
         } else {
@@ -94,14 +115,23 @@ export default class JobSearch extends React.Component {
     });
   }
 
+  setMultiSelectValues (val, key) {
+    var stateObj = this.state;
+    stateObj[key] = val;
+    this.setState(stateObj)
+  }
+
   componentDidMount() {
     this.getAllDropdownsData();
     this.loadSearchData();
   }
 
   render() {
-    var jobRecordsLength = this.state.jobRecords.length;
-    var jobs = this.state.jobRecords.map(function(job) {
+    const { practiceAreas, states } = this.state
+    const jobRecordsLength = this.state.jobRecords.length;
+    console.log(this.state.jobRecords)
+
+    const jobs = this.state.jobRecords.map(function(job) {
       job.fromRoute = 'SEARCH_JOBS';
       job.step = job.job_step;
       job.nTermStatus = (job.n_terms_status && job.n_terms_status.length) ? job.n_terms_status[0] : 0;
@@ -124,6 +154,27 @@ export default class JobSearch extends React.Component {
           </div>
           <div className="job-search-card mb-30">
             <div className="card-head hide"></div>
+            <div className="col-sm-4">
+              <div className="form-group">
+                <label className="control-label">PRACTICE AREA(S)*</label>
+                <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
+                  onChange={(val) => this.setMultiSelectValues(val, 'practiceAreas')}
+                  options={this.state.practice_area_dropdown}
+                  placeholder="Select Practice Area(s)"
+                  value={practiceAreas} />
+              </div>
+            </div>
+            <div className="col-sm-4">
+              <div className="form-group">
+                <label className="control-label">State(s)*</label>
+                <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
+                  onChange={(val) => this.setMultiSelectValues(val, 'states')}
+                  options={this.state.state_dropdown}
+                  placeholder="Select State(s)"
+                  value={states} />
+              </div>
+            </div>
+
             { this.state.isResponse ? (jobRecordsLength > 0 ? <div>{jobs}</div> : <NoRecordFound />) : null }
           </div>
           { this.state.totalJobCount > 0 ?

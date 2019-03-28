@@ -1,6 +1,7 @@
 import React from 'react';
 import Pagination from 'react-js-pagination';
 import Select from 'react-select';
+import _ from 'lodash'
 
 import { Dashboard, Job, NoRecordFound } from '../../index';
 import { constant, utils, cookieManager } from '../../../shared/index';
@@ -12,6 +13,7 @@ export default class JobSearch extends React.Component {
     super(props);
     this.state = {
       jobRecords: [],
+      filteredJobs: [],
       activePage: 1,
       totalJobCount: 0,
       itemsCountPerPage: 10,
@@ -28,7 +30,8 @@ export default class JobSearch extends React.Component {
     this.getJobListings = this.getJobListings.bind(this);
     this.getAllDropdownsData = this.getAllDropdownsData.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
-    this.setMultiSelectValues = this.setMultiSelectValues.bind(this)
+    this.setMultiSelectValues = this.setMultiSelectValues.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   getFilterData(filterArr = [], filterId) {
@@ -84,6 +87,7 @@ export default class JobSearch extends React.Component {
           let totalJobCount = responseData.count;
           that.setState({
             jobRecords: jobRecords,
+            filteredJobs: jobRecords,
             totalJobCount: totalJobCount,
             freezeActivity: responseData.userData.freeze_activity,
             isBarIdValid: responseData.userData.is_bar_id_valid
@@ -121,17 +125,36 @@ export default class JobSearch extends React.Component {
     this.setState(stateObj)
   }
 
+  handleSearch () {
+    const { practiceAreas, states, jobRecords } = this.state
+
+    const filteredJobsArray = jobRecords.filter(jobRecord => {
+      const jobArea        = _.map(jobRecord.practiceArea, 'value'),
+            selectedArea   = _.map(practiceAreas, 'value'),
+            selectedStates = _.map(states, 'value'),
+            jobState       = jobRecord.state;
+
+      const practiceAreaMatched = practiceAreas.length === 0 || _.intersection(jobArea, selectedArea).length > 0;
+      const stateMatched = states.length === 0 || selectedStates.includes(jobState);
+
+      return practiceAreaMatched && stateMatched
+    })
+
+    this.setState({
+      filteredJobs: filteredJobsArray
+    })
+  }
+
   componentDidMount() {
     this.getAllDropdownsData();
     this.loadSearchData();
   }
 
   render() {
-    const { practiceAreas, states } = this.state
-    const jobRecordsLength = this.state.jobRecords.length;
-    console.log(this.state.jobRecords)
+    const { practiceAreas, states, jobRecords, filteredJobs } = this.state
+    const jobRecordsLength = filteredJobs.length;
 
-    const jobs = this.state.jobRecords.map(function(job) {
+    const jobs = filteredJobs.map(function(job) {
       job.fromRoute = 'SEARCH_JOBS';
       job.step = job.job_step;
       job.nTermStatus = (job.n_terms_status && job.n_terms_status.length) ? job.n_terms_status[0] : 0;
@@ -154,27 +177,31 @@ export default class JobSearch extends React.Component {
           </div>
           <div className="job-search-card mb-30">
             <div className="card-head hide"></div>
-            <div className="col-sm-4">
-              <div className="form-group">
-                <label className="control-label">PRACTICE AREA(S)*</label>
-                <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
-                  onChange={(val) => this.setMultiSelectValues(val, 'practiceAreas')}
-                  options={this.state.practice_area_dropdown}
-                  placeholder="Select Practice Area(s)"
-                  value={practiceAreas} />
+            <div className="search-filter-box">
+              <div className="col-sm-4">
+                <div className="form-group">
+                  <label className="control-label">PRACTICE AREA(S)*</label>
+                  <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
+                    onChange={(val) => this.setMultiSelectValues(val, 'practiceAreas')}
+                    options={this.state.practice_area_dropdown}
+                    placeholder="Select Practice Area(s)"
+                    value={practiceAreas} />
+                </div>
               </div>
-            </div>
-            <div className="col-sm-4">
-              <div className="form-group">
-                <label className="control-label">State(s)*</label>
-                <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
-                  onChange={(val) => this.setMultiSelectValues(val, 'states')}
-                  options={this.state.state_dropdown}
-                  placeholder="Select State(s)"
-                  value={states} />
+              <div className="col-sm-4">
+                <div className="form-group">
+                  <label className="control-label">State(s)*</label>
+                  <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
+                    onChange={(val) => this.setMultiSelectValues(val, 'states')}
+                    options={this.state.state_dropdown}
+                    placeholder="Select State(s)"
+                    value={states} />
+                </div>
               </div>
+              <button type="button" className="btn ml-10 btn-primary" onClick={this.handleSearch}>
+                Search
+              </button>
             </div>
-
             { this.state.isResponse ? (jobRecordsLength > 0 ? <div>{jobs}</div> : <NoRecordFound />) : null }
           </div>
           { this.state.totalJobCount > 0 ?

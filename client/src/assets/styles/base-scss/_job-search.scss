@@ -67,7 +67,8 @@
     }
   }
   .job-search-card,
-  .job-details-card{
+  .job-details-card,
+  .candidate-search-card{
     background-color: $clr-primary;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.02);
     .card-head{
@@ -556,6 +557,11 @@
         }
       }
     }
+    .column-flex {
+      display: flex;
+      flex-direction: column;
+    }
+
   }
 }
 

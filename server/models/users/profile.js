@@ -662,6 +662,43 @@ function downloadFile(filepath, callback) {
   });
 }
 
+/**
+   * @method getCandidatesData
+   * get Active and Valid job Candidates Data for Job posters
+   * @param {object} req
+   * @param {object} res
+   * @param {function} callback
+*/
+function getCandidatesData(req, res, callback) {
+  utils.writeInsideFunctionLog('profile', 'getCandidatesData');
+
+  if(!!req.headers.token) {
+    helper.checkUserLoggedIn(req.headers.token , function(loginErr, result){
+      if(loginErr){
+        callback({Code:401, Status:false, Message:loginErr});
+      } else {
+
+        if (result.job_posters_info.is_profile_completed !== 'Y') {
+          callback({Code:403, Status:false, Message:'Not authorized for this call'});
+        } else {
+
+          const query = {
+            'job_seeker_info.is_profile_completed': 'Y'
+          }
+
+          users.find(query, function(err, users) {
+            if (err) {
+              callback({Code:500, Status:false, Message:'Candidates now found'});
+            }
+
+            callback({Code:200, Status:true, Message:'OK', Data: users});
+          })
+        }
+      }
+    })
+  }
+}
+
 module.exports = {
   getUserProfile,
   basicProfile,
@@ -671,5 +708,6 @@ module.exports = {
   posterBasicProfile,
   uploadDeliverable,
   downloadFile,
-  deleteFiles
+  deleteFiles,
+  getCandidatesData,
 }

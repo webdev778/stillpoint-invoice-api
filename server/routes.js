@@ -35,6 +35,7 @@ getHandler['/getServiceCharge'] = serviceChargeCtlr.get;
 getHandler['/getUserProfile/:forUser/:fromUser/:userId?'] = userCtlr.getUserProfile;
 getHandler['/resendEmail/:email'] = userCtlr.resendEmail;
 getHandler['/verifyEmail/:secretId'] = userCtlr.verifyEmail;
+getHandler['/getCandidatesData'] = userCtlr.getCandidates;
 
 getHandler['/getPostJob/:jobId'] = postJobCtlr.getPostJobData;
 
@@ -50,6 +51,7 @@ getHandler['/getPostJobByUserId/:page'] = postJobCtlr.getPostJobByUserId;
 
 getHandler['/getSavedJobs/:page'] = savedJobsCtlr.get;
 getHandler['/getAppliedJobs/:page'] = jobStatusCtlr.getAll;
+
 
 // All post services
 postHandler['/login'] = userCtlr.login;

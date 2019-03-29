@@ -388,6 +388,10 @@ module.exports = {
     'RELEASE_FUND': {
       'name': '/realeaseFund',
       'type': 'post'
+    },
+    'GET_CANDIDATES_DATA' : {
+      'name': '/getCandidatesData',
+      'type': 'get'
     }
   },
   'HTTP_STATUS_CODES': {

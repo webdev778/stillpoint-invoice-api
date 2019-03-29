@@ -12,6 +12,7 @@ export default class CandidateSearch extends React.Component {
     this.state = {
       totalCandidateCount: 0,
       activePage: 1,
+      candidateData: [],
       isResponse: false
     };
 
@@ -51,6 +52,25 @@ export default class CandidateSearch extends React.Component {
     )
   }
 
+  componentDidMount() {
+    let that = this;
+    let userRole = constant['ROLE']['POSTER'];
+
+    utils.apiCall('GET_CANDIDATES_DATA'), null, function(err, response) {
+      if (err) {
+        utils.flashMsg('show', 'Error while getting Candidates data');
+        utils.logger('error', 'Get Candidate Data Error -->', err)
+      } else {
+        if (utils.isResSuccess(response)) {
+
+          this.setState({
+            candidateData: response.data
+          })
+        }
+      }
+    }
+  }
+
   getLocations(statesArr) {
     let arr = utils.getListDataRelatedToIds('states', statesArr).map(function(item) {
       return item.name;
@@ -72,6 +92,7 @@ export default class CandidateSearch extends React.Component {
   }
 
   render() {
+    const {candidateData} = this.state
 
     return (
       <Dashboard>
@@ -114,33 +135,6 @@ export default class CandidateSearch extends React.Component {
                             {item.job_seeker_info.network.about_lawyer}
                           </Truncate>
                         </p>
-                        {
-                          item.isDeclined ?
-                            <div className="buttons text-right">
-                              <button type="button" className="btn btn-grey-disabled" disabled>
-                                {(item.declined_by === constant['ROLE']['SEEKER'] ? 'Candidate ' : '') + 'declined'}
-                              </button>
-                            </div>
-                          :
-                            item.freeze_activity ?
-                              <div className="buttons text-right">
-                                <button type="button" className="btn btn-primary seized-btn" onClick={this.onDeclineBtnClick.bind(this, jobId, (constant['JOB_STEPS']['APPLIED'] * -1), item._id, index)}>
-                                  decline
-                                </button>
-                                <button type="button" className="btn btn-primary seized-btn" onClick={this.updateCandidateJobStatus.bind(this, jobId, constant['JOB_STEPS']['INTERVIEWING'], item._id, index)}>
-                                  Interview
-                                </button>
-                                </div>
-                            :
-                              <div className="buttons text-right">
-                                <button type="button" className="btn btn-primary" onClick={this.onDeclineBtnClick.bind(this, jobId, (constant['JOB_STEPS']['APPLIED'] * -1), item._id, index)}>
-                                  decline
-                                </button>
-                                <button type="button" className="btn btn-primary" onClick={this.updateCandidateJobStatus.bind(this, jobId, constant['JOB_STEPS']['INTERVIEWING'], item._id, index)}>
-                                  Interview
-                                </button>
-                              </div>
-                        }
                       </div>
                     </div>
                   ))

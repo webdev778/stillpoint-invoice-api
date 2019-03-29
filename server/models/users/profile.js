@@ -669,29 +669,41 @@ function downloadFile(filepath, callback) {
    * @param {object} res
    * @param {function} callback
 */
-function getCandidatesData(req, res, callback) {
+function getCandidatesData(req, res, cb) {
   utils.writeInsideFunctionLog('profile', 'getCandidatesData');
 
+  let resObj = Object.assign({}, utils.getErrorResObj());
   if(!!req.headers.token) {
     helper.checkUserLoggedIn(req.headers.token , function(loginErr, result){
-      if(loginErr){
-        callback({Code:401, Status:false, Message:loginErr});
+      if (loginErr) {
+        resObj['message'] = constant['AUTH_FAIL'];
+        resObj['code'] = constant['RES_OBJ']['CODE']['UNAUTHORIZED'];
+        utils.callCB(cb, resObj);
       } else {
-
         if (result.job_posters_info.is_profile_completed !== 'Y') {
-          callback({Code:403, Status:false, Message:'Not authorized for this call'});
-        } else {
 
+          resObj['message'] = constant['AUTH_FAIL'];
+          resObj['code'] = constant['RES_OBJ']['CODE']['UNAUTHORIZED'];
+
+          utils.callCB(cb, resObj);
+
+        } else {
           const query = {
             'job_seeker_info.is_profile_completed': 'Y'
           }
 
           users.find(query, function(err, users) {
             if (err) {
-              callback({Code:500, Status:false, Message:'Candidates now found'});
-            }
+              resObj['message'] = constant['NO_RESOURCE_FOUND'];
+              resObj['code'] = constant['RES_OBJ']['CODE']['FAIL'];
 
-            callback({Code:200, Status:true, Message:'OK', Data: users});
+              utils.callCB(cb, resObj);
+            } else {
+              resObj = Object.assign({}, utils.getSuccessResObj());
+              resObj['data'] = users;
+
+              utils.callCB(cb, resObj)
+            }
           })
         }
       }

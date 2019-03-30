@@ -689,6 +689,8 @@ function getCandidatesData(req, res, cb) {
 
         } else {
           const query = {
+            status: 1,
+            is_bar_id_valid: 'Yes',
             'job_seeker_info.is_profile_completed': 'Y'
           }
 

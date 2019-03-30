@@ -3,9 +3,10 @@ import { Link } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 import Pagination from 'react-js-pagination';
 import { Truncate } from 'react-read-more';
-import Select from 'react-select'
+import Select from 'react-select';
+import _ from 'lodash';
 
-import { Dashboard } from '../../index';
+import { Dashboard, NoRecordFound } from '../../index';
 import { constant, utils } from '../../../shared/index';
 
 export default class CandidateSearch extends React.Component {
@@ -15,6 +16,7 @@ export default class CandidateSearch extends React.Component {
       totalCandidateCount: 0,
       activePage: 1,
       candidateData: [],
+      filteredCandidateData: [],
       isResponse: false,
       practice_area_dropdown: [],
       state_dropdown: [],
@@ -24,6 +26,7 @@ export default class CandidateSearch extends React.Component {
 
     this.handlePageChange = this.handlePageChange.bind(this);
     this.setMultiSelectValues = this.setMultiSelectValues.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -55,7 +58,8 @@ export default class CandidateSearch extends React.Component {
         if (utils.isResSuccess(response)) {
 
           that.setState({
-            candidateData: response.data.data
+            candidateData: response.data.data,
+            filteredCandidateData: response.data.data
           })
         }
       }
@@ -131,8 +135,29 @@ export default class CandidateSearch extends React.Component {
     )
   }
 
+  handleSearch () {
+    const { practiceAreas, states, candidateData } = this.state
+
+    const filteredCandidatessArray = candidateData.filter(candidate => {
+      const jobArea        = candidate.job_seeker_info.basic_profile.practice_area_id,
+            selectedArea   = _.map(practiceAreas, 'value'),
+            selectedStates = _.map(states, 'value'),
+            jobState       = candidate.job_seeker_info.job_profile.willing_to_work_location_id;
+
+      const practiceAreaMatched = practiceAreas.length === 0 || _.intersection(jobArea, selectedArea).length > 0;
+      const stateMatched = states.length === 0 || _.intersection(jobState, selectedStates).length > 0;
+
+      return practiceAreaMatched && stateMatched
+    })
+
+    this.setState({
+      filteredCandidateData: filteredCandidatessArray
+    })
+  }
+
   render() {
-    const {candidateData, practiceAreas, states} = this.state
+    const {filteredCandidateData, candidateData, practiceAreas, states} = this.state
+    const numberOfCandidates = filteredCandidateData.length
 
     return (
       <Dashboard>
@@ -175,34 +200,36 @@ export default class CandidateSearch extends React.Component {
               <div className="status-content mt-45">
                 <div className="candidates-applied column-flex">
                   {
-                    candidateData.map((item, index) => (
-                      <div key={index} className="candidate-data">
-                        <div className="pull-left pr-30">
-                          <img src={this.getPhotoUrl(item.job_seeker_info.network.photo)} alt="profile-img" onError={this.profileImgError} />
-                        </div>
-                        <div className="right-panel p-0">
-                          <div className="row m-0">
-                            <Link to={this.userDetailLink(item._id)} className="job-title mb-10">
-                              {item.first_name + ' ' + item.last_name}
-                            </Link>
+                    numberOfCandidates > 0
+                      ? filteredCandidateData.map((item, index) => (
+                          <div key={index} className="candidate-data">
+                            <div className="pull-left pr-30">
+                              <img src={this.getPhotoUrl(item.job_seeker_info.network.photo)} alt="profile-img" onError={this.profileImgError} />
+                            </div>
+                            <div className="right-panel p-0">
+                              <div className="row m-0">
+                                <Link to={this.userDetailLink(item._id)} className="job-title mb-10">
+                                  {item.first_name + ' ' + item.last_name}
+                                </Link>
+                              </div>
+                              <div className="row sub-titles">
+                                {
+                                  this.getPracticeAreas(item.job_seeker_info.basic_profile.practice_area_id)
+                                }
+                                {
+                                  this.getLocations(item.job_seeker_info.job_profile.willing_to_work_location_id)
+                                }
+                                <span className="clearfix"></span>
+                              </div>
+                              <p className="para mt-10 mb-20">
+                                <Truncate lines={2} ellipsis={<span>... <Link className="more" to={this.userDetailLink(item._id)}>more</Link></span>}>
+                                  {item.job_seeker_info.network.about_lawyer}
+                                </Truncate>
+                              </p>
+                            </div>
                           </div>
-                          <div className="row sub-titles">
-                            {
-                              this.getPracticeAreas(item.job_seeker_info.basic_profile.practice_area_id)
-                            }
-                            {
-                              this.getLocations(item.job_seeker_info.job_profile.willing_to_work_location_id)
-                            }
-                            <span className="clearfix"></span>
-                          </div>
-                          <p className="para mt-10 mb-20">
-                            <Truncate lines={2} ellipsis={<span>... <Link className="more" to={this.userDetailLink(item._id)}>more</Link></span>}>
-                              {item.job_seeker_info.network.about_lawyer}
-                            </Truncate>
-                          </p>
-                        </div>
-                      </div>
-                    ))
+                        ))
+                      : <NoRecordFound />
                   }
                 </div>
               </div>

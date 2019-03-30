@@ -159,7 +159,7 @@ export default class SeekerBasicInfo extends React.Component {
     for (var key in val) {
       list.push(val[key].value);
       if (type == 'skill_used_id') {
-        if (val[key].label == 'Others') {
+        if (val[key].label == 'Other') {
           flag = true;
         }
       }

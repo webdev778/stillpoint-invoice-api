@@ -14,14 +14,15 @@ export default class CandidateSearch extends React.Component {
     super(props);
     this.state = {
       totalCandidateCount: 0,
-      activePage: 1,
       candidateData: [],
       filteredCandidateData: [],
       isResponse: false,
       practice_area_dropdown: [],
       state_dropdown: [],
       practiceAreas: [],
-      states: []
+      states: [],
+      activePage: 1,
+      itemsCountPerPage: 10
     };
 
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -56,10 +57,13 @@ export default class CandidateSearch extends React.Component {
         utils.logger('error', 'Get Candidate Data Error -->', err)
       } else {
         if (utils.isResSuccess(response)) {
+          const pageData = response.data.data.slice(0, that.state.itemsCountPerPage)
 
-          that.setState({
+          that.setState ({
             candidateData: response.data.data,
-            filteredCandidateData: response.data.data
+            filteredCandidateData: response.data.data,
+            totalCandidateCount: response.data.data.length,
+            pageData: pageData
           })
         }
       }
@@ -73,7 +77,9 @@ export default class CandidateSearch extends React.Component {
   }
 
   handlePageChange(pageNumber) {
-    utils.changeUrl(constant['ROUTES_PATH']['CANDIDATE_SEARCH'] + '?page=' + pageNumber);
+    this.setState({
+      activePage: pageNumber
+    })
   }
 
   getPhotoUrl(imgPath) {
@@ -136,9 +142,9 @@ export default class CandidateSearch extends React.Component {
   }
 
   handleSearch () {
-    const { practiceAreas, states, candidateData } = this.state
+    const { practiceAreas, states, candidateData, itemsCountPerPage, activePage } = this.state
 
-    const filteredCandidatessArray = candidateData.filter(candidate => {
+    const filteredCandidatesArray = candidateData.filter(candidate => {
       const jobArea        = candidate.job_seeker_info.basic_profile.practice_area_id,
             selectedArea   = _.map(practiceAreas, 'value'),
             selectedStates = _.map(states, 'value'),
@@ -150,14 +156,17 @@ export default class CandidateSearch extends React.Component {
       return practiceAreaMatched && stateMatched
     })
 
+    const filteredTotalCount = filteredCandidatesArray.length
+
     this.setState({
-      filteredCandidateData: filteredCandidatessArray
+      filteredCandidateData: filteredCandidatesArray,
+      totalCandidateCount: filteredTotalCount,
     })
   }
 
   render() {
-    const {filteredCandidateData, candidateData, practiceAreas, states} = this.state
-    const numberOfCandidates = filteredCandidateData.length
+    const {filteredCandidateData, totalCandidateCount, practiceAreas, states, itemsCountPerPage, activePage} = this.state
+    const pageData = filteredCandidateData.slice(itemsCountPerPage * (Number(activePage)-1), itemsCountPerPage * Number(activePage))
 
     return (
       <Dashboard>
@@ -196,12 +205,11 @@ export default class CandidateSearch extends React.Component {
                 Search
               </button>
             </div>
-            <div className="candidate-search-card mb-30">
               <div className="status-content mt-45">
                 <div className="candidates-applied column-flex">
                   {
-                    numberOfCandidates > 0
-                      ? filteredCandidateData.map((item, index) => (
+                    pageData.length > 0
+                      ? pageData.map((item, index) => (
                           <div key={index} className="candidate-data">
                             <div className="pull-left pr-30">
                               <img src={this.getPhotoUrl(item.job_seeker_info.network.photo)} alt="profile-img" onError={this.profileImgError} />
@@ -234,15 +242,13 @@ export default class CandidateSearch extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-
-          { this.state.totalCandidateCount > 0 ?
+          { totalCandidateCount > 0 ?
             <div>
               <Pagination
-                activePage={this.state.activePage}
-                itemsCountPerPage={this.state.itemsCountPerPage}
-                totalItemsCount={this.state.totalCandidateCount}
-                pageRangeDisplayed={10}
+                activePage={activePage}
+                itemsCountPerPage={itemsCountPerPage}
+                totalItemsCount={totalCandidateCount}
+                pageRangeDisplayed={5}
                 onChange={this.handlePageChange}
               />
               <span className="clearfix"></span>

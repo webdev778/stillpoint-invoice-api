@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { ToastContainer } from 'react-toastify';
-import Pagination from 'react-js-pagination';
+import Pagination from '../shared/Pagination'
 import { Truncate } from 'react-read-more';
 import Select from 'react-select';
 import _ from 'lodash';
@@ -167,6 +167,7 @@ export default class CandidateSearch extends React.Component {
   render() {
     const {filteredCandidateData, totalCandidateCount, practiceAreas, states, itemsCountPerPage, activePage} = this.state
     const pageData = filteredCandidateData.slice(itemsCountPerPage * (Number(activePage)-1), itemsCountPerPage * Number(activePage))
+    const totalPageCount = Math.floor(filteredCandidateData.length / itemsCountPerPage) + 1
 
     return (
       <Dashboard>
@@ -205,50 +206,48 @@ export default class CandidateSearch extends React.Component {
                 Search
               </button>
             </div>
-              <div className="status-content mt-45">
-                <div className="candidates-applied column-flex">
-                  {
-                    pageData.length > 0
-                      ? pageData.map((item, index) => (
-                          <div key={index} className="candidate-data">
-                            <div className="pull-left pr-30">
-                              <img src={this.getPhotoUrl(item.job_seeker_info.network.photo)} alt="profile-img" onError={this.profileImgError} />
-                            </div>
-                            <div className="right-panel p-0">
-                              <div className="row m-0">
-                                <Link to={this.userDetailLink(item._id)} className="job-title mb-10">
-                                  {item.first_name + ' ' + item.last_name}
-                                </Link>
-                              </div>
-                              <div className="row sub-titles">
-                                {
-                                  this.getPracticeAreas(item.job_seeker_info.basic_profile.practice_area_id)
-                                }
-                                {
-                                  this.getLocations(item.job_seeker_info.job_profile.willing_to_work_location_id)
-                                }
-                                <span className="clearfix"></span>
-                              </div>
-                              <p className="para mt-10 mb-20">
-                                <Truncate lines={2} ellipsis={<span>... <Link className="more" to={this.userDetailLink(item._id)}>more</Link></span>}>
-                                  {item.job_seeker_info.network.about_lawyer}
-                                </Truncate>
-                              </p>
-                            </div>
+            <div className="status-content mt-45">
+              <div className="candidates-applied column-flex">
+                {
+                  pageData.length > 0
+                    ? pageData.map((item, index) => (
+                        <div key={index} className="candidate-data">
+                          <div className="pull-left pr-30">
+                            <img src={this.getPhotoUrl(item.job_seeker_info.network.photo)} alt="profile-img" onError={this.profileImgError} />
                           </div>
-                        ))
-                      : <NoRecordFound />
-                  }
-                </div>
+                          <div className="right-panel p-0">
+                            <div className="row m-0">
+                              <Link to={this.userDetailLink(item._id)} className="job-title mb-10">
+                                {item.first_name + ' ' + item.last_name}
+                              </Link>
+                            </div>
+                            <div className="row sub-titles">
+                              {
+                                this.getPracticeAreas(item.job_seeker_info.basic_profile.practice_area_id)
+                              }
+                              {
+                                this.getLocations(item.job_seeker_info.job_profile.willing_to_work_location_id)
+                              }
+                              <span className="clearfix"></span>
+                            </div>
+                            <p className="para mt-10 mb-20">
+                              <Truncate lines={2} ellipsis={<span>... <Link className="more" to={this.userDetailLink(item._id)}>more</Link></span>}>
+                                {item.job_seeker_info.network.about_lawyer}
+                              </Truncate>
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    : <NoRecordFound />
+                }
               </div>
             </div>
+          </div>
           { totalCandidateCount > 0 ?
             <div>
               <Pagination
                 activePage={activePage}
-                itemsCountPerPage={itemsCountPerPage}
-                totalItemsCount={totalCandidateCount}
-                pageRangeDisplayed={5}
+                totalPageCount={totalPageCount}
                 onChange={this.handlePageChange}
               />
               <span className="clearfix"></span>

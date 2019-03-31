@@ -175,6 +175,18 @@
       }
     }
   }
+  .pagination-btns {
+    float: right;
+
+    .btn {
+      color: black;
+      background: $clr-mono;
+      min-width: 10px;
+    }
+    .fake-button {
+      cursor: initial;
+    }
+  }
   .job-details-card{
     .card-content{
       border: 0;

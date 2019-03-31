@@ -116,7 +116,8 @@ export default class CandidateSearch extends React.Component {
     return {
       pathname: routesPath['PROFILE'] + '/' + userId,
       state: {
-        jobId: this.props.jobId
+        jobId: this.props.jobId,
+        isCandidate: true
       }
     }
   }

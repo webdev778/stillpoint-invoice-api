@@ -202,7 +202,7 @@ export default class JobSearch extends React.Component {
                 Search
               </button>
             </div>
-            { this.state.isResponse ? (jobRecordsLength > 0 ? <div>{jobs}</div> : <NoRecordFound />) : null }
+            { this.state.isResponse ? (jobRecordsLength > 0 ? <div>{jobs}</div> : <NoRecordFound name="Jobs"/>) : null }
           </div>
           { this.state.totalJobCount > 0 ?
             <div>

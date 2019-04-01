@@ -181,7 +181,7 @@ export default class CandidateSearch extends React.Component {
               <p>Candidate Search</p>
             </ol>
           </div>
-          <div className="bg-white widget-wrapper clearfix">
+          <div className="bg-white clearfix pb-30">
             <div className="search-filter-box m-30">
               <div className="col-sm-5">
                 <div className="form-group">
@@ -212,7 +212,7 @@ export default class CandidateSearch extends React.Component {
                 {
                   pageData.length > 0
                     ? pageData.map((item, index) => (
-                        <div key={index} className="candidate-data">
+                        <div key={index} className="candidate-data ml-30 mr-30">
                           <div className="pull-left pr-30">
                             <img src={this.getPhotoUrl(item.job_seeker_info.network.photo)} alt="profile-img" onError={this.profileImgError} />
                           </div>
@@ -239,7 +239,7 @@ export default class CandidateSearch extends React.Component {
                           </div>
                         </div>
                       ))
-                    : <NoRecordFound />
+                    : <NoRecordFound name="Candidates" />
                 }
               </div>
             </div>

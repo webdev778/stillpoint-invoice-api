@@ -192,7 +192,7 @@ const _getJobCompletedMailContent = (dataObj) => {
 
 const _getCandidateAppliedToJobMailContent = (dataObj) => {
   return `<p> Hi ${dataObj.posterName},</p>
-    <p>This email is being sent to you to let you know that ${dataObj.seekerName} has applied for the job ${dataObj.jobName}.</p>`;
+    <p>This email is being sent to you to let you know that <b>${dataObj.seekerName}</b> has applied for the job <b>${dataObj.jobName}</b>.</p>`;
 }
 
 const getMailTmpl = (mailTypeKey, dataObj, options = {}) => {

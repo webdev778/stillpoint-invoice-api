@@ -142,13 +142,12 @@ export default class Dashboard extends React.Component {
                     <i className="fa fa-file-text-o" aria-hidden="true"></i>
                   My Jobs</a>
                 </li>
-                {/*
-                <li>
+                <li onClick={() => this.moveToPage(routesPath['CANDIDATE_SEARCH'], 'poster')} className={(selectedPage.includes(routesPath['CANDIDATE_SEARCH']) || (selectedPage.includes('profile') && !selectedPage.endsWith('attorney') && !selectedPage.endsWith('firm'))) ? 'active' : ''}>
                   <a href="#">
                     <i className="fa fa-search" aria-hidden="true"></i>
                   Candidate Search</a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#">
                     <i className="fa fa-check-circle-o" aria-hidden="true"></i>
                   Saved Candidates</a>
@@ -162,8 +161,7 @@ export default class Dashboard extends React.Component {
                   <a href="#">
                     <i className="fa fa-usd" aria-hidden="true"></i>
                   Payments</a>
-                </li>
-                */}
+                </li> */}
                 <li onClick={() => this.moveToPage(routesPath['POST_JOB'], 'poster')} className={selectedPage.includes('post-job') ? 'active' : ''}>
                   <a>
                     <i className="fa fa-pencil-square-o" aria-hidden="true"></i>

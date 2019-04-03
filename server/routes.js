@@ -35,6 +35,7 @@ getHandler['/getServiceCharge'] = serviceChargeCtlr.get;
 getHandler['/getUserProfile/:forUser/:fromUser/:userId?'] = userCtlr.getUserProfile;
 getHandler['/resendEmail/:email'] = userCtlr.resendEmail;
 getHandler['/verifyEmail/:secretId'] = userCtlr.verifyEmail;
+getHandler['/getCandidatesData'] = userCtlr.getCandidatesData;
 
 getHandler['/getPostJob/:jobId'] = postJobCtlr.getPostJobData;
 

@@ -169,12 +169,20 @@
       &:last-child{
         border: 0;
       }
+      &:first-child{
+        border-top: solid 1px #e1e1e2;
+      }
       @include media($max: 767px) {
         margin: 0px;
         padding: 15px;
       }
     }
   }
+  .column-flex {
+    display: flex;
+    flex-direction: column;
+  }
+
   .pagination-btns {
     float: right;
 
@@ -187,6 +195,7 @@
       cursor: initial;
     }
   }
+
   .job-details-card{
     .card-content{
       border: 0;

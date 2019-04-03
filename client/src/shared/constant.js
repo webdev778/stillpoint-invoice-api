@@ -343,6 +343,10 @@ module.exports = {
       'name': '/updateDeliverableStatus',
       'type': 'post'
     },
+    'UPDATE_HOURLY_FIXED_TERMS': {
+      'name': '/updateHourlyFixedTerms',
+      'type': 'post'
+    },
     'DOWNLOAD_DELIVERABLE_FILE': {
       'name': '/downloadDeliverableFile',
       'type': 'post'
@@ -440,7 +444,8 @@ module.exports = {
     'VIEW_FILE': 'view_file_popup',
     'SEND_MSG': 'send_msg_popup',
     'SUBMIT_DELIVERABLE': 'submit_deliverable_popup',
-    'RELEASE_PAYMENT': 'release_payment_popup'
+    'RELEASE_PAYMENT': 'release_payment_popup',
+    'TRANSFER_FUNDS': 'transfer_funds_popup'
   },
   'STATUS': {
     'ACTIVE': 1,

@@ -724,7 +724,6 @@ export default class PostJobComp extends React.Component {
                 <div className={this.state.formError.jobType ? 'form-group global-error' : 'form-group' }>
                   <label className="control-label">Job Type*</label>
                   <select name="jobType" className="form-control" value={job.jobType} onChange={(e) => this.changeInput(e, 'jobType')} onBlur={(e) => this.handleOnBlur(e, 'jobType')}>
-                    <option value="">Select Job Type</option>
                     {this.state.job_type_dropdown}
                   </select>
                   {this.state.formError.jobType ? <p><span> Please select job type </span></p> : ''}
@@ -734,7 +733,6 @@ export default class PostJobComp extends React.Component {
                 <div className={this.state.formError.paymentType ? 'form-group global-error' : 'form-group' }>
                   <label className="control-label">Payment Type*</label>
                   <select name="paymentType" className="form-control" value={job.paymentType} onChange={(e) => this.changeInput(e, 'paymentType')} onBlur={(e) => this.handleOnBlur(e, 'paymentType')}>
-                    <option value="">Select Payment Type</option>
                     {this.state.payment_type_dropdown}
                   </select>
                   {this.state.formError.paymentType ? <p><span> Please select payment type </span></p> : ''}

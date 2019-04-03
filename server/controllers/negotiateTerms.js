@@ -24,8 +24,16 @@ function downloadDeliverableFile(req, res) {
   negotiateTermsModel.downloadDeliverableFile(req, res, cb);
 }
 
+function updateHourlyFixedTerms(req, res) {
+  var cb = function(result) {
+    utils.sendResponse(res, result);
+  }
+  negotiateTermsModel.updateHourlyFixedTerms(req, res, cb);
+}
+
 module.exports = {
   update,
   updateDeliverableStatus,
+  updateHourlyFixedTerms,
   downloadDeliverableFile
 }

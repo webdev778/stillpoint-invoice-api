@@ -49,6 +49,16 @@
             "date": 1553737282022,
             "name": "server/logs/legably-27Mar2019.log",
             "hash": "4a056156b3f61d1037b0f21c77475414"
+        },
+        {
+            "date": 1554163024441,
+            "name": "server/logs/legably-01Apr2019.log",
+            "hash": "2fda07c188f17d4f19331be31ed492f7"
+        },
+        {
+            "date": 1554339399622,
+            "name": "server/logs/legably-03Apr2019.log",
+            "hash": "4c97207ef33ba079ddeee336794490a7"
         }
     ]
 }

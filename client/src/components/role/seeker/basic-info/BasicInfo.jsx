@@ -665,7 +665,7 @@ export default class SeekerBasicInfo extends React.Component {
             fieldValidationErrors.bar_admission[index].bar_registration_number = constant.ENTER_BAR_NO;
            }
            else{
-            var text = /^[0-9A-Z]+$/;
+            var text = /^[a-zA-Z0-9]+$/;
             if(value.length <= 15){
             if (!text.test(value)) {
                 fieldValidationErrors.bar_admission[index].bar_registration_number  = constant.ONLY_NUMERIC_ERROR;
@@ -1059,7 +1059,7 @@ export default class SeekerBasicInfo extends React.Component {
 
                           <div className={this.state.formErrors.bar_admission[index].bar_registration_number !== '' ? 'form-group global-error' : 'form-group'} >
                             <label className="control-label">bar registration number*</label>
-                            <input type="text" onBlur={(e) => this.handleInputOnBlur(e,index)} id="bar-reg-num" name="bar_registration_number" onChange={(e) => this.handleUserBarAdInput(index,e)} className="form-control" placeholder="Bar Registration Number" value={item.bar_registration_number}/>
+                            <input type="text" onBlur={(e) => this.handleInputOnBlur(e,index)} id="bar-reg-num" name="bar_registration_number" onChange={(e) => this.handleUserBarAdInput(index,e)} className="form-control uppercase" placeholder="Bar Registration Number" value={item.bar_registration_number}/>
                            <p><span>{this.state.formErrors.bar_admission[index].bar_registration_number !== '' ? this.state.formErrors.bar_admission[index].bar_registration_number : ''}</span></p>
 
                           </div>

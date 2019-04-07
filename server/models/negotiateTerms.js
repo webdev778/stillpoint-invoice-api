@@ -210,6 +210,74 @@ function updateNegotiateTerms(reqBody, cb) {
   });
 }
 
+function updateHourlyFixedTerms(req, res, cb) {
+  utils.writeInsideFunctionLog('negotiateTerms', 'updateHourlyFixedTerms');
+  let resObj = Object.assign({}, utils.getErrorResObj());
+  helper.checkUserLoggedIn(req.headers.token, function(err, result) {
+    if (err) {
+      resObj['message'] = constant['AUTH_FAIL'];
+      resObj['code'] = constant['RES_OBJ']['CODE']['UNAUTHORIZED'];
+      utils.callCB(cb, resObj);
+    } else {
+      let reqBody = req['body'];
+      let dbQueryParams = {
+        'query': {
+          'jobId': ObjectId(reqBody['jobId']),
+          'status': { '$eq': constant['N_TERMS_STATUS']['ACCEPTED'] }
+        }
+      }
+
+      let updateData = {
+        'paymentDetails.$.rate': reqBody['subTotal'],
+        'hours': reqBody['hours'] ? reqBody['hours'] : 0,
+        'subTotal': reqBody['subTotal'],
+        'total': reqBody['total'],
+        'updated_at': utils.getCurrentDate()(),
+      }
+
+      nTermsSchema.getNonPaidDeliverables(dbQueryParams, function(err, res) {
+        if (!!res && res.length) {
+          if ((res[0]['paymentDetails']['milestone'] === reqBody['paymentDetails']['milestone']) && (res[0]['paymentDetails']['_id'].toString() === reqBody['paymentDetails']['_id'])) {
+            _updateHourlyFixedTerms(reqBody, updateData, result, cb);
+          } else {
+            resObj['message'] = constant['ACTION_DENIED'];
+            utils.callCB(cb, resObj);
+          }
+        } else {
+          utils.callCB(cb, resObj);
+          utils.writeErrorLog('negotiateTerms', 'updateHourlyFixedTerms', 'Error while getting non paid deliverables detail', (err || res), dbQueryParams['query']);
+        }
+      });
+    }
+  });
+}
+
+function _updateHourlyFixedTerms (reqBody, updateData, userData, cb) {
+  let resObj = Object.assign({}, utils.getErrorResObj());
+  let dbQueryParams = {
+    'query': {
+      'jobId': reqBody['jobId'],
+      'status': { '$eq': constant['N_TERMS_STATUS']['ACCEPTED'] },
+      'paymentDetails.milestone': reqBody['paymentDetails']['milestone']
+    }
+  }
+
+  utils.writeInsideFunctionLog('negotiateTerms', '_updateHourlyFixedTerms', dbQueryParams['query']);
+
+  nTermsSchema.updateQuery(dbQueryParams, updateData, function(nErr, nRes) {
+    if (utils.isObjectNotEmpty(nRes)) {
+      resObj = Object.assign({}, utils.getSuccessResObj());
+      resObj['data'] = {
+        'freeze_activity': userData.freeze_activity,
+      }
+      utils.callCB(cb, resObj);
+    } else {
+      utils.callCB(cb, resObj);
+      utils.writeErrorLog('negotiateTerms', '_updateHourlyFixedTerms', 'Error while updating negotiate hourly terms detail', (nErr || nRes), dbQueryParams['query']);
+    }
+  });
+}
+
 function updateDeliverableStatus(req, res, cb) {
   utils.writeInsideFunctionLog('negotiateTerms', 'updateDeliverableStatus');
 
@@ -375,6 +443,7 @@ module.exports =  {
   get,
   update,
   updateNegotiateTerms,
+  updateHourlyFixedTerms,
   updateDeliverableStatus,
   downloadDeliverableFile
 }

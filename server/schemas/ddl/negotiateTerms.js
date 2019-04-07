@@ -90,7 +90,7 @@ nTerms.statics.getDeliverables = function(data, callback) {
   if (data['count']) {
     this.aggregate([
       { $match: data.query },
-      { $project: {'paymentDetails': 1, 'seekerId': 1, '_id': 0 } },
+      { $project: {'paymentDetails': 1, 'seekerId': 1, '_id': 0, 'rate': 1, 'rateType': 1} },
       { $unwind: '$paymentDetails' },
       { $match: condition }
     ]).exec(callback);
@@ -98,7 +98,7 @@ nTerms.statics.getDeliverables = function(data, callback) {
   } else {
     this.aggregate([
       { $match: data.query },
-      { $project: {'paymentDetails': 1, 'seekerId': 1, '_id': 0 } },
+      { $project: {'paymentDetails': 1, 'seekerId': 1, '_id': 0, 'rate': 1, 'rateType': 1} },
       { $unwind: '$paymentDetails' },
       { $match: condition },
       { $sort: sortVar },

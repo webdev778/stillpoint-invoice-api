@@ -4,6 +4,7 @@ import ViewFile from './popups/ViewFile';
 import SendMsg from './popups/SendMsg';
 import SubmitDeliverable from './popups/SubmitDeliverable';
 import ReleasePayment from './popups/ReleasePayment';
+import TransferFunds from './popups/TransferFunds';
 
 module.exports = {
   Info,
@@ -11,5 +12,6 @@ module.exports = {
   ViewFile,
   SendMsg,
   SubmitDeliverable,
-  ReleasePayment
+  ReleasePayment,
+  TransferFunds
 }

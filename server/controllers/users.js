@@ -111,6 +111,14 @@ function verifyEmail(req, res) {
   registrationModel.verifyEmail(req, res, cb);
 }
 
+function getCandidatesData(req, res) {
+  var cb = function(result) {
+    utils.sendResponse(res, result);
+  }
+
+  profileModel.getCandidatesData(req, res, cb)
+}
+
 module.exports = {
   login,
   logout,
@@ -126,5 +134,6 @@ module.exports = {
   jobProfile,
   posterBasicProfile,
   resendEmail,
-  verifyEmail
+  verifyEmail,
+  getCandidatesData
 }

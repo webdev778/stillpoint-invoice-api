@@ -43,6 +43,7 @@ export default class Profile extends React.Component {
     this.isAttorneyProfile = this.isAttorneyProfile.bind(this);
     this.isFirmProfile = this.isFirmProfile.bind(this);
     this.isOtherProfile = this.isOtherProfile.bind(this);
+    this.isCandidate = this.isCandidate.bind(this);
   }
 
   setStateObj(obj) {
@@ -427,6 +428,12 @@ export default class Profile extends React.Component {
     return !(this.isAttorneyProfile() || this.isFirmProfile());
   }
 
+  isCandidate() {
+    const locationState = this.props.location.state
+
+    return locationState && locationState.isCandidate
+  }
+
   jobDetailLinkToObj() {
     let jobId = (this.props.location.state !== null ? this.props.location.state.jobId : '' )
     let path = constant['ROUTES_PATH']['MY_POSTED_JOBS'] + (jobId ? ('/' + jobId) : '');
@@ -504,11 +511,20 @@ export default class Profile extends React.Component {
             <ol className="breadcrumb">
               <li className="breadcrumb-item">{this.isOtherProfile() ? 'Dashboard | Job Posting' : 'Profile'}</li>
               {
-                this.isOtherProfile() ?
+                this.isOtherProfile()
+                  ?
                   <p>
-                    <Link to={ routesPath['MY_POSTED_JOBS'] }>My Jobs</Link>
-                    <i className="fa fa-angle-right mr-15 ml-15" aria-hidden="true"></i>
-                    <Link to={ this.jobDetailLinkToObj() }>Job Detail</Link>
+                    {
+                      this.isCandidate()
+                        ?
+                          <Link to={ routesPath['CANDIDATE_SEARCH'] }>Candidate Search</Link>
+                        :
+                          <span>
+                            <Link to={ routesPath['MY_POSTED_JOBS'] }>My Jobs</Link>
+                            <i className="fa fa-angle-right mr-15 ml-15" aria-hidden="true"></i>
+                            <Link to={ this.jobDetailLinkToObj() }>Job Detail</Link>
+                          </span>
+                    }
                     <i className="fa fa-angle-right mr-15 ml-15" aria-hidden="true"></i>{this.state.firstName} {this.state.lastName}
                   </p>
                   :

@@ -7,3 +7,5 @@ require('./states');
 require('./workLocations');
 require('./serviceCharges');
 require('./fedTaxClassifications');
+require('./paymentTypes');
+require('./jobTypes');

@@ -49,10 +49,66 @@ export default class StartPending extends React.Component {
 
   componentDidMount() {
     this.isSeekerProfile() && !this.state.stepRelatedData['declined_by'] && this.getAllDropdownsData();
+    if (this.state.jobType == '1099' && this.state.paymentType == 'Hourly Rate/Fixed Fee' && this.props.highestStep == constant['JOB_STEPS']['S_PENDING']) {
+      if (this.isSeekerProfile()) {
+        this.getPendingStepData(constant['ROLE']['POSTER'], this.props.userId, constant['JOB_STEPS']['S_PENDING']);
+      } else {
+        this.getPendingStepData(constant['ROLE']['SEEKER'], this.state.stepRelatedData.seekerId, constant['JOB_STEPS']['S_PENDING']);
+      }
+    }
   }
 
   isSeekerProfile() {
     return this.props.role === constant['ROLE']['SEEKER'];
+  }
+
+  getPendingStepData(userRole, userId, status) {
+    let that = this;
+    let req = {
+      job_id: that.props.jobId,
+      step: status,
+      highestStep: status,
+      user_role: userRole,
+      userId: userId
+    }
+    utils.apiCall('GET_STEP_DATA', { 'data': req }, function(err, response) {
+      if (err) {
+        utils.flashMsg('show', 'Error while getting Step Data');
+        utils.logger('error', 'Get Step Data Error -->', err);
+      } else {
+        if (utils.isResSuccess(response)) {
+          let stepData =  utils.getDataFromRes(response, 'step_data');
+          let pendingStepDataObj = (stepData && stepData.length) ? stepData[0] : null;
+          if (pendingStepDataObj) {
+            that.checkPayAvailability(pendingStepDataObj);
+          } else {
+            utils.flashMsg('show', utils.getServerErrorMsg(response));
+          }
+        } else {
+          utils.flashMsg('show', utils.getServerErrorMsg(response));
+        }
+      }
+    });
+  }
+
+  checkPayAvailability(pendingStepDataObj) {
+    if (this.isSeekerProfile()) {
+      let seekerStepData = this.state.stepRelatedData;
+      if (seekerStepData.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] && 
+          pendingStepDataObj.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] &&
+          seekerStepData.is_w_nine_info_complete)
+      {
+        this.updateCandidateJobStatus(this.props.jobId, constant['JOB_STEPS']['IN_PROGRESS'], this.props.userId, null);
+      }
+    } else {
+      let posterStepData = this.state.stepRelatedData;
+      if (posterStepData.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] && 
+          pendingStepDataObj.stripe_account_status == constant['STRIPE_ACCOUNT_STATUS']['ACTIVATED'] &&
+          pendingStepDataObj.is_w_nine_info_complete)
+      {
+        this.updateCandidateJobStatus(this.props.jobId, constant['JOB_STEPS']['IN_PROGRESS'], this.props.userId, null);
+      }
+    }
   }
 
   transferFunds(jobId) {
@@ -482,10 +538,15 @@ export default class StartPending extends React.Component {
                   federalTaxName: fTaxOther || _that.getDropdownValueFromId(formValObj['federalTax'], _that.federalTaxValueArr)
                 }, function() {
                   let hStep = resData['current_highest_job_step'];
-                  _that.props.handler(hStep, hStep);
-                  setTimeout(() => {
-                    _that.wNineInfoSection('hide');
-                  }, 300);
+                  if (_that.state.jobType == '1099' && _that.state.paymentType == 'Hourly Rate/Fixed Fee' && hStep == constant['JOB_STEPS']['S_PENDING']) {
+                    _that.getPendingStepData(constant['ROLE']['POSTER'], _that.props.userId, constant['JOB_STEPS']['S_PENDING']);
+                  } else {
+                    _that.props.handler(hStep, hStep);
+                    setTimeout(() => {
+                      _that.wNineInfoSection('hide');
+                    }, 300);
+                  }
+
                 });
               });
             } else {

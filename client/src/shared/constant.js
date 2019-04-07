@@ -22,6 +22,7 @@ const ROUTES_PATH = {
   'JOB_SEARCH': '/job-search',
   'MY_APPLIED_JOBS': '/my-applied-jobs',
   'MY_POSTED_JOBS': '/my-posted-jobs',
+  'CANDIDATE_SEARCH': '/candidate-search',
   'POST_JOB': '/post-job',
   'VERIFY_EMAIL': '/verify-email',
   'CREATE_STRIPE_ACCOUNT': '/create-stripe-account'
@@ -342,6 +343,10 @@ module.exports = {
       'name': '/updateDeliverableStatus',
       'type': 'post'
     },
+    'UPDATE_HOURLY_FIXED_TERMS': {
+      'name': '/updateHourlyFixedTerms',
+      'type': 'post'
+    },
     'DOWNLOAD_DELIVERABLE_FILE': {
       'name': '/downloadDeliverableFile',
       'type': 'post'
@@ -392,6 +397,10 @@ module.exports = {
       'name': '/saveRating',
       'type': 'post'
     }
+    'GET_CANDIDATES_DATA' : {
+      'name': '/getCandidatesData',
+      'type': 'get'
+    }
   },
   'HTTP_STATUS_CODES': {
     'SUCCESS': 200,
@@ -439,7 +448,8 @@ module.exports = {
     'VIEW_FILE': 'view_file_popup',
     'SEND_MSG': 'send_msg_popup',
     'SUBMIT_DELIVERABLE': 'submit_deliverable_popup',
-    'RELEASE_PAYMENT': 'release_payment_popup'
+    'RELEASE_PAYMENT': 'release_payment_popup',
+    'TRANSFER_FUNDS': 'transfer_funds_popup'
   },
   'STATUS': {
     'ACTIVE': 1,

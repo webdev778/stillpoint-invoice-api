@@ -242,7 +242,7 @@ ul.rw-list>li.rw-list-option.rw-state-focus, .rw-selectlist>li.rw-list-option.rw
 }
 .Select--multi .Select-clear-zone{ display: none !important; }
 .Select--multi .Select-arrow-zone{ display: none !important; }
-.Select--multi .Select-input, .Select--multi.has-value .Select-input{ height: 34px; }
+.Select--multi .Select-input input, .Select--multi.has-value .Select-input input{ height: 34px; }
 
 .pmd-range-slider .noUi-base {
   z-index: 90;
@@ -252,9 +252,12 @@ ul.rw-list>li.rw-list-option.rw-state-focus, .rw-selectlist>li.rw-list-option.rw
   padding: 0;
   padding-bottom: 5px;
 }
-.Select--multi.has-value .Select-input {
-  margin-left: 5px;
+.Select--multi .Select-input input{
   border: none !important;
+  padding: 0;
+}
+.Select--multi.has-value .Select-input input {
+  margin-left: 5px;
 }
 .Select-value {
   background: $clr-secondary !important;

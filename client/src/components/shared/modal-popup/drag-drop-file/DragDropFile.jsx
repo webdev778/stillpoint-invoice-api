@@ -114,38 +114,46 @@ export default class DragDropFile extends React.Component {
     return (
       <div>
         <div className="dropzone mt-20">
-          <Dropzone accept={this.state.validFormats} onDrop={this.onDropFile.bind(this)} maxSize={constant['MAX_UPLOAD_FILE_SIZE']} multiple={false} />
-          <div className={(this.state.filename === '') ? "cover" : "d-none"}>
-            <span className="d-inline-block mr-20">
-              <img src={constant['IMG_PATH'] + 'upload-file.png'} alt="upload-file" className="d-inline-block" />
-            </span>
-            <span className="d-inline-block v-middle col-xs-9 p-0">
-              <h4>
-                { this.props.title ?
-                    this.props.title
-                  :
-                    'Drag and Drop or Click to Select'
-                }
-              </h4>
-              <h5>
-                { this.props.desc ?
-                    this.props.desc
-                  :
-                    'Upload your file (use zip compression for multiple files)'
-                }
-              </h5>
-            </span>
-          </div>
+          <Dropzone accept={this.state.validFormats} maxSize={constant['MAX_UPLOAD_FILE_SIZE']} multiple={false} onDrop={this.onDropFile.bind(this)}>
+            {({getRootProps, getInputProps, rejectedFiles}) => (
+              <section>
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <div className={(this.state.filename === '') ? "cover" : "d-none"}>
+                    <span className="d-inline-block mr-20">
+                      <img src={constant['IMG_PATH'] + 'upload-file.png'} alt="upload-file" className="d-inline-block" />
+                    </span>
+                    <span className="d-inline-block v-middle col-xs-9 p-0">
+                      <h4>
+                        { this.props.title ?
+                            this.props.title
+                          :
+                            'Drag and Drop or Click to Select'
+                        }
+                      </h4>
+                      <h5>
+                        { this.props.desc ?
+                            this.props.desc
+                          :
+                            'Upload your file (use zip compression for multiple files)'
+                        }
+                      </h5>
+                    </span>
+                  </div>
+                </div>
+              </section>
+            )}
+          </Dropzone>
           <aside className={(this.state.filename != '') ? "pt-50 d-block" : "d-none"}>
-            <ul>
-              <li>
-                <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                <span title={this.state.filename} className="trunc">{this.state.filename}</span>
-                <span onClick={this.deleteFile.bind(this)}>
-                  <i className="fa fa-trash-o" aria-hidden="true"></i>
-                </span>
-              </li>
-            </ul>
+              <ul>
+                <li>
+                  <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                  <span title={this.state.filename} className="trunc">{this.state.filename}</span>
+                  <span onClick={this.deleteFile.bind(this)}>
+                    <i className="fa fa-trash-o" aria-hidden="true"></i>
+                  </span>
+                </li>
+              </ul>
           </aside>
         </div>
         <div className="pull-right mt-10">

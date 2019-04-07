@@ -662,6 +662,57 @@ function downloadFile(filepath, callback) {
   });
 }
 
+/**
+   * @method getCandidatesData
+   * get Active and Valid job Candidates Data for Job posters
+   * @param {object} req
+   * @param {object} res
+   * @param {function} callback
+*/
+function getCandidatesData(req, res, cb) {
+  utils.writeInsideFunctionLog('profile', 'getCandidatesData');
+
+  let resObj = Object.assign({}, utils.getErrorResObj());
+  if(!!req.headers.token) {
+    helper.checkUserLoggedIn(req.headers.token , function(loginErr, result){
+      if (loginErr) {
+        resObj['message'] = constant['AUTH_FAIL'];
+        resObj['code'] = constant['RES_OBJ']['CODE']['UNAUTHORIZED'];
+        utils.callCB(cb, resObj);
+      } else {
+        if (result.job_posters_info.is_profile_completed !== 'Y') {
+
+          resObj['message'] = constant['AUTH_FAIL'];
+          resObj['code'] = constant['RES_OBJ']['CODE']['UNAUTHORIZED'];
+
+          utils.callCB(cb, resObj);
+
+        } else {
+          const query = {
+            status: 1,
+            is_bar_id_valid: 'Yes',
+            'job_seeker_info.is_profile_completed': 'Y'
+          }
+
+          users.find(query, function(err, users) {
+            if (err) {
+              resObj['message'] = constant['NO_RESOURCE_FOUND'];
+              resObj['code'] = constant['RES_OBJ']['CODE']['FAIL'];
+
+              utils.callCB(cb, resObj);
+            } else {
+              resObj = Object.assign({}, utils.getSuccessResObj());
+              resObj['data'] = users;
+
+              utils.callCB(cb, resObj)
+            }
+          })
+        }
+      }
+    })
+  }
+}
+
 module.exports = {
   getUserProfile,
   basicProfile,
@@ -671,5 +722,6 @@ module.exports = {
   posterBasicProfile,
   uploadDeliverable,
   downloadFile,
-  deleteFiles
+  deleteFiles,
+  getCandidatesData,
 }

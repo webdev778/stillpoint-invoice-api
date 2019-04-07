@@ -201,6 +201,16 @@ const getListDataRelatedToIds = (key, idsArr = []) => {
   return [];
 }
 
+const getListData = (key) => {
+  let listsObj = legablyStorage.get(constant['API_URLS']['GET_ALL_LISTS']['name']);
+
+  if (listsObj.length && isResSuccess(listsObj[0])) {
+    return getDataFromRes(listsObj[0], key)
+  }
+
+  return [];
+}
+
 const isFunction = (cb) => (typeof(cb) === 'function');
 
 const isObjectNotEmpty = (obj) => (!!obj && Object.keys(obj).length);
@@ -419,6 +429,7 @@ module.exports = {
   trimObj,
   setAllListsData,
   getListDataRelatedToIds,
+  getListData,
   isFunction,
   isObjectNotEmpty,
   changeUrl: changeUrl,

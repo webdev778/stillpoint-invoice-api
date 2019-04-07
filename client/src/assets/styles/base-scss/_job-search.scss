@@ -67,7 +67,8 @@
     }
   }
   .job-search-card,
-  .job-details-card{
+  .job-details-card,
+  .candidate-search-card{
     background-color: $clr-primary;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.02);
     .card-head{
@@ -168,12 +169,33 @@
       &:last-child{
         border: 0;
       }
+      &:first-child{
+        border-top: solid 1px #e1e1e2;
+      }
       @include media($max: 767px) {
         margin: 0px;
         padding: 15px;
       }
     }
   }
+  .column-flex {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pagination-btns {
+    float: right;
+
+    .btn {
+      color: black;
+      background: $clr-mono;
+      min-width: 10px;
+    }
+    .fake-button {
+      cursor: initial;
+    }
+  }
+
   .job-details-card{
     .card-content{
       border: 0;
@@ -556,6 +578,11 @@
         }
       }
     }
+    .column-flex {
+      display: flex;
+      flex-direction: column;
+    }
+
   }
 }
 

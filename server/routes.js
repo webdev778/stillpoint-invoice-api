@@ -35,6 +35,7 @@ getHandler['/getServiceCharge'] = serviceChargeCtlr.get;
 getHandler['/getUserProfile/:forUser/:fromUser/:userId?'] = userCtlr.getUserProfile;
 getHandler['/resendEmail/:email'] = userCtlr.resendEmail;
 getHandler['/verifyEmail/:secretId'] = userCtlr.verifyEmail;
+getHandler['/getCandidatesData'] = userCtlr.getCandidatesData;
 
 getHandler['/getPostJob/:jobId'] = postJobCtlr.getPostJobData;
 
@@ -75,6 +76,7 @@ postHandler['/updateJobStatus'] = jobStatusCtlr.updateJobStatus;
 
 postHandler['/updateNegotiateTerms'] = negotiateTermsCtlr.update;
 postHandler['/updateDeliverableStatus'] = negotiateTermsCtlr.updateDeliverableStatus;
+postHandler['/updateHourlyFixedTerms'] = negotiateTermsCtlr.updateHourlyFixedTerms;
 postHandler['/downloadDeliverableFile'] = negotiateTermsCtlr.downloadDeliverableFile;
 
 postHandler['/getReleaseFundUrl'] = stripeAccCtlr.getReleaseFundUrl;

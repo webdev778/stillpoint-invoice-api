@@ -396,7 +396,7 @@ module.exports = {
     'SAVE_RATING': {
       'name': '/saveRating',
       'type': 'post'
-    }
+  },
     'GET_CANDIDATES_DATA' : {
       'name': '/getCandidatesData',
       'type': 'get'

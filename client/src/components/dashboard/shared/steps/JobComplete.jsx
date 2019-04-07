@@ -92,7 +92,7 @@ export default class JobComplete extends React.Component {
         </div>
         <div className="status-content mt-15">
           Please rate your experience with this
-          {isSeeker ? ' candidate' : ' hiring manager'}
+          {isSeeker ? ' hiring manager': ' candidate'}
           <span className="rating-info-icon">
             <i onMouseEnter={this.hoverOnInfo} onMouseLeave={this.hoverOffInfo} className="fa fa-question-circle-o ml-5" aria-hidden="true" />
             {isInfoHovered && (

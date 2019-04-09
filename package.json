@@ -38,7 +38,7 @@
     "jquery": "^3.2.1",
     "jsonexport": "^2.0.11",
     "moment": "^2.22.1",
-    "mongoose": "^4.11.7",
+    "mongoose": "^5.5.0",
     "nodemailer": "^4.0.1",
     "propellerkit-range-slider": "^1.1.0",
     "react": "^15.0.2",
@@ -47,7 +47,7 @@
     "react-bootstrap-dropdown-menu": "^1.1.11",
     "react-datetime": "^2.9.0",
     "react-dom": "^15.0.2",
-    "react-dropzone": "^4.1.1",
+    "react-dropzone": "^8.1.0",
     "react-js-pagination": "^3.0.0",
     "react-paginate": "^5.0.0",
     "react-phone-input": "^1.2.1",
@@ -72,8 +72,8 @@
     "winston-daily-rotate-file": "^3.1.4"
   },
   "devDependencies": {
-    "css-loader": "^0.28.7",
-    "eslint": "^4.13.1",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.5.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",

@@ -59,6 +59,26 @@
             "date": 1554339399622,
             "name": "server/logs/legably-03Apr2019.log",
             "hash": "4c97207ef33ba079ddeee336794490a7"
+        },
+        {
+            "date": 1554501334652,
+            "name": "server/logs/legably-05Apr2019.log",
+            "hash": "64800d1c8caa55bef7e52c5fd8b44ea9"
+        },
+        {
+            "date": 1554770938438,
+            "name": "server/logs/legably-08Apr2019.log",
+            "hash": "64d6e97feaa78a00c0142459a5daea5f"
+        },
+        {
+            "date": 1554770980761,
+            "name": "server/logs/legably-08Apr2019.log",
+            "hash": "ad116de48bcffdd9b897b81d4cd15eca"
+        },
+        {
+            "date": 1554771057691,
+            "name": "server/logs/legably-08Apr2019.log",
+            "hash": "a505a287d677270286b54f1643718ad9"
         }
     ]
 }

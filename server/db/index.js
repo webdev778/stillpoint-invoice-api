@@ -5,8 +5,14 @@ var config = rfr('/server/shared/config'),
 utils = rfr('/server/shared/utils');
 
 (function() {
+  var env = config['env'] || process.env.NODE_ENV;
   var dbObj = config['database'];
-  Mongoose.connect('mongodb://' + dbObj['username'] + ':' + dbObj['password'] + '@' + dbObj['host'] + ':' + dbObj['port'] + '/' + dbObj['db']);
+
+  if (env !== 'development' || dbObj.username) {
+    Mongoose.connect('mongodb://' + dbObj['username'] + ':' + dbObj['password'] + '@' + dbObj['host'] + ':' + dbObj['port'] + '/' + dbObj['db']);
+  } else {
+    Mongoose.connect('mongodb://' + dbObj['host'] + ':' + dbObj['port'] + '/' + dbObj['db']);
+  }
 
   var con = Mongoose.connection;
   con.once('open', function() {

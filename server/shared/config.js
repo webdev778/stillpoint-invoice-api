@@ -9,9 +9,12 @@ var database = {
   host: parsedEnv.DB_HOST,
   port: parsedEnv.DB_PORT,
   db: parsedEnv.DB_NAME,
-  username: parsedEnv.DB_USER,
-  password: parsedEnv.DB_PASS
 };
+
+if (parsedEnv.DB_USER) {
+  database.username = parseEnv.DB_USER,
+  database.password = parseEnv.DB_PASS
+}
 
 var server = {
   host: parsedEnv.SERVER_HOST,
@@ -75,5 +78,6 @@ module.exports = {
   showServerLog: showServerLog,
   aws: aws,
   bucketUrl: bucketUrl,
-  stripe
+  stripe,
+  env: parsedEnv.ENV
 };

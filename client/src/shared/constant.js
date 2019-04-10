@@ -105,6 +105,7 @@ module.exports = {
   FILE_UPLOAD_ERROR: "Please upload file",
   FILE_SIZE_ERROR: "File size should not exceed 5MB",
   MIN_JOB_AMOUNT: "Amount Payable cannot be less than $100.00",
+  ONLY_CAPS_ERROR: "Please use uppercase letters",
 
   'VALIDATION_MSG': {
     'FIELDS_NAME': {

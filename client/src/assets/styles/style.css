@@ -337,7 +337,8 @@
     display: none;
   }
 
-
+/* input uppercase */
+.input.uppercase { text-transform: uppercase; }
 
 
 

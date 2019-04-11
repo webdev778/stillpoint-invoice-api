@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 let Dropdown, MenuItem;
 let classNames = require('classnames');
 
-import { constant, helper, utils, cookieManager } from '../../../shared/index';
+import { constant, helper, utils, cookieManager, sessionManager } from '../../../shared/index';
 import ModalPopup from '../modal-popup/ModalPopup';
 
 export default class LegablyHeader extends React.Component {
@@ -21,7 +21,8 @@ export default class LegablyHeader extends React.Component {
       role: '',
       is_seeker_profile_completed: false,
       is_poster_profile_completed: false,
-      modalPopupObj: {}
+      modalPopupObj: {},
+      stripe_dashboard_link: ''
     };
     this.profileImgError = this.profileImgError.bind(this);
     this.onLegablyLogoClick = this.onLegablyLogoClick.bind(this);
@@ -31,12 +32,29 @@ export default class LegablyHeader extends React.Component {
   componentDidMount () {
     window.scrollTo(0,0);
     this.setHeaderContent();
+    sessionManager.isSession() && this.checkStripeAccountAndGetDashboardLink();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setHeaderContent();
     this.setState({
       currentPage: nextProps.currentPage
+    });
+  }
+
+  checkStripeAccountAndGetDashboardLink() {
+    let that = this;
+    utils.apiCall('GET_STRIPE_DASHBOARD_LINK', { 'data': {} }, function(err, response) {
+      if (err) {
+        utils.flashMsg('show', 'Error while getting stripe dashboard link');
+        utils.logger('error', 'Get Stripe Dashboard Link Error -->', err);
+      } else {
+        if (utils.isResSuccess(response)) {
+          that.setState({
+            stripe_dashboard_link: utils.getDataFromRes(response, 'url')
+          })
+        } 
+      }
     });
   }
 
@@ -97,6 +115,10 @@ export default class LegablyHeader extends React.Component {
     this.movePage(url);
   }
 
+  openPage(url) {
+    window.open(url, '_blank');
+  }
+
   movePage(url) {
     helper.closeLeftPanel();
     if (!this.props.session) {
@@ -131,6 +153,7 @@ export default class LegablyHeader extends React.Component {
 
   renderDropdownButton(title) {
     let eitherOneProfileCompleted = this.isEitherOneProfileCompleted();
+    let stripeDashboardLink = this.state.stripe_dashboard_link;
 
     return (
       <Dropdown bsStyle='default' id={`dropdown-basic-primary`}>
@@ -161,6 +184,11 @@ export default class LegablyHeader extends React.Component {
                   </MenuItem>
                 :
                   null
+              }
+              { stripeDashboardLink != '' &&
+                  <MenuItem eventKey="5" onClick={() => this.openPage(stripeDashboardLink)}>
+                    <i className="fa fa-window-restore" aria-hidden="true"></i>Stripe Dashboard
+                  </MenuItem>
               }
               <MenuItem eventKey="3" onClick={() => this.movePage(this.routesPath['CHANGE_PASSWORD'])}>
                 <i className="fa fa-key" aria-hidden="true"></i>Change Password

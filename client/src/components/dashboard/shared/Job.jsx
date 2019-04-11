@@ -288,7 +288,13 @@ export default class Job extends React.Component {
               </span>
               : ''
             }
-
+            {
+              <Link to={jobDetailLinkToObj}>
+                <button type="button" className="btn btn-primary mr-10">
+                  View Job
+                </button>
+              </Link>
+            }
             { job.fromRoute === 'POSTED_JOBS' ?
               <button type="button" className={jobBtnClass} disabled={this.state.posterJobStatus === constant['STATUS']['ACTIVE']} onClick={this.updatePostedJobStatus.bind(this, job._id, constant['STATUS']['ACTIVE'])}>
                 {postedJobStatusText}

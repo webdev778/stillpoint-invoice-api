@@ -177,6 +177,15 @@
         padding: 15px;
       }
     }
+
+    .search-filter-box {
+      display: flex;
+      flex-direction: column;
+
+      .select-box {
+        float: right;
+      }
+    }
   }
   .column-flex {
     display: flex;

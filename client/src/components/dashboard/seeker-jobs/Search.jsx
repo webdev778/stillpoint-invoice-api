@@ -24,7 +24,8 @@ export default class JobSearch extends React.Component {
       practice_area_dropdown:[],
       state_dropdown: [],
       practiceAreas: [],
-      states: []
+      states: [],
+      selectedOrder: 'newestFirst'
     };
 
     this.getJobListings = this.getJobListings.bind(this);
@@ -32,6 +33,7 @@ export default class JobSearch extends React.Component {
     this.handlePageChange = this.handlePageChange.bind(this);
     this.setMultiSelectValues = this.setMultiSelectValues.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.changeDateOrder = this.changeDateOrder.bind(this);
   }
 
   getFilterData(filterArr = [], filterId) {
@@ -150,9 +152,17 @@ export default class JobSearch extends React.Component {
     this.loadSearchData();
   }
 
+  changeDateOrder (selectedOrder) {
+    this.setState({ selectedOrder });
+  }
+
   render() {
-    const { practiceAreas, states, jobRecords, filteredJobs } = this.state
+    const { practiceAreas, states, jobRecords, filteredJobs, selectedOrder } = this.state
     const jobRecordsLength = filteredJobs.length;
+    const dateOrderOptions = [
+      { value: 'newestFirst', label: 'Posted Date(newest first)' },
+      { value: 'oldestFirst', label: 'Posted Date(oldest first)' }
+    ];
 
     const jobs = filteredJobs.map(function(job) {
       job.fromRoute = 'SEARCH_JOBS';
@@ -178,29 +188,38 @@ export default class JobSearch extends React.Component {
           <div className="job-search-card mb-30 column-flex">
             <div className="card-head hide"></div>
             <div className="search-filter-box m-30">
-              <div className="col-sm-5">
-                <div className="form-group">
-                  <label className="control-label">Practice Area</label>
-                  <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
-                    onChange={(val) => this.setMultiSelectValues(val, 'practiceAreas')}
-                    options={this.state.practice_area_dropdown}
-                    placeholder="Select Practice Area(s)"
-                    value={practiceAreas} />
-                </div>
+              <div>
+                <Select
+                  value={selectedOrder}
+                  onChange={this.changeDateOrder}
+                  options={dateOrderOptions}
+                />
               </div>
-              <div className="col-sm-5">
-                <div className="form-group">
-                  <label className="control-label">State</label>
-                  <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
-                    onChange={(val) => this.setMultiSelectValues(val, 'states')}
-                    options={this.state.state_dropdown}
-                    placeholder="Select State(s)"
-                    value={states} />
+              <div>
+                <div className="col-sm-5">
+                  <div className="form-group">
+                    <label className="control-label">Practice Area</label>
+                    <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
+                      onChange={(val) => this.setMultiSelectValues(val, 'practiceAreas')}
+                      options={this.state.practice_area_dropdown}
+                      placeholder="Select Practice Area(s)"
+                      value={practiceAreas} />
+                  </div>
                 </div>
+                <div className="col-sm-5">
+                  <div className="form-group">
+                    <label className="control-label">State</label>
+                    <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
+                      onChange={(val) => this.setMultiSelectValues(val, 'states')}
+                      options={this.state.state_dropdown}
+                      placeholder="Select State(s)"
+                      value={states} />
+                  </div>
+                </div>
+                <button type="button" className="btn ml-10 btn-primary mt-30" onClick={this.handleSearch}>
+                    Search
+                </button>
               </div>
-              <button type="button" className="btn ml-10 btn-primary mt-30" onClick={this.handleSearch}>
-                Search
-              </button>
             </div>
             { this.state.isResponse ? (jobRecordsLength > 0 ? <div>{jobs}</div> : <NoRecordFound name="Jobs"/>) : null }
           </div>

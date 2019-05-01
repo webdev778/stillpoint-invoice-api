@@ -1,7 +1,8 @@
 import React from 'react';
 import Pagination from 'react-js-pagination';
 import Select from 'react-select';
-import _ from 'lodash'
+import _ from 'lodash';
+import { Dropdown, MenuItem } from 'react-bootstrap';
 
 import { Dashboard, Job, NoRecordFound } from '../../index';
 import { constant, utils, cookieManager } from '../../../shared/index';
@@ -33,7 +34,7 @@ export default class JobSearch extends React.Component {
     this.handlePageChange = this.handlePageChange.bind(this);
     this.setMultiSelectValues = this.setMultiSelectValues.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.changeDateOrder = this.changeDateOrder.bind(this);
+    this.handleOrderSelect = this.handleOrderSelect.bind(this);
   }
 
   getFilterData(filterArr = [], filterId) {
@@ -152,8 +153,8 @@ export default class JobSearch extends React.Component {
     this.loadSearchData();
   }
 
-  changeDateOrder (selectedOrder) {
-    this.setState({ selectedOrder });
+  handleOrderSelect (eventKey, event) {
+    this.setState({ selectedOrder: eventKey });
   }
 
   render() {
@@ -188,12 +189,20 @@ export default class JobSearch extends React.Component {
           <div className="job-search-card mb-30 column-flex">
             <div className="card-head hide"></div>
             <div className="search-filter-box m-30">
-              <div>
-                <Select
-                  value={selectedOrder}
-                  onChange={this.changeDateOrder}
-                  options={dateOrderOptions}
-                />
+              <div className="date-filter-box">
+                <Dropdown onSelect={this.handleOrderSelect} className='dropdown-container' id={`dropdown-basic-primary`}>
+                  <Dropdown.Toggle className = 'dropdown-order-toggle'>
+                    {
+                      selectedOrder === 'newestFirst'
+                      ? 'Posted Date (newest First)'
+                      : 'Posted Date (oldest First)'
+                    }
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <MenuItem eventKey = 'newestFirst'>Posted Date (newest First)</MenuItem>
+                    <MenuItem eventKey = 'oldestFirst'>Posted Date (oldest First)</MenuItem>
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
               <div>
                 <div className="col-sm-5">

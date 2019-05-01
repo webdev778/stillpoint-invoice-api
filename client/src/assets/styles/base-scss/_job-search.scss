@@ -182,8 +182,18 @@
       display: flex;
       flex-direction: column;
 
-      .select-box {
+      .date-filter-box {
+        position: relative;
         float: right;
+
+        .dropdown-container {
+          float: right;
+          margin: 20px 0;
+
+          button:focus {
+            background-color: #fff;
+          }
+        }
       }
     }
   }

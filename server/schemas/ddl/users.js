@@ -42,7 +42,7 @@ var users = new Schema({
       bar_admission: [
         {
           bar_state_id: { type: String, default: '' },
-          bar_registration_number: { type: Number, default: null }
+          bar_registration_number: { type: String, uppercase: true, default: null }
         }
       ],
       practice_area_id: { type: Array },

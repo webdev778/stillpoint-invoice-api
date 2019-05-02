@@ -594,7 +594,7 @@ function getStripeDashboardLink(req, res, cb) {
       userSchema.findQuery(userQueryParams, function(uErr, uRes) {
         if (!!uRes && uRes.length) {
           let freezeActivity = uRes[0]['freeze_activity'];
-          if (freezeActivity !== reqBody['freeze_activity']) {
+          if (reqBody['freeze_activity'] && (freezeActivity !== reqBody['freeze_activity'])) {
             resObj['code'] = constant['RES_OBJ']['CODE']['CONFLICT'];
             resObj['message'] = constant['RES_OBJ']['MSG']['CONFLICT'];
             utils.callCB(cb, resObj);

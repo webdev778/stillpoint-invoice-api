@@ -159,7 +159,7 @@ export default class SeekerBasicInfo extends React.Component {
     for (var key in val) {
       list.push(val[key].value);
       if (type == 'skill_used_id') {
-        if (val[key].label == 'Others') {
+        if (val[key].label == 'Other') {
           flag = true;
         }
       }
@@ -665,7 +665,7 @@ export default class SeekerBasicInfo extends React.Component {
             fieldValidationErrors.bar_admission[index].bar_registration_number = constant.ENTER_BAR_NO;
            }
            else{
-            var text = /^[0-9]+$/;
+            var text = /^[a-zA-Z0-9]+$/;
             if(value.length <= 15){
             if (!text.test(value)) {
                 fieldValidationErrors.bar_admission[index].bar_registration_number  = constant.ONLY_NUMERIC_ERROR;
@@ -1059,7 +1059,7 @@ export default class SeekerBasicInfo extends React.Component {
 
                           <div className={this.state.formErrors.bar_admission[index].bar_registration_number !== '' ? 'form-group global-error' : 'form-group'} >
                             <label className="control-label">bar registration number*</label>
-                            <input type="text" onBlur={(e) => this.handleInputOnBlur(e,index)} id="bar-reg-num" name="bar_registration_number" onChange={(e) => this.handleUserBarAdInput(index,e)} className="form-control" placeholder="Bar Registration Number" value={item.bar_registration_number}/>
+                            <input type="text" onBlur={(e) => this.handleInputOnBlur(e,index)} id="bar-reg-num" name="bar_registration_number" onChange={(e) => this.handleUserBarAdInput(index,e)} className="form-control uppercase" placeholder="Bar Registration Number" value={item.bar_registration_number}/>
                            <p><span>{this.state.formErrors.bar_admission[index].bar_registration_number !== '' ? this.state.formErrors.bar_admission[index].bar_registration_number : ''}</span></p>
 
                           </div>
@@ -1121,8 +1121,8 @@ export default class SeekerBasicInfo extends React.Component {
               <div className="row">
                 <div className="col-sm-6">
                   <div className={(this.state.formVal.showOthers == 'true' || this.state.formVal.showOthers == true) ? 'form-group' : 'form-group d-none'} >
-                    <label htmlFor="Others" className="control-label">Others</label>
-                    <input value={this.state.formVal.others} onBlur={(e) => this.handleInputOnBlur(e)} onChange={(e) => this.handleUserInput(e)} name="others" type="text" id="others" className="form-control" placeholder="Others"/>
+                    <label htmlFor="Others" className="control-label">Other Skills</label>
+                    <input value={this.state.formVal.others} onBlur={(e) => this.handleInputOnBlur(e)} onChange={(e) => this.handleUserInput(e)} name="other" type="text" id="others" className="form-control" placeholder="Other Skills Needed"/>
                     <p><span>{this.state.formErrors.others !== '' ? this.state.formErrors.others : ''}</span></p>
                   </div>
 

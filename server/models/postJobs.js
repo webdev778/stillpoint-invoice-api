@@ -550,17 +550,21 @@ function getPostJobData(req, res, callback) {
 
 function getAllPostJobs(req, res, callback) {
   utils.writeInsideFunctionLog('postJobs', 'getAllPostJobs', req['params']);
+  const reqBody = req['body'];
 
   if (!!req.headers.token) {
     helper.checkUserLoggedIn(req.headers.token , function(err, result) {
       if (err) {
         callback({Code: 401, Status: false, Message: err});
       } else {
-        var perPage = 10, page = Math.max(0, req.param('page') - 1);
+        var perPage = 3, page = Math.max(0, req.param('page') - 1);
         var dbQueryParams = {
           "user_id": result._id,
           "skip": perPage * page,
-          "limit": Number(perPage)
+          "limit": Number(perPage),
+          "states": reqBody.states,
+          "practiceAreas": reqBody.practiceAreas,
+          "selectedOrder": reqBody.selectedOrder
         };
         var queryObj = {
           "query": {$and: [{userId: {$ne: mongoose.Types.ObjectId(result._id)}}, {status: constant['STATUS']['ACTIVE']}, {inProgressStep: {$ne: true}}]}

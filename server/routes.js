@@ -45,7 +45,6 @@ getHandler['/exportPostJobs'] = adminCtlr.exportPostJobs;
 getHandler['/getAllLists'] = universalCtlr.getAllListsData;
 getHandler['/getLogFile/:token/:fileName'] = universalCtlr.getLogFile;
 
-getHandler['/getPostJobs/:page'] = postJobCtlr.getAll;
 getHandler['/getPostJobDetails/:jobId/:userRole?'] = postJobCtlr.getPostJobDetails;
 getHandler['/getPostJobByUserId/:page'] = postJobCtlr.getPostJobByUserId;
 
@@ -70,6 +69,7 @@ postHandler['/posterBasicProfile'] = userCtlr.posterBasicProfile;
 postHandler['/postJob'] = postJobCtlr.postJobData;
 postHandler['/updatePostedJobStatus'] = postJobCtlr.updatePostedJobStatus;
 postHandler['/getStepData'] = postJobCtlr.getStepData;
+postHandler['/getPostJobs/:page'] = postJobCtlr.getAll;
 
 postHandler['/updateSavedJob'] = savedJobsCtlr.updateSavedJob;
 postHandler['/updateJobStatus'] = jobStatusCtlr.updateJobStatus;

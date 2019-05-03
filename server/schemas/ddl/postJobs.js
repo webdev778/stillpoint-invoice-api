@@ -95,10 +95,24 @@ postJobs.statics.getJobsByUserId = function(data, callback){
 }
 
 postJobs.statics.getAllJobs = function(data, callback){
+  const stateObj = data.states && data.states.length
+    ? {state: {$in: data.states}}
+    : {};
+  const areaObj = data.states && data.practiceAreas.length
+    ? {practiceArea: {$in: data.practiceAreas}}
+    : {};
 
   this.aggregate([
-    { "$match": {$and: [{userId: {$ne: mongoose.Types.ObjectId(data.user_id)}}, {status: constant['STATUS']['ACTIVE']}, {inProgressStep: {$ne: true}}]}},
-    { "$sort": {"posted_at": -1, "_id": -1} },
+    { "$match": {$and:
+      [
+        {userId: {$ne: mongoose.Types.ObjectId(data.user_id)}},
+        {status: constant['STATUS']['ACTIVE']},
+        {inProgressStep: {$ne: true}},
+        stateObj,
+        areaObj
+      ]
+    }},
+    { "$sort": {"posted_at": Number(data.selectedOrder), "_id": -1} },
     { "$limit": data.skip + data.limit},
     { "$skip": data.skip},
     {

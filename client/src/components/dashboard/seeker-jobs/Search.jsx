@@ -1,5 +1,5 @@
 import React from 'react';
-import Pagination from 'react-js-pagination';
+import Pagination from '../shared/Pagination'
 import Select from 'react-select';
 import _ from 'lodash';
 import { Dropdown, MenuItem } from 'react-bootstrap';
@@ -17,7 +17,7 @@ export default class JobSearch extends React.Component {
       filteredJobs: [],
       activePage: 1,
       totalJobCount: 0,
-      itemsCountPerPage: 10,
+      itemsCountPerPage: 3,
       userRelatedData: '',
       isResponse: false,
       modalPopupObj: {},
@@ -78,7 +78,17 @@ export default class JobSearch extends React.Component {
 
   getJobListings(){
     let that = this;
-    utils.apiCall('GET_JOBS', { 'params': [that.state.activePage] }, function(err, response) {
+    const { practiceAreas, states, activePage, selectedOrder } = this.state
+    const data = {
+      practiceAreas,
+      states,
+      selectedOrder
+    }
+
+    utils.apiCall('GET_JOBS', {
+       'params': [activePage],
+       'data': data
+      }, function(err, response) {
       if (err) {
         utils.flashMsg('show', 'Error while getting Jobs');
         utils.logger('error', 'Get Jobs Error -->', err);
@@ -154,15 +164,19 @@ export default class JobSearch extends React.Component {
   }
 
   handleOrderSelect (eventKey, event) {
-    this.setState({ selectedOrder: eventKey });
+    this.setState(
+      { selectedOrder: eventKey },
+      function() {
+        this.getJobListings()
+      }
+    );
   }
 
   render() {
-    const { practiceAreas, states, jobRecords, filteredJobs, selectedOrder } = this.state
+    const { practiceAreas, states, jobRecords, filteredJobs, selectedOrder, activePage, itemsCountPerPage, totalJobCount } = this.state
+    const totalPageCount = Math.ceil(totalJobCount / itemsCountPerPage)
     const jobRecordsLength = filteredJobs.length;
-
-    const sortedJobs = filteredJobs.sort((a, b) => (a.posted_at < b.posted_at) ? Number(selectedOrder) : -Number(selectedOrder) )
-    const jobs = sortedJobs.map(function(job) {
+    const jobs = filteredJobs.map(function(job) {
       job.fromRoute = 'SEARCH_JOBS';
       job.step = job.job_step;
       job.nTermStatus = (job.n_terms_status && job.n_terms_status.length) ? job.n_terms_status[0] : 0;
@@ -233,9 +247,7 @@ export default class JobSearch extends React.Component {
             <div>
               <Pagination
                 activePage={this.state.activePage}
-                itemsCountPerPage={this.state.itemsCountPerPage}
-                totalItemsCount={this.state.totalJobCount}
-                pageRangeDisplayed={5}
+                totalPageCount={totalPageCount}
                 onChange={this.handlePageChange}
               />
               <span className="clearfix"></span>

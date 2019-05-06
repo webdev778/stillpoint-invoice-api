@@ -14,7 +14,6 @@ export default class JobSearch extends React.Component {
     super(props);
     this.state = {
       jobRecords: [],
-      filteredJobs: [],
       activePage: 1,
       totalJobCount: 0,
       itemsCountPerPage: 3,
@@ -79,10 +78,12 @@ export default class JobSearch extends React.Component {
   getJobListings(){
     let that = this;
     const { practiceAreas, states, activePage, selectedOrder } = this.state
+    const selectedStates = _.map(states, 'value');
+
     const data = {
       practiceAreas,
-      states,
-      selectedOrder
+      selectedOrder,
+      states: selectedStates
     }
 
     utils.apiCall('GET_JOBS', {
@@ -100,7 +101,6 @@ export default class JobSearch extends React.Component {
           let totalJobCount = responseData.count;
           that.setState({
             jobRecords: jobRecords,
-            filteredJobs: jobRecords,
             totalJobCount: totalJobCount,
             freezeActivity: responseData.userData.freeze_activity,
             isBarIdValid: responseData.userData.is_bar_id_valid
@@ -139,23 +139,7 @@ export default class JobSearch extends React.Component {
   }
 
   handleSearch () {
-    const { practiceAreas, states, jobRecords } = this.state
-
-    const filteredJobsArray = jobRecords.filter(jobRecord => {
-      const jobArea        = _.map(jobRecord.practiceArea, 'value'),
-            selectedArea   = _.map(practiceAreas, 'value'),
-            selectedStates = _.map(states, 'value'),
-            jobState       = jobRecord.state;
-
-      const practiceAreaMatched = practiceAreas.length === 0 || _.intersection(jobArea, selectedArea).length > 0;
-      const stateMatched = states.length === 0 || selectedStates.includes(jobState);
-
-      return practiceAreaMatched && stateMatched
-    })
-
-    this.setState({
-      filteredJobs: filteredJobsArray
-    })
+    this.getJobListings();
   }
 
   componentDidMount() {
@@ -173,10 +157,10 @@ export default class JobSearch extends React.Component {
   }
 
   render() {
-    const { practiceAreas, states, jobRecords, filteredJobs, selectedOrder, activePage, itemsCountPerPage, totalJobCount } = this.state
+    const { practiceAreas, states, jobRecords, selectedOrder, activePage, itemsCountPerPage, totalJobCount } = this.state
     const totalPageCount = Math.ceil(totalJobCount / itemsCountPerPage)
-    const jobRecordsLength = filteredJobs.length;
-    const jobs = filteredJobs.map(function(job) {
+    const jobRecordsLength = jobRecords.length;
+    const jobs = jobRecords.map(function(job) {
       job.fromRoute = 'SEARCH_JOBS';
       job.step = job.job_step;
       job.nTermStatus = (job.n_terms_status && job.n_terms_status.length) ? job.n_terms_status[0] : 0;

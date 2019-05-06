@@ -1,6 +1,7 @@
 'use strict';
 //import dependency
 var rfr = require('rfr'),
+_ = require('lodash'),
 mongoose = require('mongoose'),
 Schema = mongoose.Schema,
 ObjectId = mongoose.Schema.Types.ObjectId;
@@ -95,12 +96,13 @@ postJobs.statics.getJobsByUserId = function(data, callback){
 }
 
 postJobs.statics.getAllJobs = function(data, callback){
-  const stateObj = data.states && data.states.length
+  var stateObj = data.states && data.states.length
     ? {state: {$in: data.states}}
     : {};
-  const areaObj = data.states && data.practiceAreas.length
-    ? {practiceArea: {$in: data.practiceAreas}}
-    : {};
+  var practiceAreasArray = _.map(data.practiceAreas, 'value');
+  var areaObj = data.states && data.practiceAreas.length
+  ? {'practiceArea.value': {$in: practiceAreasArray}}
+  : {};
 
   this.aggregate([
     { "$match": {$and:
@@ -108,8 +110,8 @@ postJobs.statics.getAllJobs = function(data, callback){
         {userId: {$ne: mongoose.Types.ObjectId(data.user_id)}},
         {status: constant['STATUS']['ACTIVE']},
         {inProgressStep: {$ne: true}},
-        stateObj,
-        areaObj
+        areaObj,
+        stateObj
       ]
     }},
     { "$sort": {"posted_at": Number(data.selectedOrder), "_id": -1} },

@@ -255,6 +255,11 @@ export default class Interviewing extends React.Component {
                             </Truncate>
                           </p>
                           <div className="buttons text-right">
+                            <Link to={this.userDetailLink(item._id)}>
+                              <button type="button" className="btn btn-primary">
+                                View Profile
+                              </button>
+                            </Link>
                             <button type="button" className={item.freeze_activity ? "btn btn-primary seized-btn" : "btn btn-primary"} onClick={this.onDeclineBtnClick.bind(this, jobId, (constant['JOB_STEPS']['INTERVIEWING'] * -1), item._id, index)}>
                               decline
                             </button>

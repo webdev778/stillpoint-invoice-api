@@ -241,6 +241,13 @@ export default class CandidateSearch extends React.Component {
                                 {item.job_seeker_info.network.about_lawyer}
                               </Truncate>
                             </p>
+                            <div className="buttons text-right">
+                              <Link to={this.userDetailLink(item._id)}>
+                                <button type="button" className="btn btn-primary">
+                                  View Profile
+                                </button>
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       ))

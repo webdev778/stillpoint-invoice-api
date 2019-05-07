@@ -8,6 +8,7 @@ import _ from 'lodash';
 
 import { Dashboard, NoRecordFound } from '../../index';
 import { constant, utils } from '../../../shared/index';
+import config from '../../../shared/config';
 
 export default class CandidateSearch extends React.Component {
   constructor (props) {
@@ -89,6 +90,10 @@ export default class CandidateSearch extends React.Component {
       photoUrl = apiConfig.S3_BUCKET_URL + imgPath;
     }
     return photoUrl;
+  }
+
+  profileImgError(evt) {
+    return utils.onImgError(evt, '/images/default-profile-pic.png');
   }
 
   getPracticeAreas(pAreasArr) {

@@ -131,13 +131,15 @@ export default class DragDropFile extends React.Component {
                             'Drag and Drop or Click to Select'
                         }
                       </h4>
-                      <h5>
-                        { this.props.desc ?
-                            this.props.desc
-                          :
-                            'Upload your file (use zip compression for multiple files)'
-                        }
-                      </h5>
+                      {this.props.desc ?
+                        <div>
+                          {this.props.desc.split("'break'").map((i,key) => {
+                            return <h5 key={key}>{i}</h5>;
+                          })}
+                        </div>
+                        :
+                        <h5>Upload your file (use zip compression for multiple files)</h5>
+                      }
                     </span>
                   </div>
                 </div>

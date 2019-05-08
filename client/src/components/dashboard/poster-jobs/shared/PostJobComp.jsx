@@ -287,7 +287,7 @@ export default class PostJobComp extends React.Component {
       formError[type] = '';
       for(var key in val){
         list.push(val[key].value);
-        if(val[key].label == 'Others'){
+        if(val[key].label == 'Other'){
           flag = true;
         }
       }
@@ -506,7 +506,7 @@ export default class PostJobComp extends React.Component {
           }
         } else if (key === 'duration' && !(Number(job[key]))) {
           if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
-            formError[key] = false; 
+            formError[key] = false;
             validForm = true;
           } else {
             formError[key] = constant['DURATION_ERROR'];
@@ -514,7 +514,7 @@ export default class PostJobComp extends React.Component {
           }
         } else if (key === 'rate' && !(Number(job[key]))) {
           if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
-            formError[key] = false; 
+            formError[key] = false;
             validForm = true;
           } else {
             formError[key] = constant['RATE_ERROR'];
@@ -522,7 +522,7 @@ export default class PostJobComp extends React.Component {
           }
         } else if (key === 'hours' && job['rateType'] === 'HOURLY' && !(Number(job[key]))) {
           if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
-            formError[key] = false; 
+            formError[key] = false;
             validForm = true;
           } else {
             formError[key] = constant['HOURS_ERROR'];
@@ -530,7 +530,7 @@ export default class PostJobComp extends React.Component {
           }
         } else if (key === 'subTotal' && job['subTotal'] < 100) {
           if (job.jobType == '1099' && job.paymentType == 'Hourly Rate/Fixed Fee') {
-            formError[key] = false; 
+            formError[key] = false;
             validForm = true;
           } else {
             formError[key] = constant['MIN_JOB_AMOUNT'];
@@ -770,8 +770,8 @@ export default class PostJobComp extends React.Component {
               </div>
               <div className="col-sm-4">
                 <div className={(job.showOthers == 'true' || job.showOthers == true)? 'form-group' : 'form-group d-none'}>
-                  <label className="control-label">Others</label>
-                  <input value={job.others} onBlur={(e) => this.handleOnBlur(e, 'others')} onChange={(e) => this.changeInput(e, 'others')} name="others" className="form-control" placeholder="Other" type="text" />
+                  <label className="control-label">Other</label>
+                  <input value={job.others} onBlur={(e) => this.handleOnBlur(e, 'others')} onChange={(e) => this.changeInput(e, 'others')} name="others" className="form-control" placeholder="Other skills needed" type="text" />
                 </div>
               </div>
             </div>

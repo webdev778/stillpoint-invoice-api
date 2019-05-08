@@ -8,6 +8,7 @@ import _ from 'lodash';
 
 import { Dashboard, NoRecordFound } from '../../index';
 import { constant, utils } from '../../../shared/index';
+import config from '../../../shared/config';
 
 export default class CandidateSearch extends React.Component {
   constructor (props) {
@@ -89,6 +90,10 @@ export default class CandidateSearch extends React.Component {
       photoUrl = apiConfig.S3_BUCKET_URL + imgPath;
     }
     return photoUrl;
+  }
+
+  profileImgError(evt) {
+    return utils.onImgError(evt, '/images/default-profile-pic.png');
   }
 
   getPracticeAreas(pAreasArr) {
@@ -236,6 +241,13 @@ export default class CandidateSearch extends React.Component {
                                 {item.job_seeker_info.network.about_lawyer}
                               </Truncate>
                             </p>
+                            <div className="buttons text-right">
+                              <Link to={this.userDetailLink(item._id)}>
+                                <button type="button" className="btn btn-primary">
+                                  View Profile
+                                </button>
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       ))

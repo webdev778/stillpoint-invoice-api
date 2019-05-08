@@ -310,7 +310,7 @@ module.exports = {
     },
     'GET_JOBS': {
       'name': '/getPostJobs',
-      'type': 'get'
+      'type': 'post'
     },
     'GET_JOB_DETAIL': {
       'name': '/getPostJobDetails',

@@ -2,6 +2,7 @@
 
 var rfr = require('rfr'),
 moment = require('moment'),
+_ = require('lodash'),
 mongoose = require('mongoose'),
 ObjectId = mongoose.Types.ObjectId,
 users = mongoose.model('users'),
@@ -550,21 +551,41 @@ function getPostJobData(req, res, callback) {
 
 function getAllPostJobs(req, res, callback) {
   utils.writeInsideFunctionLog('postJobs', 'getAllPostJobs', req['params']);
+  const reqBody = req['body'];
 
   if (!!req.headers.token) {
     helper.checkUserLoggedIn(req.headers.token , function(err, result) {
       if (err) {
         callback({Code: 401, Status: false, Message: err});
       } else {
-        var perPage = 10, page = Math.max(0, req.param('page') - 1);
+        var perPage = 3, page = Math.max(0, req.param('page') - 1);
         var dbQueryParams = {
           "user_id": result._id,
           "skip": perPage * page,
-          "limit": Number(perPage)
+          "limit": Number(perPage),
+          "states": reqBody.states,
+          "practiceAreas": reqBody.practiceAreas,
+          "selectedOrder": reqBody.selectedOrder
         };
+        var stateObj = reqBody.states && reqBody.states.length
+          ? {state: {$in: reqBody.states}}
+          : {};
+        var practiceAreasArray = _.map(reqBody.practiceAreas, 'value');
+        var areaObj = reqBody.states && reqBody.practiceAreas.length
+        ? {'practiceArea.value': {$in: practiceAreasArray}}
+        : {};
         var queryObj = {
-          "query": {$and: [{userId: {$ne: mongoose.Types.ObjectId(result._id)}}, {status: constant['STATUS']['ACTIVE']}, {inProgressStep: {$ne: true}}]}
+          "query": {$and:
+            [
+              {userId: {$ne: mongoose.Types.ObjectId(result._id)}},
+              {status: constant['STATUS']['ACTIVE']},
+              {inProgressStep: {$ne: true}},
+              areaObj,
+              stateObj
+            ]
+          }
         }
+
         post_jobs.getCount(queryObj, function(cErr, cResult) {
           if (cErr) {
             callback({Code:400, Status:false, Message:constant['OOPS_ERROR']});

@@ -168,7 +168,7 @@ export default class CandidateSearch extends React.Component {
   render() {
     const {filteredCandidateData, totalCandidateCount, practiceAreas, states, itemsCountPerPage, activePage} = this.state
     const pageData = filteredCandidateData.slice(itemsCountPerPage * (Number(activePage)-1), itemsCountPerPage * Number(activePage))
-    const totalPageCount = Math.floor(filteredCandidateData.length / itemsCountPerPage) + 1
+    const totalPageCount = Math.ceil(filteredCandidateData.length / itemsCountPerPage)
 
     return (
       <Dashboard>

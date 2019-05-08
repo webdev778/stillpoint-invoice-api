@@ -177,6 +177,25 @@
         padding: 15px;
       }
     }
+
+    .search-filter-box {
+      display: flex;
+      flex-direction: column;
+
+      .date-filter-box {
+        position: relative;
+        float: right;
+
+        .dropdown-container {
+          float: right;
+          margin: 20px 0;
+
+          button:focus {
+            background-color: #fff;
+          }
+        }
+      }
+    }
   }
   .column-flex {
     display: flex;

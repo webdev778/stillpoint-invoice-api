@@ -1,7 +1,8 @@
 import React from 'react';
-import Pagination from 'react-js-pagination';
+import Pagination from '../shared/Pagination'
 import Select from 'react-select';
-import _ from 'lodash'
+import _ from 'lodash';
+import { Dropdown, MenuItem } from 'react-bootstrap';
 
 import { Dashboard, Job, NoRecordFound } from '../../index';
 import { constant, utils, cookieManager } from '../../../shared/index';
@@ -13,10 +14,9 @@ export default class JobSearch extends React.Component {
     super(props);
     this.state = {
       jobRecords: [],
-      filteredJobs: [],
       activePage: 1,
       totalJobCount: 0,
-      itemsCountPerPage: 10,
+      itemsCountPerPage: 3,
       userRelatedData: '',
       isResponse: false,
       modalPopupObj: {},
@@ -24,7 +24,8 @@ export default class JobSearch extends React.Component {
       practice_area_dropdown:[],
       state_dropdown: [],
       practiceAreas: [],
-      states: []
+      states: [],
+      selectedOrder: '1'
     };
 
     this.getJobListings = this.getJobListings.bind(this);
@@ -32,6 +33,7 @@ export default class JobSearch extends React.Component {
     this.handlePageChange = this.handlePageChange.bind(this);
     this.setMultiSelectValues = this.setMultiSelectValues.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleOrderSelect = this.handleOrderSelect.bind(this);
   }
 
   getFilterData(filterArr = [], filterId) {
@@ -75,7 +77,19 @@ export default class JobSearch extends React.Component {
 
   getJobListings(){
     let that = this;
-    utils.apiCall('GET_JOBS', { 'params': [that.state.activePage] }, function(err, response) {
+    const { practiceAreas, states, activePage, selectedOrder } = this.state
+    const selectedStates = _.map(states, 'value');
+
+    const data = {
+      practiceAreas,
+      selectedOrder,
+      states: selectedStates
+    }
+
+    utils.apiCall('GET_JOBS', {
+       'params': [activePage],
+       'data': data
+      }, function(err, response) {
       if (err) {
         utils.flashMsg('show', 'Error while getting Jobs');
         utils.logger('error', 'Get Jobs Error -->', err);
@@ -87,7 +101,6 @@ export default class JobSearch extends React.Component {
           let totalJobCount = responseData.count;
           that.setState({
             jobRecords: jobRecords,
-            filteredJobs: jobRecords,
             totalJobCount: totalJobCount,
             freezeActivity: responseData.userData.freeze_activity,
             isBarIdValid: responseData.userData.is_bar_id_valid
@@ -126,23 +139,7 @@ export default class JobSearch extends React.Component {
   }
 
   handleSearch () {
-    const { practiceAreas, states, jobRecords } = this.state
-
-    const filteredJobsArray = jobRecords.filter(jobRecord => {
-      const jobArea        = _.map(jobRecord.practiceArea, 'value'),
-            selectedArea   = _.map(practiceAreas, 'value'),
-            selectedStates = _.map(states, 'value'),
-            jobState       = jobRecord.state;
-
-      const practiceAreaMatched = practiceAreas.length === 0 || _.intersection(jobArea, selectedArea).length > 0;
-      const stateMatched = states.length === 0 || selectedStates.includes(jobState);
-
-      return practiceAreaMatched && stateMatched
-    })
-
-    this.setState({
-      filteredJobs: filteredJobsArray
-    })
+    this.getJobListings();
   }
 
   componentDidMount() {
@@ -150,11 +147,20 @@ export default class JobSearch extends React.Component {
     this.loadSearchData();
   }
 
-  render() {
-    const { practiceAreas, states, jobRecords, filteredJobs } = this.state
-    const jobRecordsLength = filteredJobs.length;
+  handleOrderSelect (eventKey, event) {
+    this.setState(
+      { selectedOrder: eventKey },
+      function() {
+        this.getJobListings()
+      }
+    );
+  }
 
-    const jobs = filteredJobs.map(function(job) {
+  render() {
+    const { practiceAreas, states, jobRecords, selectedOrder, activePage, itemsCountPerPage, totalJobCount } = this.state
+    const totalPageCount = Math.ceil(totalJobCount / itemsCountPerPage)
+    const jobRecordsLength = jobRecords.length;
+    const jobs = jobRecords.map(function(job) {
       job.fromRoute = 'SEARCH_JOBS';
       job.step = job.job_step;
       job.nTermStatus = (job.n_terms_status && job.n_terms_status.length) ? job.n_terms_status[0] : 0;
@@ -178,29 +184,46 @@ export default class JobSearch extends React.Component {
           <div className="job-search-card mb-30 column-flex">
             <div className="card-head hide"></div>
             <div className="search-filter-box m-30">
-              <div className="col-sm-5">
-                <div className="form-group">
-                  <label className="control-label">Practice Area</label>
-                  <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
-                    onChange={(val) => this.setMultiSelectValues(val, 'practiceAreas')}
-                    options={this.state.practice_area_dropdown}
-                    placeholder="Select Practice Area(s)"
-                    value={practiceAreas} />
-                </div>
+              <div className="date-filter-box">
+                <Dropdown onSelect={this.handleOrderSelect} className='dropdown-container' id={`dropdown-basic-primary`}>
+                  <Dropdown.Toggle className = 'dropdown-order-toggle'>
+                    {
+                      selectedOrder === '1'
+                      ? 'Posted Date (newest First)'
+                      : 'Posted Date (oldest First)'
+                    }
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <MenuItem eventKey = '1'>Posted Date (newest First)</MenuItem>
+                    <MenuItem eventKey = '-1'>Posted Date (oldest First)</MenuItem>
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
-              <div className="col-sm-5">
-                <div className="form-group">
-                  <label className="control-label">State</label>
-                  <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
-                    onChange={(val) => this.setMultiSelectValues(val, 'states')}
-                    options={this.state.state_dropdown}
-                    placeholder="Select State(s)"
-                    value={states} />
+              <div>
+                <div className="col-sm-5">
+                  <div className="form-group">
+                    <label className="control-label">Practice Area</label>
+                    <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
+                      onChange={(val) => this.setMultiSelectValues(val, 'practiceAreas')}
+                      options={this.state.practice_area_dropdown}
+                      placeholder="Select Practice Area(s)"
+                      value={practiceAreas} />
+                  </div>
                 </div>
+                <div className="col-sm-5">
+                  <div className="form-group">
+                    <label className="control-label">State</label>
+                    <Select multi closeOnSelect = {false} onBlurResetsInput = {true} autosize = {false}
+                      onChange={(val) => this.setMultiSelectValues(val, 'states')}
+                      options={this.state.state_dropdown}
+                      placeholder="Select State(s)"
+                      value={states} />
+                  </div>
+                </div>
+                <button type="button" className="btn ml-10 btn-primary mt-30" onClick={this.handleSearch}>
+                    Search
+                </button>
               </div>
-              <button type="button" className="btn ml-10 btn-primary mt-30" onClick={this.handleSearch}>
-                Search
-              </button>
             </div>
             { this.state.isResponse ? (jobRecordsLength > 0 ? <div>{jobs}</div> : <NoRecordFound name="Jobs"/>) : null }
           </div>
@@ -208,9 +231,7 @@ export default class JobSearch extends React.Component {
             <div>
               <Pagination
                 activePage={this.state.activePage}
-                itemsCountPerPage={this.state.itemsCountPerPage}
-                totalItemsCount={this.state.totalJobCount}
-                pageRangeDisplayed={5}
+                totalPageCount={totalPageCount}
                 onChange={this.handlePageChange}
               />
               <span className="clearfix"></span>

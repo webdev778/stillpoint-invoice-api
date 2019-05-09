@@ -16,7 +16,7 @@ export default class JobSearch extends React.Component {
       jobRecords: [],
       activePage: 1,
       totalJobCount: 0,
-      itemsCountPerPage: 3,
+      itemsCountPerPage: 10,
       userRelatedData: '',
       isResponse: false,
       modalPopupObj: {},
@@ -25,7 +25,7 @@ export default class JobSearch extends React.Component {
       state_dropdown: [],
       practiceAreas: [],
       states: [],
-      selectedOrder: '1'
+      selectedOrder: '-1'
     };
 
     this.getJobListings = this.getJobListings.bind(this);
@@ -139,7 +139,14 @@ export default class JobSearch extends React.Component {
   }
 
   handleSearch () {
-    this.getJobListings();
+    this.setState(
+      {
+        activePage: 1,
+      },
+      function() {
+        this.getJobListings()
+      }
+    );
   }
 
   componentDidMount() {
@@ -149,7 +156,10 @@ export default class JobSearch extends React.Component {
 
   handleOrderSelect (eventKey, event) {
     this.setState(
-      { selectedOrder: eventKey },
+      {
+        activePage: 1,
+        selectedOrder: eventKey
+      },
       function() {
         this.getJobListings()
       }
@@ -189,13 +199,13 @@ export default class JobSearch extends React.Component {
                   <Dropdown.Toggle className = 'dropdown-order-toggle'>
                     {
                       selectedOrder === '1'
-                      ? 'Posted Date (newest First)'
-                      : 'Posted Date (oldest First)'
+                      ? 'Posted Date (oldest First)'
+                      : 'Posted Date (newest First)'
                     }
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <MenuItem eventKey = '1'>Posted Date (newest First)</MenuItem>
-                    <MenuItem eventKey = '-1'>Posted Date (oldest First)</MenuItem>
+                    <MenuItem eventKey = '-1'>Posted Date (newest First)</MenuItem>
+                    <MenuItem eventKey = '1'>Posted Date (oldest First)</MenuItem>
                   </Dropdown.Menu>
                 </Dropdown>
               </div>

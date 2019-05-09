@@ -100,7 +100,7 @@ postJobs.statics.getAllJobs = function(data, callback){
     ? {state: {$in: data.states}}
     : {};
   var practiceAreasArray = _.map(data.practiceAreas, 'value');
-  var areaObj = data.states && data.practiceAreas.length
+  var areaObj = data.practiceAreas && data.practiceAreas.length
   ? {'practiceArea.value': {$in: practiceAreasArray}}
   : {};
 

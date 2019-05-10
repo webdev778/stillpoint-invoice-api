@@ -204,8 +204,8 @@ export default class JobSearch extends React.Component {
                     }
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <MenuItem eventKey = '-1'>Posted Date (newest First)</MenuItem>
-                    <MenuItem eventKey = '1'>Posted Date (oldest First)</MenuItem>
+                    <MenuItem eventKey = '-1'>Posted Date (Newest First)</MenuItem>
+                    <MenuItem eventKey = '1'>Posted Date (Oldest First)</MenuItem>
                   </Dropdown.Menu>
                 </Dropdown>
               </div>

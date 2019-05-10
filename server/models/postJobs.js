@@ -558,7 +558,7 @@ function getAllPostJobs(req, res, callback) {
       if (err) {
         callback({Code: 401, Status: false, Message: err});
       } else {
-        var perPage = 3, page = Math.max(0, req.param('page') - 1);
+        var perPage = 10, page = Math.max(0, req.param('page') - 1);
         var dbQueryParams = {
           "user_id": result._id,
           "skip": perPage * page,
@@ -571,7 +571,7 @@ function getAllPostJobs(req, res, callback) {
           ? {state: {$in: reqBody.states}}
           : {};
         var practiceAreasArray = _.map(reqBody.practiceAreas, 'value');
-        var areaObj = reqBody.states && reqBody.practiceAreas.length
+        var areaObj = reqBody.practiceAreas && reqBody.practiceAreas.length
         ? {'practiceArea.value': {$in: practiceAreasArray}}
         : {};
         var queryObj = {
@@ -591,11 +591,12 @@ function getAllPostJobs(req, res, callback) {
             callback({Code:400, Status:false, Message:constant['OOPS_ERROR']});
             utils.writeErrorLog('postJobs', 'getAllPostJobs', 'Error while getting job count', cErr, queryObj['query']);
           } else {
+            let userObj = {
+              'freeze_activity': result.freeze_activity,
+              'is_bar_id_valid': result.is_bar_id_valid
+            };
+
             if (cResult > 0) {
-              let userObj = {
-                'freeze_activity': result.freeze_activity,
-                'is_bar_id_valid': result.is_bar_id_valid
-              };
               post_jobs.getAllJobs(dbQueryParams, function(pErr, pResult) {
                 if (pErr) {
                   callback({Code:400, Status:false, Message:constant['OOPS_ERROR']});
@@ -610,7 +611,9 @@ function getAllPostJobs(req, res, callback) {
                 }
               })
             } else {
-              callback({Code:404, Status:false, Message:constant['NO_RECORD_FOUND']});
+              var obj = {"count": cResult,"data": [], "userData": userObj};
+
+              callback({Code:200, Status:true, Message:constant['REQUEST_OK'], Data:obj});
             }
           }
         })

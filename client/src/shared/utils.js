@@ -53,7 +53,6 @@ const apiCall = (key, options = {}, callback) => {
   let params = options['params'];
   if (params && params.length) {
     axiosObj['url'] = urlFrag + '/' + params.join('/');
-    console.log(axiosObj['url'])
   }
 
   if (apiUrls[key]['tokenEnabled'] !== false) {

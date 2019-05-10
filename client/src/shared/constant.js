@@ -25,7 +25,8 @@ const ROUTES_PATH = {
   'CANDIDATE_SEARCH': '/candidate-search',
   'POST_JOB': '/post-job',
   'VERIFY_EMAIL': '/verify-email',
-  'CREATE_STRIPE_ACCOUNT': '/create-stripe-account'
+  'CREATE_STRIPE_ACCOUNT': '/create-stripe-account',
+  'BLOG': 'https://blog.legably.com/'
 }
 
 const SUPPORT_ID = 'support@legably.com';

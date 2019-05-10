@@ -24,6 +24,7 @@ export default class LegablyFooter extends React.Component {
           </div>
           <div className="footer-right col-sm-9">
             <ul className="list-inline">
+              <li className="list-inline-item"><a  href={routesPath['BLOG']} target='_blank'>Blog</a></li>
               <li className="list-inline-item"><Link to={routesPath['FAQ']}>FAQ's</Link></li>
               <li className="list-inline-item"><Link to={routesPath['COMPANY_OVERVIEW']}>About Us</Link></li>
               <li className="list-inline-item"><Link to={routesPath['SUPPORT_CENTER']}>Support and Suggestions</Link></li>

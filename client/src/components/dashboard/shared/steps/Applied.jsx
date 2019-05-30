@@ -198,6 +198,11 @@ export default class Applied extends React.Component {
                           {
                             item.isDeclined ?
                               <div className="buttons text-right">
+                                <Link to={this.userDetailLink(item._id)}>
+                                  <button type="button" className="btn btn-primary">
+                                    View Profile
+                                  </button>
+                                </Link>
                                 <button type="button" className="btn btn-grey-disabled" disabled>
                                   {(item.declined_by === constant['ROLE']['SEEKER'] ? 'Candidate ' : '') + 'declined'}
                                 </button>
@@ -205,6 +210,11 @@ export default class Applied extends React.Component {
                             :
                               item.freeze_activity ?
                                 <div className="buttons text-right">
+                                  <Link to={this.userDetailLink(item._id)}>
+                                    <button type="button" className="btn btn-primary">
+                                      View Profile
+                                    </button>
+                                  </Link>
                                   <button type="button" className="btn btn-primary seized-btn" onClick={this.onDeclineBtnClick.bind(this, jobId, (constant['JOB_STEPS']['APPLIED'] * -1), item._id, index)}>
                                     decline
                                   </button>
@@ -214,6 +224,11 @@ export default class Applied extends React.Component {
                                   </div>
                               :
                                 <div className="buttons text-right">
+                                  <Link to={this.userDetailLink(item._id)}>
+                                    <button type="button" className="btn btn-primary">
+                                      View Profile
+                                    </button>
+                                  </Link>
                                   <button type="button" className="btn btn-primary" onClick={this.onDeclineBtnClick.bind(this, jobId, (constant['JOB_STEPS']['APPLIED'] * -1), item._id, index)}>
                                     decline
                                   </button>

@@ -8,6 +8,7 @@ import _ from 'lodash';
 
 import { Dashboard, NoRecordFound } from '../../index';
 import { constant, utils } from '../../../shared/index';
+import config from '../../../shared/config';
 
 export default class CandidateSearch extends React.Component {
   constructor (props) {
@@ -91,6 +92,10 @@ export default class CandidateSearch extends React.Component {
     return photoUrl;
   }
 
+  profileImgError(evt) {
+    return utils.onImgError(evt, '/images/default-profile-pic.png');
+  }
+
   getPracticeAreas(pAreasArr) {
     let arr = utils.getListDataRelatedToIds('practice_areas', pAreasArr).map(function(item) {
       return item.name;
@@ -168,7 +173,7 @@ export default class CandidateSearch extends React.Component {
   render() {
     const {filteredCandidateData, totalCandidateCount, practiceAreas, states, itemsCountPerPage, activePage} = this.state
     const pageData = filteredCandidateData.slice(itemsCountPerPage * (Number(activePage)-1), itemsCountPerPage * Number(activePage))
-    const totalPageCount = Math.floor(filteredCandidateData.length / itemsCountPerPage) + 1
+    const totalPageCount = Math.ceil(filteredCandidateData.length / itemsCountPerPage)
 
     return (
       <Dashboard>
@@ -236,6 +241,13 @@ export default class CandidateSearch extends React.Component {
                                 {item.job_seeker_info.network.about_lawyer}
                               </Truncate>
                             </p>
+                            <div className="buttons text-right">
+                              <Link to={this.userDetailLink(item._id)}>
+                                <button type="button" className="btn btn-primary">
+                                  View Profile
+                                </button>
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       ))

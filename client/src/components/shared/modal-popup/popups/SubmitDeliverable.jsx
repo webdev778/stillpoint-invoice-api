@@ -148,7 +148,7 @@ export default class SubmitDeliverable extends React.Component {
             <h5>File</h5>
             { this.isSeeker() ?
               <div className={this.state.fileError === '' ? 'upload-file mt-10': 'upload-file mt-10 global-error'}>
-                <DragDropFile handler={this.handler} title="Attach File" desc="Attach a file by clicking and selecting a file OR dragging & dropping a file to this area (use ZIP compression for multiple files)" />
+                <DragDropFile handler={this.handler} title="Attach File" desc="Attach a file, timesheet, or invoice by clicking and selecting the specific file OR dragging and dropping the specific file into this area.'break'Note: Only one file can be attached, use Zip compression for multiple files." />
                 {
                   this.state.fileError === '' ?
                     null

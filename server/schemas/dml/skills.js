@@ -60,7 +60,7 @@ skills.count().exec(function(err, res) {
       {'name': 'Mediations'},
       {'name': 'Arbitrations'},
       {'name': 'Administrative Hearings'},
-      {'name': 'Other Skills'}
+      {'name': 'Other'}
     ], function(err, res) {
       skillModel.get();
     });

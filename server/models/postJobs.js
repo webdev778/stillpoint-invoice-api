@@ -2,6 +2,7 @@
 
 var rfr = require('rfr'),
 moment = require('moment'),
+_ = require('lodash'),
 mongoose = require('mongoose'),
 ObjectId = mongoose.Types.ObjectId,
 users = mongoose.model('users'),
@@ -550,6 +551,7 @@ function getPostJobData(req, res, callback) {
 
 function getAllPostJobs(req, res, callback) {
   utils.writeInsideFunctionLog('postJobs', 'getAllPostJobs', req['params']);
+  const reqBody = req['body'];
 
   if (!!req.headers.token) {
     helper.checkUserLoggedIn(req.headers.token , function(err, result) {
@@ -560,21 +562,41 @@ function getAllPostJobs(req, res, callback) {
         var dbQueryParams = {
           "user_id": result._id,
           "skip": perPage * page,
-          "limit": Number(perPage)
+          "limit": Number(perPage),
+          "states": reqBody.states,
+          "practiceAreas": reqBody.practiceAreas,
+          "selectedOrder": reqBody.selectedOrder
         };
+        var stateObj = reqBody.states && reqBody.states.length
+          ? {state: {$in: reqBody.states}}
+          : {};
+        var practiceAreasArray = _.map(reqBody.practiceAreas, 'value');
+        var areaObj = reqBody.practiceAreas && reqBody.practiceAreas.length
+        ? {'practiceArea.value': {$in: practiceAreasArray}}
+        : {};
         var queryObj = {
-          "query": {$and: [{userId: {$ne: mongoose.Types.ObjectId(result._id)}}, {status: constant['STATUS']['ACTIVE']}, {inProgressStep: {$ne: true}}]}
+          "query": {$and:
+            [
+              {userId: {$ne: mongoose.Types.ObjectId(result._id)}},
+              {status: constant['STATUS']['ACTIVE']},
+              {inProgressStep: {$ne: true}},
+              areaObj,
+              stateObj
+            ]
+          }
         }
+
         post_jobs.getCount(queryObj, function(cErr, cResult) {
           if (cErr) {
             callback({Code:400, Status:false, Message:constant['OOPS_ERROR']});
             utils.writeErrorLog('postJobs', 'getAllPostJobs', 'Error while getting job count', cErr, queryObj['query']);
           } else {
+            let userObj = {
+              'freeze_activity': result.freeze_activity,
+              'is_bar_id_valid': result.is_bar_id_valid
+            };
+
             if (cResult > 0) {
-              let userObj = {
-                'freeze_activity': result.freeze_activity,
-                'is_bar_id_valid': result.is_bar_id_valid
-              };
               post_jobs.getAllJobs(dbQueryParams, function(pErr, pResult) {
                 if (pErr) {
                   callback({Code:400, Status:false, Message:constant['OOPS_ERROR']});
@@ -589,7 +611,9 @@ function getAllPostJobs(req, res, callback) {
                 }
               })
             } else {
-              callback({Code:404, Status:false, Message:constant['NO_RECORD_FOUND']});
+              var obj = {"count": cResult,"data": [], "userData": userObj};
+
+              callback({Code:200, Status:true, Message:constant['REQUEST_OK'], Data:obj});
             }
           }
         })

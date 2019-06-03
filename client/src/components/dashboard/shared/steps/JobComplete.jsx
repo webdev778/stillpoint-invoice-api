@@ -28,10 +28,6 @@ export default class JobComplete extends React.Component {
       rating: currentRating
     }
 
-    if (role === 'poster') {
-      req['seekerId'] = stepRelatedData[0].seekerId
-    }
-
     utils.apiCall('SAVE_RATING', {'data': req}, (err, response) => {
       if (err) {
         utils.flashMsg('show', 'Error while saving the rating');

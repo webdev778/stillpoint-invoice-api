@@ -512,6 +512,24 @@ function getAll(req, res, cb) {
   })
 }
 
+function updateRatingByRole(ratingUpdateQuery, resObj, cb) {
+  console.log('updatingObject;', ratingUpdateQuery);
+
+  jobStatusSchema.updateQuery(ratingUpdateQuery, function(jErr, jRes) {
+    if (jErr) {
+      utils.callCB(cb, jErr);
+      utils.writeErrorLog('jobStatus', 'saveRating', 'Error while saving job rating', jErr, ratingUpdateQuery);
+    } else {
+      resObj = Object.assign({}, utils.getSuccessResObj());
+      resObj['data'] = {
+        'status': jRes
+      }
+
+      utils.callCB(cb, resObj);
+    }
+  })
+}
+
 function saveRating(req, res, cb) {
   let resObj = Object.assign({}, utils.getErrorResObj());
   utils.writeInsideFunctionLog('jobStatus', 'saveRating', req['body']);
@@ -522,30 +540,31 @@ function saveRating(req, res, cb) {
       resObj['code'] = constant['RES_OBJ']['CODE']['UNAUTHORIZED'];
       utils.callCB(cb, resObj);
     } else {
-      const {role, rating, jobId, seekerId} = req['body']
+      const {role, rating, jobId} = req['body']
       const ratingUpdateQuery = {
         job_id: jobId,
         status: constant['JOB_STEPS']['J_COMPLETE'],
       }
       const ratingName = role === 'seeker' ? 'rating_poster' : 'rating_seeker'
-      const userId = role === 'seeker' ? result._id : seekerId
-
       ratingUpdateQuery[ratingName] = rating
-      ratingUpdateQuery['user_id'] = userId
+      const userQueryObj = {
+        job_id: jobId
+      }
 
-      jobStatusSchema.updateQuery(ratingUpdateQuery, function(jErr, jRes) {
-        if (jErr) {
-          utils.callCB(cb, jErr);
-          utils.writeErrorLog('jobStatus', 'saveRating', 'Error while saving job rating', jErr, ratingUpdateQuery);
-        } else {
-          resObj = Object.assign({}, utils.getSuccessResObj());
-          resObj['data'] = {
-            'status': jRes
+      if (role === 'seeker') {
+        ratingUpdateQuery['user_id'] = result._id;
+        updateRatingByRole(ratingUpdateQuery, resObj, cb)
+      } else {
+        jobStatusSchema.findQuery(userQueryObj, function(e, result) {
+          if (e) {
+            utils.callCB(cb, jErr);
+            utils.writeErrorLog('jobStatus', 'saveRating', 'Error while saving job rating', jErr, ratingUpdateQuery);
+          } else {
+            ratingUpdateQuery['user_id'] = result[0].user_id;
+            updateRatingByRole(ratingUpdateQuery, resObj, cb)
           }
-
-          utils.callCB(cb, resObj);
-        }
-      })
+        })
+      }
     }
   })
 }

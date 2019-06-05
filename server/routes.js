@@ -73,6 +73,7 @@ postHandler['/getPostJobs/:page'] = postJobCtlr.getAll;
 
 postHandler['/updateSavedJob'] = savedJobsCtlr.updateSavedJob;
 postHandler['/updateJobStatus'] = jobStatusCtlr.updateJobStatus;
+postHandler['/saveRating'] = jobStatusCtlr.saveRating;
 
 postHandler['/updateNegotiateTerms'] = negotiateTermsCtlr.update;
 postHandler['/updateDeliverableStatus'] = negotiateTermsCtlr.updateDeliverableStatus;

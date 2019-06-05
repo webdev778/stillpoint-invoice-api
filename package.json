@@ -52,6 +52,7 @@
     "react-js-pagination": "^3.0.0",
     "react-paginate": "^5.0.0",
     "react-phone-input": "^1.2.1",
+    "react-rating": "^1.6.2",
     "react-read-more": "^1.0.0",
     "react-recaptcha": "^2.3.3",
     "react-redux": "^4.4.6",

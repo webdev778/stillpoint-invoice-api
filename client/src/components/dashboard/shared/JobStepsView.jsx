@@ -221,7 +221,7 @@ export default class JobStepsView extends React.Component {
               103: <NegotiatingTerms jobType={this.state.jobType} paymentType={this.state.paymentType} role={this.props.role} stepRelatedData={this.state.stepRelatedData[0] || {}} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler}/>,
               104: <StartPending jobType={this.state.jobType} paymentType={this.state.paymentType} role={this.props.role} stepRelatedData={this.state.stepRelatedData[0] || {}} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} freezeActivity={this.props.freezeActivity} userId={this.props.userId}/>,
               105: <InProgress jobType={this.state.jobType} paymentType={this.state.paymentType} role={this.props.role} stepRelatedData={this.state.stepRelatedData} jobId={this.props.jobId} step={this.state.step} highestStep={this.state.highestStep} handler={this.handler} />,
-              106: <JobComplete role={this.props.role} />
+              106: <JobComplete role={this.props.role} stepRelatedData={this.state.stepRelatedData} jobId={this.props.jobId}/>
             }[absStepVal]}
           </div>
         </div>

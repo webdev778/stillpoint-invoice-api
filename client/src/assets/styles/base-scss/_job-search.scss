@@ -597,11 +597,65 @@
         }
       }
     }
-    .column-flex {
-      display: flex;
-      flex-direction: column;
-    }
 
+    .rating-info-icon {
+      position: absolute;
+
+      .fa-question-circle-o {
+        cursor: pointer;
+      }
+
+      .rating-info-box {
+        width: 450px;
+        border: 5px double #333;
+        position: absolute;
+        margin-left: 30px;
+        margin-top: -20px;
+        background-color: #fff;
+        z-index: 1;
+
+        @include media($max: 1160px) {
+          width: 300px;
+          right: 0px;
+          z-index: 1;
+          margin-top: 20px;
+        }
+
+        .each-detail {
+          display: flex;
+          align-items: center;
+          margin: 5px;
+
+          h5 {
+            margin-left: 10px;
+          }
+
+          .fa {
+            font-size: 1.7em;
+            margin-right: 4px;
+            color: $clr-secondary;
+            border-color: $clr-secondary;
+          }
+        }
+      }
+    }
+  }
+  .rating-box {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+
+    .star-rating {
+      .fa {
+        margin-right: 5px;
+        color: $clr-secondary;
+        border-color: $clr-secondary;
+      }
+    }
+  }
+  .column-flex {
+    display: flex;
+    flex-direction: column;
   }
 }
 

@@ -1,13 +1,18 @@
 var rfr = require('rfr'),
 Mongoose = require('mongoose');
+const Sequelize = require('sequelize');
 
 var config = rfr('/server/shared/config'),
 utils = rfr('/server/shared/utils');
+
+const db={};
 
 (function() {
   var env = config['env'] || process.env.NODE_ENV;
   var dbObj = config['database'];
 
+  // mongo database
+  /*
   if (env !== 'development' || dbObj.username) {
     Mongoose.connect('mongodb://' + dbObj['username'] + ':' + dbObj['password'] + '@' + dbObj['host'] + ':' + dbObj['port'] + '/' + dbObj['db']);
   } else {
@@ -23,4 +28,22 @@ utils = rfr('/server/shared/utils');
     utils.log('Connection Error -->', err);
     utils.writeErrorLog('index', 'IIFE', 'Error while connecting to database', err);
   });
+  */
+
+  // postgres db
+  const sequelize = new Sequelize('postgres://postgres:123123@10.10.10.194:5432/d7bjegrmpo9e7k');
+
+  sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
+
+  db.sequelize = sequelize;
+  db.Sequelize = Sequelize;
+
+  module.exports = db;
 }());

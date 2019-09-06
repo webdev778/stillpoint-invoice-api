@@ -7,7 +7,7 @@ express = require('express'),
 http = require('http'),
 bodyParser = require('body-parser');
 
-rfr('/server/db/index');
+const db = rfr('/server/db/index');
 rfr('/server/schemas/ddl/index');
 
 var config = rfr('/server/shared/config'),

@@ -1,9 +1,6 @@
 {
   "name": "sumoselect",
-  "main": [
-    "jquery.sumoselect.js",
-    "sumoselect.css"
-  ],
+  "main": ["jquery.sumoselect.js", "sumoselect.css"],
   "version": "3.0.0",
   "homepage": "https://github.com/HemantNegi/jquery.sumoselect",
   "authors": [
@@ -17,7 +14,7 @@
     "dropdown"
   ],
   "dependencies": {
-    "jquery": ">=1.6"
+	"jquery": ">=1.6"
   },
   "license": "MIT"
 }

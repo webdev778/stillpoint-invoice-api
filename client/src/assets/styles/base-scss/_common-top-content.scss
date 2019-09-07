@@ -1,14 +1,13 @@
+
 /*-------------- common top content below -------------*/
 .common-top-content {
   text-align: center;
   max-width: 90%;
   margin: 0 auto;
-
   h3 {
     font-size: 22px;
     color: $clr-septenary;
   }
-
   p {
     font-size: 16px;
     line-height: 1.63;
@@ -18,7 +17,6 @@
       margin: 20px 0;
     }
   }
-
   .btn {
     font-family: "montserratmedium";
     font-size: 12px;
@@ -32,32 +30,27 @@
     }
   }
 }
-
 // tabbing buttons below -----------------
 .tab-btn-white {
   background-color: $clr-primary;
   color: $clr-tertiary;
 }
-
 .tab-btn-blue {
   background-color: $clr-secondary;
   color: $clr-primary;
 }
-
 .tab-btn-white {
   &:hover, &:focus {
     background-color: $clr-primary;
     color: $clr-tertiary;
   }
 }
-
 .tab-btn-blue {
   &:hover, &:focus {
     background-color: $clr-secondary;
     color: $clr-primary;
   }
 }
-
 // only visible on small screens --------------------
 .mobile-page-heading {
   background: $clr-primary;
@@ -76,7 +69,6 @@
     border-right: 0;
     font-size: 16px;
   }
-
   .previous {
     content: " ";
     background-image: url(/images/svg-images/left-arrow.svg);
@@ -87,7 +79,6 @@
     height: 15px;
     width: 20px;
   }
-
   .next {
     content: " ";
     background-image: url(/images/svg-images/right-arrow.svg);
@@ -98,13 +89,12 @@
     height: 15px;
     width: 20px;
   }
-
   .disabled-element {
     opacity: 0.3;
   }
 }
 
-/* Small Devices, Tablets */
+  /* Small Devices, Tablets */
 // @media only screen and (max-width : 767px) {
 
 // 	.common-top-content .btn{ font-size: 10px; }

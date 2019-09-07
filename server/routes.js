@@ -1,27 +1,26 @@
 var rfr = require('rfr');
 
 var categoryCtlr = rfr('/server/controllers/static/categories'),
-    degreeCtlr = rfr('/server/controllers/static/degrees'),
-    employmentTypeCtlr = rfr('/server/controllers/static/employmentTypes'),
-    practiceAreaCtlr = rfr('/server/controllers/static/practiceAreas'),
-    skillCtlr = rfr('/server/controllers/static/skills'),
-    stateCtlr = rfr('/server/controllers/static/states'),
-    workLocationCtlr = rfr('/server/controllers/static/workLocations'),
-    serviceChargeCtlr = rfr('/server/controllers/static/serviceCharge');
+degreeCtlr = rfr('/server/controllers/static/degrees'),
+employmentTypeCtlr = rfr('/server/controllers/static/employmentTypes'),
+practiceAreaCtlr = rfr('/server/controllers/static/practiceAreas'),
+skillCtlr = rfr('/server/controllers/static/skills'),
+stateCtlr = rfr('/server/controllers/static/states'),
+workLocationCtlr = rfr('/server/controllers/static/workLocations'),
+serviceChargeCtlr = rfr('/server/controllers/static/serviceCharge');
 
 var universalCtlr = rfr('/server/controllers/universal'),
-    userCtlr = rfr('/server/controllers/users'),
-    postJobCtlr = rfr('/server/controllers/postJobs'),
-    adminCtlr = rfr('/server/controllers/admin'),
-    savedJobsCtlr = rfr('/server/controllers/savedJobs'),
-    jobStatusCtlr = rfr('/server/controllers/jobStatus'),
-    negotiateTermsCtlr = rfr('/server/controllers/negotiateTerms'),
-    stripeAccCtlr = rfr('/server/controllers/stripeAccounts'),
-    wNineInfoCtrl = rfr('/server/controllers/wNineInfo'),
-    invoiceCtlr = rfr('/server/controllers/invoice');
+userCtlr = rfr('/server/controllers/users'),
+postJobCtlr = rfr('/server/controllers/postJobs'),
+adminCtlr = rfr('/server/controllers/admin'),
+savedJobsCtlr = rfr('/server/controllers/savedJobs'),
+jobStatusCtlr = rfr('/server/controllers/jobStatus'),
+negotiateTermsCtlr = rfr('/server/controllers/negotiateTerms'),
+stripeAccCtlr = rfr('/server/controllers/stripeAccounts'),
+wNineInfoCtrl = rfr('/server/controllers/wNineInfo');
 
 var getHandler = {},
-    postHandler = {}
+postHandler = {}
 
 // All get services
 getHandler['/getCategories'] = categoryCtlr.get;
@@ -95,24 +94,21 @@ postHandler['/sendMessage'] = universalCtlr.sendMsg;
 
 postHandler['/webhook'] = stripeAccCtlr.webhook;
 
-// invoices
-postHandler['/invoice'] = invoiceCtlr.create;
-
 function _bindAllGetRequests(app) {
-    for (var key in getHandler) {
-        app.get(key, getHandler[key]);
-    }
+  for (var key in getHandler) {
+    app.get(key, getHandler[key]);
+  }
 }
 
 function _bindAllPostRequests(app) {
-    for (var key in postHandler) {
-        app.post(key, postHandler[key]);
-    }
+  for (var key in postHandler) {
+    app.post(key, postHandler[key]);
+  }
 }
 
 function bindAllRequests(app) {
-    _bindAllGetRequests(app);
-    _bindAllPostRequests(app);
+  _bindAllGetRequests(app);
+  _bindAllPostRequests(app);
 }
 
 module.exports.bindAllRequests = bindAllRequests;

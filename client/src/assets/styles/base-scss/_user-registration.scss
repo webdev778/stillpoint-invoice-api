@@ -5,7 +5,6 @@
   margin: 0;
   padding: 0;
   min-height: 100%;
-
   section {
     &.left-banner {
       width: 45%;
@@ -21,25 +20,21 @@
       align-items: center;
       height: 100%;
       min-height: 100vh;
-
       .logo {
         position: absolute;
         top: 40px;
         cursor: pointer;
       }
-
       h3 {
         font-family: 'montserratbold';
         font-size: 33px;
         color: $clr-primary;
         margin: 0;
         text-transform: uppercase;
-
         &:first-of-type {
           font-family: 'montserratlight';
         }
       }
-
       p {
         margin-top: 3vh;
         font-size: 16px;
@@ -47,7 +42,6 @@
         color: $clr-primary;
       }
     }
-
     &.right-section {
       position: relative;
       width: 55%;
@@ -56,30 +50,25 @@
       display: flex;
       align-items: center;
       min-height: calc(100vh - 45px);
-
       .mobile-on-logo {
         display: none;
         position: absolute;
         top: 40px;
       }
-
       .form-wrapper {
         width: 32vw;
         margin: 0 auto;
-
         h4 {
           font-size: 24px;
           color: $clr-septenary;
           margin: 0 0 30px;
         }
-
         h5 {
           font-size: 18px;
           color: $clr-quinary;
           margin: 0 0 10px;
           line-height: 1.71;
         }
-
         p {
           font-size: 16px;
           line-height: 1.71;
@@ -87,12 +76,10 @@
           margin: 0;
         }
       }
-
       .form-group {
         margin: 0 0 25px;
         line-height: 1;
       }
-
       form {
         label {
           font-family: 'open_sanssemibold';
@@ -103,7 +90,6 @@
           margin: 0 0 10px;
           font-weight: normal;
         }
-
         input {
           @include prefix('border-radius', 0);
           font-size: 14px;
@@ -135,7 +121,6 @@ input {
     margin: 0 0 0 25px;
     line-height: 1.4;
   }
-
   input {
     height: 12px;
     padding: 4px 6px;
@@ -153,38 +138,30 @@ input {
     left: 0;
     right: 0;
     bottom: 40px;
-
     a {
       font-size: 18px;
       color: $clr-secondary;
     }
   }
-
   .checkbox > label.pmd-checkbox > span {
     position: absolute !important;
     left: 0;
   }
 }
-
-.pmd-checkbox [type=checkbox]:checked + .pmd-checkbox-label::before {
-  background-color: $clr-secondary;
-  border: 1px solid $clr-secondary;
+.pmd-checkbox [type=checkbox]:checked+.pmd-checkbox-label::before{
+  background-color: $clr-secondary;border: 1px solid $clr-secondary;
 }
-
-.pmd-checkbox [type=checkbox]:not(:checked) + .pmd-checkbox-label::before {
+.pmd-checkbox [type=checkbox]:not(:checked)+.pmd-checkbox-label::before{
   @include prefix('border-radius', 0);
   border: solid 1px $clr-quaternary;
 }
-
-.pmd-checkbox [type=checkbox]:checked + .pmd-checkbox-label::after, .pmd-checkbox [type=checkbox]:not(:checked) + .pmd-checkbox-label::after {
+.pmd-checkbox [type=checkbox]:checked+.pmd-checkbox-label::after, .pmd-checkbox [type=checkbox]:not(:checked)+.pmd-checkbox-label::after{
   display: block !important;
 }
 
 /*------------------------- sign-in css begins below ---------------------------------------*/
 
-input[type="password"], input.pswd {
-  padding: 10px 35px 10px 20px !important;
-}
+input[type="password"], input.pswd{ padding: 10px 35px 10px 20px !important; }
 
 .user-login-wrapper section.right-section {
   .checkbox > a {
@@ -193,7 +170,6 @@ input[type="password"], input.pswd {
     font-size: 13px;
     line-height: 1.6;
   }
-
   .form-group i.fa.fa-question {
     position: absolute;
     top: 10px;
@@ -211,7 +187,6 @@ input[type="password"], input.pswd {
   width: 190px;
   font-size: 13px;
   color: #aeaeae;
-
   > span {
     position: absolute;
     background-color: $clr-primary;
@@ -223,7 +198,6 @@ input[type="password"], input.pswd {
 
 .pwd-wrapper {
   position: relative;
-
   span {
     &.eye {
       position: absolute;
@@ -235,7 +209,6 @@ input[type="password"], input.pswd {
       height: 40px;
       padding: 12px 0;
     }
-
     &.eye-slash {
       display: none;
       position: absolute;
@@ -247,7 +220,6 @@ input[type="password"], input.pswd {
     }
   }
 }
-
 /*-------------------------- sign-in css above -------------------------------------*/
 
 .reset-link-section .form-wrapper img {
@@ -256,7 +228,6 @@ input[type="password"], input.pswd {
 
 .reset-link-page-wrapper section.reset-link-section {
   padding: 0 37px;
-
   .form-wrapper {
     width: 40vw;
     margin: 0 auto;
@@ -269,128 +240,84 @@ input[type="password"], input.pswd {
 
 /*===============Responsive css below ( Non-Mobile First Method ) ======================*/
 /* Small Devices, Tablets */
-@media only screen and (max-width: 767px) {
-  .user-login-wrapper {
-    height: auto;
-  }
-  .user-login-wrapper section.left-banner {
-    display: none;
-  }
+@media only screen and (max-width : 767px) {
+  .user-login-wrapper{ height: auto; }
+  .user-login-wrapper section.left-banner{ display: none; }
   .user-login-wrapper section.right-section,
-  .user-login-wrapper section.right-section {
+  .user-login-wrapper section.right-section{
     width: 100%;
     padding: 17px 20px;
     flex-direction: column;
     align-items: center;
   }
-  .user-login-wrapper section.right-section {
-    min-height: 100%;
-  }
-  .user-login-wrapper section.right-section .form-wrapper {
-    width: 100%;
-    margin: 20px auto 0;
-  }
-  .user-login-wrapper section.right-section .mobile-on-logo {
-    display: block;
-    top: 17px;
-  }
-  .right-section .form-wrapper .already-signed {
-    bottom: 20px;
-  }
-  .forgot-pwd-page-wrapper section.forgot-pwd-banner {
-    display: none;
-  }
-  .forgot-pwd-page-wrapper section.forgot-pwd-section {
+  .user-login-wrapper section.right-section{ min-height: 100%; }
+  .user-login-wrapper section.right-section .form-wrapper{ width: 100%; margin: 20px auto 0; }
+  .user-login-wrapper section.right-section .mobile-on-logo{ display: block; top: 17px; }
+  .right-section .form-wrapper .already-signed{ bottom: 20px; }
+  .forgot-pwd-page-wrapper section.forgot-pwd-banner{ display: none; }
+  .forgot-pwd-page-wrapper section.forgot-pwd-section{
     width: 100%;
     padding: 17px 20px;
     flex-direction: column;
     align-items: center;
   }
-  section.forgot-pwd-section .mobile-on-logo {
+  section.forgot-pwd-section .mobile-on-logo{
     display: block;
     position: absolute;
     top: 17px;
   }
-  .white-logo-bg {
+  .white-logo-bg{
     background-color: $clr-primary;
     width: 100%;
   }
-  .white-logo-bg .mobile-on-logo {
+  .white-logo-bg .mobile-on-logo{
     position: static !important;
   }
-  .forgot-pwd-page-wrapper section.forgot-pwd-section .form-wrapper {
+  .forgot-pwd-page-wrapper section.forgot-pwd-section .form-wrapper{
     margin: 20px auto;
     width: 100%;
   }
-  .reset-link-page-wrapper section.reset-link-banner {
-    display: none;
-  }
-  .reset-link-page-wrapper section.reset-link-section {
+  .reset-link-page-wrapper section.reset-link-banner{ display: none; }
+  .reset-link-page-wrapper section.reset-link-section{
     width: 100%;
     padding: 17px 20px;
     flex-direction: column;
     align-items: center;
   }
-  .reset-link-page-wrapper section.reset-link-section .form-wrapper {
-    width: 100%;
-    margin: 50px auto 0;
-  }
-  section.reset-link-section .mobile-on-logo {
+  .reset-link-page-wrapper section.reset-link-section .form-wrapper{ width: 100%; margin: 50px auto 0; }
+  section.reset-link-section .mobile-on-logo{
     display: block;
     position: absolute;
     top: 17px;
   }
-  .reset-link-section .form-wrapper .already-signed {
-    margin: 30px 0 0;
-  }
+  .reset-link-section .form-wrapper .already-signed{ margin: 30px 0 0; }
 
 }
-
 /*------------------ max-width : 767px above --------*/
-@media only screen and (max-width: 479px) {
+@media only screen and (max-width : 479px) {
 
 
   .forgot-pwd-page-wrapper section.forgot-pwd-section .form-wrapper {
-    margin: 46px auto 0;
-    width: 100%;
+    margin: 46px auto 0; width: 100%;
   }
-  .sign-up-page-wrapper section.right-section {
-    padding: 15px 20px;
-  }
-  .forgot-pwd-page-wrapper section.forgot-pwd-section {
+  .sign-up-page-wrapper section.right-section{ padding: 15px 20px; }
+  .forgot-pwd-page-wrapper section.forgot-pwd-section{
     width: 100%;
     padding: 17px 20px;
   }
-  .forgot-pwd-page-wrapper section.forgot-pwd-section {
-    padding: 15px 20px;
-    min-height: 100%
-  }
-  section.forgot-pwd-section .form-wrapper h4 {
-    font-size: 18px;
-    margin: 0 0 10px;
-  }
-  section.forgot-pwd-section .form-wrapper p {
-    font-size: 12px;
-    line-height: 1.42;
-  }
-  .reset-link-page-wrapper section.reset-link-banner {
+  .forgot-pwd-page-wrapper section.forgot-pwd-section{ padding: 15px 20px;min-height: 100% }
+  section.forgot-pwd-section .form-wrapper h4{ font-size: 18px; margin:0 0 10px; }
+  section.forgot-pwd-section .form-wrapper p { font-size: 12px; line-height: 1.42; }
+  .reset-link-page-wrapper section.reset-link-banner{
     display: none;
   }
-  .reset-link-page-wrapper section.reset-link-section {
+  .reset-link-page-wrapper section.reset-link-section{
     width: 100%;
   }
-  .reset-link-page-wrapper section.reset-link-section {
-    padding: 17px 20px;
-  }
-  .reset-link-section .form-wrapper img {
-    margin: 0 auto 6vh;
-  }
-  section.reset-link-section .form-wrapper h5 {
-    font-size: 14px;
-  }
-  section.reset-link-section .form-wrapper p {
-    font-size: 12px;
-  }
+  .reset-link-page-wrapper section.reset-link-section{ padding: 17px 20px; }
+  .reset-link-section .form-wrapper img{ margin: 0 auto 6vh; }
+  section.reset-link-section .form-wrapper h5{ font-size: 14px; }
+  section.reset-link-section .form-wrapper p{ font-size: 12px; }
 
 
 }

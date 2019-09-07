@@ -16,74 +16,58 @@
     }
   }
 }
-
-#sidebar.slide-show {
+#sidebar.slide-show{
   margin-left: 0 !important;
 }
-
-.sidebar-fixed {
+.sidebar-fixed{
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
   overflow-x: hidden;
 }
-
-.sidebar-margin {
+.sidebar-margin{
   margin-left: 250px !important;
   @include media($max: 767px) {
     margin-left: 0 !important;
   }
 }
-
 #sidebar {
   width: 250px;
   background-color: $bg-tertiary;
-  padding: 0px;
-  margin-top: 70px;
+	padding: 0px;
+	margin-top: 70px;
   min-height: calc(100% - 70px);
-
-  .sidebar-header {
+  .sidebar-header{
     padding: 30px 30px 20px;
-
-    h3 {
-      @include fonts($family: $font2, $size: 13px, $colour: #d7d7d7, $weight: bold, $txt-trans: uppercase, $ls: false, $lh: false);
+  	h3{
+  		@include fonts($family: $font2, $size: 13px, $colour: #d7d7d7, $weight: bold, $txt-trans: uppercase, $ls: false, $lh: false);
       margin: 0;
-    }
+  	}
   }
-
-  ul.components {
-    margin: 0;
-
-    li {
-      margin: 0;
+  ul.components{
+  	margin: 0;
+  	li{
+  		margin: 0;
       padding: 15px 30px;
       border-bottom: 0;
       cursor: pointer;
-
-      a {
-        @include fonts($size: 12px, $colour: #cccccc, $weight: normal, $txt-trans: uppercase, $ls: 0.5px, $lh: false);
-        cursor: pointer;
-
-        i.fa {
-          margin: 0 21px 0 0;
-        }
-      }
-
-      &.active, &:focus {
+  		a{
+  			@include fonts($size: 12px, $colour: #cccccc, $weight: normal, $txt-trans: uppercase, $ls: 0.5px, $lh: false);
+          cursor: pointer;
+  			i.fa{
+  				margin: 0 21px 0 0;
+  			}
+  		}
+     	&.active, &:focus{
         background: rgba(50, 112, 178, 0.25);
-
-        a {
+        a{
           color: $clr-primary;
         }
       }
-
-      &:hover a {
-        color: $clr-primary;
-      }
-    }
+      &:hover a{ color: $clr-primary; }
+  	}
   }
-
   @include media($max: 767px) {
     margin-left: -250px;
     &.active {

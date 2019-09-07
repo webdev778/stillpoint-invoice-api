@@ -1,49 +1,49 @@
 /**
- * @api {post} /postJob Post job
- * @apiVersion 0.0.1
- * @apiName postJob
- * @apiGroup Authentication
- * @apiPermission User
- *
- * @apiDescription Save Post Job Detail
+* @api {post} /postJob Post job
+* @apiVersion 0.0.1
+* @apiName postJob
+* @apiGroup Authentication
+* @apiPermission User
+*
+* @apiDescription Save Post Job Detail
 
- * @apiHeader {String} TOKEN      * A token send by header as TOKEN
- *
- * @apiParam {String}  jobHeadline            * Job Headline
- * @apiParam {String}  createdBy            * Created by user
- * @apiParam {Array} practice_area_id                                   * Practice area
- * @apiParam {Array}  skillsNeeded                                * Skills
- * @apiParam {String} jobDescription            * Job description
- * @apiParam {String} city       * City.
- * @apiParam {String} state_id                                   * State ID
- * @apiParam {String} zipcode                                        * Zip code
- * @apiParam {String} setting_id                                 * Setting
- * @apiParam {String} estimatedStartDate             * Estimated start date.
- * @apiParam {Number} duration            * Estimated Duration
- * @apiParam {String} durationPeriod            * DAYS/WEEKS/MONTHS
- * @apiParam {Number}  rate            * Target Rate
- * @apiParam {String} rateType   * HOURLY/FIXED.
- * @apiParam {Number} hours                                   * Hours
- * @apiParam {String} HoursType         * Employment type id
- * @apiParam {Number} subTotal * Subtotal
- * @apiParam {Number} total * Total
- * @apiParam {Number} currentRate * Current Rate
- * @apiParam {Array} paymentDetails * Payment details
- * @apiParam {Number} paymentDetails.rate * Rate
- * @apiParam {String} paymentDetails.delivery * Delivery detail
- * @apiParam {String} paymentDetails.dueDate * Due Date
- * @apiParam {String} status * posted/saved
+* @apiHeader {String} TOKEN      * A token send by header as TOKEN
+* 
+* @apiParam {String}  jobHeadline            * Job Headline
+* @apiParam {String}  createdBy            * Created by user 
+* @apiParam {Array} practice_area_id                                   * Practice area
+* @apiParam {Array}  skillsNeeded                           		* Skills
+* @apiParam {String} jobDescription            * Job description
+* @apiParam {String} city       * City.
+* @apiParam {String} state_id                                   * State ID 
+* @apiParam {String} zipcode                                        * Zip code 
+* @apiParam {String} setting_id                                 * Setting
+* @apiParam {String} estimatedStartDate             * Estimated start date.
+* @apiParam {Number} duration    	    * Estimated Duration
+* @apiParam {String} durationPeriod		    * DAYS/WEEKS/MONTHS
+* @apiParam {Number}  rate            * Target Rate
+* @apiParam {String} rateType   * HOURLY/FIXED.
+* @apiParam {Number} hours                                   * Hours
+* @apiParam {String} HoursType         * Employment type id
+* @apiParam {Number} subTotal * Subtotal
+* @apiParam {Number} total * Total
+* @apiParam {Number} currentRate * Current Rate
+* @apiParam {Array} paymentDetails * Payment details
+* @apiParam {Number} paymentDetails.rate * Rate
+* @apiParam {String} paymentDetails.delivery * Delivery detail
+* @apiParam {String} paymentDetails.dueDate * Due Date
+* @apiParam {String} status * posted/saved
 
 
- *
- *
- * @apiSuccess {Number} Code 200.
- * @apiSuccess {Boolean} Status true.
- * @apiSuccess {String} Message You have successfully updated your profile.
- *
- * @apiExample Example usage:
- *
- *{
+*
+*
+* @apiSuccess {Number} Code 200.
+* @apiSuccess {Boolean} Status true.
+* @apiSuccess {String} Message You have successfully updated your profile.
+*
+* @apiExample Example usage:
+*
+*{
                         "jobHeadline": "Lawyer - IP Litigation",
                         "createdBy": "Rimpi",
                         "practiceArea": [{
@@ -77,30 +77,30 @@
                         }],
                         "status": "posted"
                     }
- *
- *
- * @apiSuccessExample Success-Response-Example:
- *     HTTP/1.1 success
- {
+*
+* 
+* @apiSuccessExample Success-Response-Example:
+*     HTTP/1.1 success
+{
   "Code": 200,
   "Status": true,
   "Message": "You have successfully updated your profile."
 }
- *
- *
+*
+*
  * @apiError {Object} Error-Response Returns a json Object.
  * @apiError (Error-Response Object){Number} Code 400.
  * @apiError (Error-Response Object){Boolean} Status false.
  * @apiError (Error-Response Object){String} Message error message.
  * @apiErrorExample Sample Error-Response:
 
- *
+ *   
  *  {
         "Code": 400,
 	"Status": false,
 	"Message": "Total amount calculation is not correct"
     }
-
+    
  */
 
 

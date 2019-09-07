@@ -6,10 +6,10 @@ import InProgress from './InProgress';
 import JobComplete from './JobComplete';
 
 module.exports = {
-    Applied,
-    Interviewing,
-    NegotiatingTerms,
-    StartPending,
-    InProgress,
-    JobComplete
+  Applied,
+  Interviewing,
+  NegotiatingTerms,
+  StartPending,
+  InProgress,
+  JobComplete
 }

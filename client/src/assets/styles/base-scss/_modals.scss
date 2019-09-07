@@ -1,17 +1,13 @@
 /********************************* CSS for MODAL- POPUPS below *******************************/
-.modal-sm {
-  width: 300px;
-}
-
-.modal-md {
+.modal-sm{ width: 300px; }
+.modal-md{
   width: 500px;
   margin: auto;
   @include media($max: 640px) {
     width: 90%;
   }
 }
-
-.modal-lg {
+.modal-lg{
   width: 800px;
   margin: auto;
   @include media($max: 991px) {
@@ -21,8 +17,7 @@
     width: 90%;
   }
 }
-
-.modal-xl {
+.modal-xl{
   width: 800px;
   margin: auto;
   @include media($max: 840px) {
@@ -40,48 +35,41 @@
     margin: 50px 0;
     padding: 0 15px;
     text-align: center;
-
-    p.para {
+    p.para{
       font-size: 12px;
       color: #333333;
       line-height: 2;
     }
   }
-
   .modal-footer {
     padding: 16px;
     text-align: center;
     border: 0;
     background-color: rgba(238, 242, 246, 0.3);
   }
-
   .alert-img {
     width: 80px;
   }
 }
 
 .alert-modal {
-  .modal-body {
+  .modal-body{
     margin: 50px 0;
     padding: 0 15px;
-
     > p.modal-para {
       font-size: 16px !important;
       line-height: 1.63 !important;
       text-align: center;
       color: $clr-quinary !important;
-
       span {
         font-size: 18px;
       }
     }
-
     ul {
       list-style: disc outside none;
       padding: 0 33px;
     }
   }
-
   .icon {
     width: 80px;
     height: 80px;
@@ -91,18 +79,15 @@
     align-items: center;
     justify-content: center;
     margin: auto;
-
     &.success {
       background-color: rgba(96, 188, 84, 0.05);
       border: solid 1px rgba(96, 188, 84, 0.3);
       color: #60bc54;
     }
-
     &.alert {
 
     }
   }
-
   .modal-footer {
     background-color: rgba(238, 242, 246, 0.3);
   }
@@ -113,7 +98,6 @@
     p.modal-para {
       text-align: left;
       padding: 0 5px;
-
       a {
         text-decoration: underline;
       }
@@ -129,7 +113,6 @@
   z-index: 10;
   cursor: pointer;
   background: $clr-primary;
-
   img {
     width: 25px;
   }
@@ -138,14 +121,12 @@
 .modal-body > {
   margin: 50px 0;
   padding: 0 15px;
-
   p.modal-para {
     font-size: 16px !important;
     line-height: 1.63 !important;
     text-align: center;
     color: $clr-quinary !important;
   }
-
   h2 {
     font-size: 20px;
     text-align: center;
@@ -176,8 +157,8 @@
   color: $clr-tertiary;
 }
 
-.view-profile-modal {
-  .modal-header {
+.view-profile-modal{
+  .modal-header{
     font-family: "open_sanssemibold";
     font-size: 16px;
     color: $clr-quinary;
@@ -186,14 +167,13 @@
     border-bottom: solid 2px $clr-tri;
     margin: 0;
   }
-
-  .modal-body {
+  .modal-body{
     margin: 50px 0;
     padding: 0 50px;
     overflow-y: auto;
     // max-height: 320px;
-    .list {
-      li {
+    .list{
+      li{
         @include truncate($truncation-boundary: 100%);
         text-align: left;
         font-family: "open_sansregular";
@@ -203,13 +183,11 @@
         border-bottom: solid 2px $clr-tri;
         position: relative;
       }
-
-      .fa:first-child {
+      .fa:first-child{
         color: $clr-quinary;
         margin: 0 10px 0 0;
       }
-
-      .fa:last-child {
+      .fa:last-child{
         color: $clr-secondary;
         position: absolute;
         right: 0;
@@ -217,24 +195,21 @@
       }
     }
   }
-
   .modal-footer {
     background-color: rgba(238, 242, 246, 0.3);
   }
 }
 
-.send-msg-modal {
-  .modal-header {
+.send-msg-modal{
+  .modal-header{
     font-family: "open_sanssemibold";
     font-size: 16px;
     text-transform: capitalize;
     border-bottom: 1px solid $clr-tri;
   }
-
-  .modal-body {
+  .modal-body{
     padding: 40px;
-
-    input[type="text"] {
+    input[type="text"]{
       border-radius: 0;
       box-shadow: none;
       background-color: #f9f9f9;
@@ -242,8 +217,7 @@
       font-size: 14px;
       color: #666666;
     }
-
-    textarea {
+    textarea{
       resize: none;
       border-radius: 0;
       box-shadow: none;
@@ -253,13 +227,11 @@
       font-size: 14px;
       color: #666666;
     }
-
     @include media($max: 767px) {
       padding: 20px;
     }
   }
-
-  .modal-footer {
+  .modal-footer{
     padding: 16px 35px 16px 30px;
     @include media($max: 767px) {
       padding: 16px 15px 16px 10px;
@@ -268,32 +240,28 @@
 }
 
 .send-msg-modal,
-.submit-deliverable-modal {
-  .modal-header {
+.submit-deliverable-modal{
+  .modal-header{
     font-family: "open_sanssemibold";
     font-size: 16px;
     text-transform: inherit;
     border-bottom: 2px solid $clr-tri;
     color: $clr-quinary;
   }
-
-  .modal-body {
+  .modal-body{
     padding: 30px;
-
-    h4 {
+    h4{
       font-size: 15px;
       line-height: 1.73;
       color: $clr-quinary;
       margin: 0;
-
-      a {
+      a{
         font-size: 15px;
         line-height: 1.73;
         color: $bg-tertiary;
       }
     }
-
-    h5 {
+    h5{
       font-family: "open_sanssemibold";
       font-size: 13px;
       color: $clr-quinary;
@@ -302,26 +270,22 @@
       margin: 0;
       text-decoration: underline;
     }
-
-    p {
+    p{
       font-size: 12px;
       color: $clr-quinary;
-
-      &.para {
+      &.para{
         color: $clr-quinary !important;
         margin: 0;
         line-height: 20px;
       }
     }
-
-    .custom-table {
-      .custom-thead {
-        .custom-tr {
+    .custom-table{
+      .custom-thead{
+        .custom-tr{
           @include prefix('display', 'flex');
           max-width: 100%;
         }
-
-        .custom-th {
+        .custom-th{
           @include truncate(100%);
           width: calc(100% / 2);
           flex-basis: calc(100% / 2);
@@ -329,7 +293,7 @@
           height: 50px;
           border: 1px solid $clr-tri;
           padding: 15px;
-          font-size: 12px;
+          font-size : 12px;
           color: $clr-di;
           text-transform: capitalize;
           position: relative;
@@ -349,14 +313,12 @@
           }
         }
       }
-
-      .custom-tbody {
-        .custom-tr {
+      .custom-tbody   {
+        .custom-tr{
           @include prefix('display', 'flex');
           max-width: 100%;
         }
-
-        .custom-td {
+        .custom-td{
           // width: calc(100% / 4);
           flex-basis: calc(100% / 2);
           border: 1px solid $clr-tri;
@@ -383,77 +345,62 @@
           }
         }
       }
-
       @include media($max: 640px) {
         display: none;
       }
-    }
-
-    // custom-table
-    .modal-responsive {
-      h6 {
+    }// custom-table
+    .modal-responsive{
+      h6{
         font-size: 12px;
         color: #000;
         text-align: left;
         padding: 10px 15px;
         margin: 0;
       }
-
-      .card-view {
+      .card-view{
         border: 1px solid $clr-tri;
-
-        .job-title {
+        .job-title{
           font-size: 12px;
           color: $clr-quinary;
           border-bottom: 1px solid $clr-tri;
           text-align: left;
           padding: 15px;
           cursor: pointer;
-
           &[aria-expanded="false"] {
             background: url("/images/add-more-icon.png") 95% no-repeat;
             background-size: 22px;
           }
-
           &[aria-expanded="true"] {
             background: url("/images/minus.png") 95% no-repeat;
             background-size: 22px;
           }
         }
-
-        .job-details {
+        .job-details{
           text-align: left;
-
-          h6 {
+          h6{
             font-size: 12px;
             color: $clr-di;
             margin: 0;
             padding: 0;
           }
-
-          p {
+          p{
             font-size: 12px;
             color: $clr-quinary;
             margin: 0 0 15px;
           }
         }
-      }
-
-      // card-view
+      }// card-view
       @include media($min: 641px) {
         display: none;
       }
-    }
-
-    // modal-responsive
-    .dropzone {
+    }// modal-responsive
+    .dropzone{
       height: auto;
       border: 1px dashed #d4d9e2;
       position: relative;
       padding: 0;
       min-height: auto;
-
-      input[type=file] {
+      input[type=file]{
         display: block !important;
         position: absolute;
         top: 0;
@@ -468,8 +415,7 @@
         cursor: pointer;
         z-index: 10;
       }
-
-      .cover {
+      .cover{
         padding: 20px;
         position: relative;
         cursor: pointer;
@@ -478,14 +424,12 @@
         display: flex;
         align-items: center;
         justify-content: left;
-
-        h4 {
+        h4{
           font-size: 16px;
           color: $clr-quinary;
           line-height: 1.63;
         }
-
-        h5 {
+        h5{
           font-family: $font1;
           font-size: 13px;
           color: $clr-quinary;
@@ -496,43 +440,33 @@
             text-align: center;
           }
         }
-
-        span {
+        span{
           text-align: left;
           margin: 0 10px;
           @include media($max: 640px) {
             text-align: center;
           }
         }
-
         @include media($max: 640px) {
           justify-content: center;
           flex-wrap: wrap;
         }
       }
-    }
-
-    // dropzone
+    }// dropzone
     @include media($max: 640px) {
       padding: 15px;
     }
-  }
-
-  // modal-body
-  .modal-footer {
+  }// modal-body
+  .modal-footer{
     padding: 16px 35px 16px 30px;
-
-    .btn-primary + .btn-negative {
+    .btn-primary + .btn-negative{
       text-align: right;
     }
-
     @include media($max: 767px) {
       padding: 16px 15px 16px 10px;
     }
   }
-}
-
-// submit-deliverable-modal
+}// submit-deliverable-modal
 
 // release-payment modal below
 
@@ -540,7 +474,6 @@
 
   text-align: left;
   padding: 20px 30px;
-
   p {
     font-family: $font1;
     font-size: 14px;
@@ -549,22 +482,18 @@
     line-height: 1.75;
     margin: 0;
   }
-
   h3 {
     font-size: 14px;
     font-family: $font3;
     margin: 0;
   }
-
   .table {
     margin: 20px 0 0;
-
     .table-head {
       background-color: #eeeeee;
       padding: 10px 15px;
       text-transform: capitalize;
     }
-
     .table-row {
       padding: 10px 15px;
       border-bottom: 1px solid #eeeeee;
@@ -574,6 +503,5 @@
     }
   }
 }
-
 // release-payment modal above
 /********************************** CSS for MODAL- POPUPS above ******************************/

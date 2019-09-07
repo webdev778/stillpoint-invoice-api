@@ -6,10 +6,10 @@ import cookieManager from './cookieManager';
 import sessionManager from './sessionManager';
 
 module.exports = {
-    config,
-    constant,
-    utils,
-    helper,
-    cookieManager,
-    sessionManager
+  config,
+  constant,
+  utils,
+  helper,
+  cookieManager,
+  sessionManager
 }

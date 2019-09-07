@@ -1,5 +1,5 @@
 .fade-layer-before {
-  &:before {
+  &:before{
     position: fixed;
     top: 0;
     bottom: 0;
@@ -10,7 +10,6 @@
     background-color: rgba(0, 0, 0, 0.23);
   }
 }
-
 .fade-layer {
   position: fixed;
   top: 0;
@@ -20,14 +19,12 @@
   right: 0;
   background-color: rgba(0, 0, 0, 0.23);
 }
-
 .loader,
 .loader::after {
   border-radius: 50%;
   width: 10em;
   height: 10em;
 }
-
 .loader {
   position: absolute;
   top: 50%;
@@ -46,7 +43,6 @@
   -webkit-animation: load8 1.1s infinite linear;
   animation: load8 1.1s infinite linear;
 }
-
 @-webkit-keyframes load8 {
   0% {
     -webkit-transform: rotate(0deg);
@@ -57,7 +53,6 @@
     transform: rotate(360deg);
   }
 }
-
 @keyframes load8 {
   0% {
     -webkit-transform: rotate(0deg);

@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "This document covers all the request and response of Legably Core API.",
   "title": "Legably Core API",
+  
   "template": {
-    "withCompare": true,
-    "withGenerator": true
+   "withCompare": true,
+   "withGenerator": true
   }
 }

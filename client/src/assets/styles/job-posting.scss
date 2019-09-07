@@ -5,7 +5,6 @@
   font-size: 24px;
   text-align: center;
   color: $clr-septenary;
-
   + p {
     color: $clr-tertiary;
     text-align: center;
@@ -27,12 +26,10 @@
 
 .posting-two-cols {
   margin-bottom: 20px;
-
   .form-group {
     width: auto;
     margin: 0 10px 0 0;
   }
-
   input {
     width: 290px;
     display: inline-block;
@@ -49,7 +46,6 @@ input.amount-dollar-bg {
 
 .hours-col {
   align-items: flex-start;
-
   .pt-ft-w-m {
     margin-top: 0;
     display: inline-block;
@@ -63,7 +59,6 @@ input.amount-dollar-bg {
     height: auto;
     margin: 20px 0;
   }
-
   p.payable {
     font-size: 12px;
     color: #999999;
@@ -81,7 +76,6 @@ input.amount-dollar-bg {
   flex-basis: calc(100% - 238px);
   width: calc(100% - 238px);
   text-align: left;
-
   &:first-child {
     flex-basis: 238px;
     width: 238px;
@@ -96,18 +90,14 @@ input.amount-dollar-bg {
 .payment-details {
   li {
     margin-bottom: 10px;
-
     &:first-child {
       /*flex-basis: 160px;*/
     }
-
     position: relative;
-
     input {
       width: 100%;
     }
   }
-
   p {
     margin: 0;
     color: $clr-tertiary;
@@ -118,14 +108,12 @@ input.amount-dollar-bg {
     position: absolute;
     top: 9px;
     right: -84px;
-
     &.add-more {
       position: inherit;
       display: block;
       float: right;
       margin: 5px 10px 5px;
     }
-
     &.less {
       position: unset;
       float: right;
@@ -134,18 +122,15 @@ input.amount-dollar-bg {
       padding: 5px 15px 5px 0;
       margin: 0;
     }
-
     i {
       font-size: 22px;
       margin-right: 13px;
       color: #2768aa;
       cursor: pointer;
-
       &.fa-minus-circle {
         color: $clr-error;
       }
     }
-
     span {
       font-size: 16px;
       color: $clr-tertiary;
@@ -157,11 +142,9 @@ input.amount-dollar-bg {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   .remain-buttons {
     position: relative;
     top: 15px;
-
     .btn {
       font-family: "open_sanssemibold";
       font-size: 12px;
@@ -169,8 +152,7 @@ input.amount-dollar-bg {
       margin: 0 0 0 10px;
     }
   }
-
-  @media screen and (max-width: 991px) {
+  @media screen and (max-width:991px) {
     flex-direction: column;
     align-items: flex-end;
     .remain-buttons {
@@ -180,7 +162,7 @@ input.amount-dollar-bg {
       }
     }
   }
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width:767px) {
     li {
       width: 100%;
     }
@@ -208,7 +190,6 @@ ul.remaining-detail li {
 .button-group {
   font-size: 0;
   margin-top: 0;
-
   .custom-button {
     font-size: 15px;
     text-align: center;
@@ -218,12 +199,10 @@ ul.remaining-detail li {
     color: $clr-secondary;
     min-width: 110px;
     padding: 13px 45px;
-
     + .custom-button {
       margin-left: 10px;
     }
   }
-
   .button-blue {
     background: $clr-secondary;
     color: $clr-primary;
@@ -233,17 +212,14 @@ ul.remaining-detail li {
 .job-details-section.job-posting.card .button-group {
   margin-top: 0;
 }
-
 /*------------------------ Job-post form Ends ------------------------*/
 .estimated-section {
   text-align: left;
-
   h5 {
     font-size: 18px;
     color: $clr-di;
     text-transform: capitalize;
   }
-
   p {
     font-size: 14px;
     line-height: 1.86;
@@ -251,44 +227,37 @@ ul.remaining-detail li {
     color: $clr-tertiary;
     margin-bottom: 20px;
     padding: 0;
-
     > span:nth-child(2) {
       color: $clr-quinary;
     }
-
-    &.grand-total {
+    &.grand-total{
       margin: 0 -55px -20px;
       padding: 11px 55px;
       background-color: rgba(238, 242, 246, 0.3);
       @include media($min: 768px, $max: 840px) {
-        margin: 0 -15px -20px;
+        margin:  0 -15px -20px;
         padding: 11px 15px;
       }
       @include media($max: 767px) {
-        margin: 0 -20px -20px;
+        margin:  0 -20px -20px;
         padding: 11px 20px;
       }
     }
   }
-
   ul {
     margin: 0;
     background-color: rgba(238, 242, 246, 0.3);
-
     &.remaining-detail {
       background-color: $clr-primary;
     }
-
-    &:first-of-type {
+    &:first-of-type{
       padding-top: 15px;
     }
-
-    &.payment-details {
-      @include media($min: 768px, $max: 991px) {
-        li {
+    &.payment-details{
+      @include media($min:768px, $max: 991px) {
+        li{
           padding: 0 5px;
-
-          input {
+          input{
             @include truncate(100%);
             padding: 9px 5px;
           }
@@ -296,9 +265,8 @@ ul.remaining-detail li {
       }
     }
   }
-
-  .form-group {
-    input {
+  .form-group{
+    input{
       width: 290px;
       @include media($max: 767px) {
         width: 100%;
@@ -320,145 +288,107 @@ p.grand-total span {
   color: #013759;
   min-height: 350px;
 }
-
 /* Small Devices, Tablets */
-@media only screen and (max-width: 767px) {
+  @media only screen and (max-width : 767px) {
 
-  .content-wrapper {
-    padding: 0;
-  }
-  .posting-two-cols input {
-    width: 100%;
-  }
-  .remaining-detail input {
-    width: 100%;
-  }
-  .estimated-section h5 {
-    font-size: 15px;
-  }
-  .estimated-section p {
-    font-size: 13px;
-  }
-  .estimated-section ul {
-    margin: 0;
-    padding-top: 15px;
-  }
-  .payment-details input {
-    flex-basis: auto;
-    width: 100%;
-  }
-  .tabbed-radio-btns.three-tabs {
-    margin-top: 10px;
-  }
-  .posting-two-cols .tabbed-radio-btns {
-    margin-top: 10px;
-    display: block;
-  }
-  .job-posting h3 {
-    font-size: 18px;
-  }
-  .job-posting h3 + p {
-    color: $clr-tertiary;
-    text-align: center;
-    line-height: 1.71;
-    margin-top: 14px;
-    font-size: 13px;
-    margin-bottom: 20px;
-  }
-  .job-posting h3 {
-    text-align: left;
-  }
-  .job-posting h3 + p,
-  .subpage-heading + p {
-    font-size: 13px;
-    margin-bottom: 20px;
-  }
-  .posting-two-cols .form-group {
-    flex-basis: auto;
-    width: 100%;
-    margin: 0;
-  }
-  .tabbed-radio-btns.three-tabs li {
-    width: 33.33%;
-    flex-basis: calc(100% / 3);
-    width: calc(100% / 3);
-  }
-  .tabbed-radio-btns li {
-    flex-basis: 50%;
-    width: 50%;
-  }
-  .tabbed-radio-btns li span {
-    min-width: 100%;
-  }
-  .posting-two-cols {
-    align-items: normal;
-    flex-direction: column;
-  }
-  .tabbed-radio-btns {
-    margin-top: 20px;
-  }
-  .hours-col .pt-ft-w-m {
-    margin-top: 0;
-  }
-  .hours-col .pt-ft-w-m {
-    margin-top: 10px;
-    display: block;
-  }
-  .job-posting hr {
-    margin: 20px -15px;
-  }
-  .job-posting > h4 {
-    font-weight: normal;
-  }
-  .job-posting.card h4 {
-    font-family: 'open_sansregular';
-    font-size: 18px;
-  }
-  .payment-details li:first-child,
-  .payment-details li:nth-child(2),
-  .payment-details li:last-child {
-    flex-basis: 100%;
-    width: 100%;
-  }
-  .payment-details li:nth-child(2) {
-    text-align: left;
-    margin: 5px 0;
-  }
-  .remaining-detail {
-    width: 100%;
-  }
-  .payment-details + .payment-details {
-    border-top: 2px solid $clr-tri;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 20px 0;
-  }
-  // .payment-details+.payment-details li{ padding: 0; }
-  .button-group.text-right {
-    text-align: center;
-    float: right;
-    margin: 0 15px 20px 0;
-  }
-  .payment-details p {
-    position: static;
-    display: block;
-    text-align: right;
-    margin-top: 13px;
-  }
-  .payment-details li span.hidden,
-  .remaining-detail li span.hidden {
-    font-family: "open_sanssemibold";
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: $clr-tertiary;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    line-height: 1;
-    text-align: left;
-  }
+    .content-wrapper {
+      padding: 0;
+    }
+    .posting-two-cols input{ width: 100%; }
+    .remaining-detail input{ width: 100%; }
+    .estimated-section h5{ font-size: 15px; }
+    .estimated-section p{ font-size: 13px; }
+    .estimated-section ul{ margin: 0; padding-top: 15px; }
+    .payment-details input{ flex-basis:auto ; width: 100%; }
+    .tabbed-radio-btns.three-tabs { margin-top: 10px; }
+    .posting-two-cols .tabbed-radio-btns{ margin-top: 10px; display: block; }
+    .job-posting h3 { font-size: 18px; }
+    .job-posting h3 + p{
+      color: $clr-tertiary;
+      text-align: center;
+      line-height: 1.71;
+      margin-top: 14px;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+    .job-posting h3 {
+      text-align: left;
+    }
+    .job-posting h3 + p,
+    .subpage-heading + p {
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+    .posting-two-cols .form-group {
+      flex-basis: auto;
+      width: 100%;
+      margin: 0;
+    }
+    .tabbed-radio-btns.three-tabs li {
+      width: 33.33%;
+      flex-basis: calc(100% / 3);
+      width: calc(100%/3);
+    }
+    .tabbed-radio-btns li {
+      flex-basis: 50%;
+      width: 50%;
+    }
+    .tabbed-radio-btns li span { min-width: 100%; }
+    .posting-two-cols {
+      align-items: normal;
+      flex-direction: column;
+    }
+    .tabbed-radio-btns { margin-top: 20px; }
+    .hours-col .pt-ft-w-m { margin-top: 0; }
+    .hours-col .pt-ft-w-m { margin-top: 10px; display: block; }
+    .job-posting hr { margin: 20px -15px; }
+    .job-posting > h4 { font-weight: normal; }
+    .job-posting.card h4{
+      font-family: 'open_sansregular';
+      font-size: 18px;
+    }
+    .payment-details li:first-child,
+    .payment-details li:nth-child(2),
+    .payment-details li:last-child {
+      flex-basis: 100%;
+      width: 100%;
+    }
+    .payment-details li:nth-child(2) {
+      text-align: left;
+      margin: 5px 0;
+    }
+    .remaining-detail { width: 100%; }
+    .payment-details + .payment-details {
+      border-top: 2px solid $clr-tri;
+      margin-left:0;
+      margin-right:0;
+      padding: 20px 0;
+    }
+    // .payment-details+.payment-details li{ padding: 0; }
+    .button-group.text-right {
+      text-align: center;
+      float: right;
+      margin: 0 15px 20px 0;
+    }
+    .payment-details p {
+      position: static;
+      display: block;
+      text-align: right;
+      margin-top: 13px;
+    }
+    .payment-details li span.hidden,
+    .remaining-detail li span.hidden {
+      font-family: "open_sanssemibold";
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: $clr-tertiary;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      line-height: 1;
+      text-align: left;
+    }
 
-}
+  }
+  @media only screen and (max-width : 479px) {
 
-@media only screen and (max-width: 479px) {
-
-}
+  }

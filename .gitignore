@@ -10,3 +10,5 @@ server/config/util.js
 .env
 .audit.json
 server/logs/*
+
+.idea

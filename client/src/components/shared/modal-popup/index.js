@@ -7,11 +7,11 @@ import ReleasePayment from './popups/ReleasePayment';
 import TransferFunds from './popups/TransferFunds';
 
 module.exports = {
-  Info,
-  Confirm,
-  ViewFile,
-  SendMsg,
-  SubmitDeliverable,
-  ReleasePayment,
-  TransferFunds
+    Info,
+    Confirm,
+    ViewFile,
+    SendMsg,
+    SubmitDeliverable,
+    ReleasePayment,
+    TransferFunds
 }

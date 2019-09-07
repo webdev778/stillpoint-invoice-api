@@ -1,29 +1,29 @@
 /**
-* @api {post} /userNetworkProfile User Network profile 
-* @apiVersion 0.0.1
-* @apiName userNetworkProfile
-* @apiGroup Authentication
-* @apiPermission User
-*
-* @apiDescription Network profile of user created with Legably system.
+ * @api {post} /userNetworkProfile User Network profile
+ * @apiVersion 0.0.1
+ * @apiName userNetworkProfile
+ * @apiGroup Authentication
+ * @apiPermission User
+ *
+ * @apiDescription Network profile of user created with Legably system.
 
-* @apiHeader {String} TOKEN      * A token send by header as TOKEN
-* 
+ * @apiHeader {String} TOKEN      * A token send by header as TOKEN
+ *
 
-* @apiParam {Object}  network            * Network Details
-* @apiParam {String}  network.lawyer_headline            * lawyer headline
-* @apiParam {String} network.about_lawyer   * About lawyer.
-* @apiParam {String} network.linkdin_link         * linkedin link.
-* @apiParam {String} network.clio_link * Clio Link
-*
-*
-* @apiSuccess {Number} Code 200.
-* @apiSuccess {Boolean} Status true.
-* @apiSuccess {String} Message You have successfully updated your profile.
-*
-* @apiExample Example usage:
-*
-*{
+ * @apiParam {Object}  network            * Network Details
+ * @apiParam {String}  network.lawyer_headline            * lawyer headline
+ * @apiParam {String} network.about_lawyer   * About lawyer.
+ * @apiParam {String} network.linkdin_link         * linkedin link.
+ * @apiParam {String} network.clio_link * Clio Link
+ *
+ *
+ * @apiSuccess {Number} Code 200.
+ * @apiSuccess {Boolean} Status true.
+ * @apiSuccess {String} Message You have successfully updated your profile.
+ *
+ * @apiExample Example usage:
+ *
+ *{
  
 	 "network": {
   "lawyer_headline": "Law Headline..... Bla Bla",
@@ -33,30 +33,30 @@
  }
 
 }
-*
-* 
-* @apiSuccessExample Success-Response-Example:
-*     HTTP/1.1 success
-{
+ *
+ *
+ * @apiSuccessExample Success-Response-Example:
+ *     HTTP/1.1 success
+ {
   "Code": 200,
   "Status": true,
   "Message": "You have successfully updated your profile."
 }
-*
-*
+ *
+ *
  * @apiError {Object} Error-Response Returns a json Object.
  * @apiError (Error-Response Object){Number} Code 400.
  * @apiError (Error-Response Object){Boolean} Status false.
  * @apiError (Error-Response Object){String} Message error message.
  * @apiErrorExample Sample Error-Response:
 
- *   
+ *
  *  {
         "Code": 400,
 	"Status": false,
 	"Message": "Invalid Parameters"
     }
-    
+
  */
 
 

@@ -2,6 +2,7 @@
 .steps-widget {
   position: relative;
   padding: 0px 0 40px;
+
   .liner {
     height: 2px;
     background: #dddddd;
@@ -13,13 +14,16 @@
     top: 34%;
     z-index: 1;
   }
+
   .nav-tabs {
     border: 0;
+
     > li {
       width: 20%;
       font-size: 15px;
       text-align: center;
       color: $clr-tertiary;
+
       > span {
         position: absolute;
         bottom: 0;
@@ -29,28 +33,34 @@
         max-height: 30px;
         word-break: break-word;
       }
+
       &.active > span:nth-of-type(2) {
         border-bottom: 2px solid $clr-secondary;
         width: 20%;
         left: 40%;
         bottom: -10px;
       }
+
       &:first-child {
         > span {
           padding: 0 0px;
         }
+
         &.active > span:nth-of-type(2) {
           bottom: -25px;
         }
       }
+
       &:last-child {
         > span {
           padding: 0 0px;
         }
+
         &.active > span:nth-of-type(2) {
           bottom: -17px;
         }
       }
+
       a {
         @include prefix('border-radius', 50%);
         width: 15px;
@@ -61,6 +71,7 @@
       }
     }
   }
+
   span.round-tabs {
     @include prefix('border-radius', 50px);
     width: 15px;
@@ -75,6 +86,7 @@
     font-size: 25px;
     border: 2px solid #e1e1e1;
   }
+
   li {
     span.round-tabs::before {
       /*content: " ";
@@ -86,6 +98,7 @@
       left: 2px;
       top: 2px;*/
     }
+
     &.active ~ li span.round-tabs::before {
       /*display: none;*/
     }
@@ -97,6 +110,7 @@
   cursor: default;
   border: 0;
   border-bottom-color: transparent;
+
   &:hover, &:focus {
     color: #555555;
     cursor: default;
@@ -107,10 +121,11 @@
 
 .steps-widget li {
   &.fill {
-    span.round-tabs{
+    span.round-tabs {
       border-color: $clr-secondary;
       cursor: pointer;
     }
+
     span.round-tabs::before {
       @include prefix('border-radius', 50%);
       content: " ";
@@ -122,49 +137,60 @@
       top: 2px;
     }
   }
+
   &.active ~ li.fill span.round-tabs::before {
     /*display: none;*/
   }
-}/*-------------------------- responsive css begins below ------------------------------*/
+}
 
-    /*================================  Non-Mobile First Method  ======================*/
+/*-------------------------- responsive css begins below ------------------------------*/
 
-    /* Large Devices, Wide Screens */
-    @media only screen and (max-width : 1199px) {
+/*================================  Non-Mobile First Method  ======================*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width: 1199px) {
 
 
-    }
-    /* Medium Devices, Desktops */
-    @media only screen and (max-width : 991px) {
+}
 
-      .steps-widget .nav-tabs > li {
-        font-size: 13px;
-      }
+/* Medium Devices, Desktops */
+@media only screen and (max-width: 991px) {
 
-      .steps-widget .nav-tabs ul > li:first-child > span{
-        padding: 0 0px;
-        max-height: 20px;
-      }
-      .steps-widget .nav-tabs ul > li:first-child.active > span:nth-of-type(2){
-        bottom: -25px;
-      }
+  .steps-widget .nav-tabs > li {
+    font-size: 13px;
+  }
 
-    }
+  .steps-widget .nav-tabs ul > li:first-child > span {
+    padding: 0 0px;
+    max-height: 20px;
+  }
+  .steps-widget .nav-tabs ul > li:first-child.active > span:nth-of-type(2) {
+    bottom: -25px;
+  }
 
-    @media only screen and (max-width : 832px){
-      .steps-widget .nav-tabs > li:nth-of-type(3) >span{ max-height: 20px; }
-      .steps-widget .nav-tabs > li:nth-of-type(3).active>span:nth-of-type(2){ bottom: -25px; }
-    }
+}
 
-    /* Small Devices, Tablets */
-    @media only screen and (max-width : 767px) {
-      .steps-widget{ display: none; }
-    }
+@media only screen and (max-width: 832px) {
+  .steps-widget .nav-tabs > li:nth-of-type(3) > span {
+    max-height: 20px;
+  }
+  .steps-widget .nav-tabs > li:nth-of-type(3).active > span:nth-of-type(2) {
+    bottom: -25px;
+  }
+}
 
-    /* Extra Small Devices, Phones */
-    @media only screen and (max-width : 479px) {
+/* Small Devices, Tablets */
+@media only screen and (max-width: 767px) {
+  .steps-widget {
+    display: none;
+  }
+}
 
-    }
+/* Extra Small Devices, Phones */
+@media only screen and (max-width: 479px) {
 
-    /* Custom, iPhone Retina */
-    @media only screen and (max-width : 320px) {}
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width: 320px) {
+}

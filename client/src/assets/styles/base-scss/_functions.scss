@@ -14,20 +14,18 @@ imp predefined functions -
 /* function for griding */
 $col-count: 12;
 @function col-pct($columns) {
-    @return unquote((100/$col-count)*$columns+"%");
+  @return unquote((100/$col-count)*$columns+"%");
 }
+
 /* div{
 	width: col-pct(4);
 } */
 
-@for $i from 1 through 12{
-  .#{class-slug}-#{$i}{
+@for $i from 1 through 12 {
+  .#{class-slug}-#{$i} {
     width: 100/12*$i + '%';
   }
 }
-
-
-
 
 
 /*

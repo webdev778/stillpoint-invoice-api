@@ -1,29 +1,32 @@
 .job-search-wrapper .status-content.in-progress-status,
-.job-details-wrapper .status-content.in-progress-status
-{
+.job-details-wrapper .status-content.in-progress-status {
   margin-top: 45px;
-  h6{
+
+  h6 {
     @include media($max: 991px) {
       font-size: 13px;
     }
   }
+
   @include media($max: 991px) {
     margin-top: 25px;
   }
 }
-.in-progress-desktop{
-  .nav-pills{
+
+.in-progress-desktop {
+  .nav-pills {
 
   }
-  .nav-justified{
+
+  .nav-justified {
     width: 80%;
     margin: 0 auto;
     @include media($min: 992px, $max: 1299px) {
       width: 100%;
     }
 
-    li{
-      a{
+    li {
+      a {
         font-size: 15px;
         color: $clr-tertiary;
         // border-right: 1px solid $clr-tri;
@@ -31,15 +34,18 @@
         background-color: $clr-primary;
         padding: 0 15px;
         margin: 10px 0;
-        &:hover{
+
+        &:hover {
           background-color: $clr-primary;
         }
       }
-      &.active{
-        a{
+
+      &.active {
+        a {
           color: $clr-di;
           background-color: $clr-primary;
-          &::after{
+
+          &::after {
             content: "";
             display: block;
             width: 85px;
@@ -49,35 +55,40 @@
           }
         }
       }
-      &:nth-child(2){
-        a{
+
+      &:nth-child(2) {
+        a {
           border-right: 1px solid $clr-tri;
           border-left: 1px solid $clr-tri;
         }
       }
     }
   }
-  .nav-justified + .separator{
+
+  .nav-justified + .separator {
     margin: 0 -30px;
   }
-  .tab-content{
-    .tab-pane{
+
+  .tab-content {
+    .tab-pane {
 
     }
   }
+
   @include media($max: 991px) {
     display: none;
   }
 }
 
-.custom-table{
+.custom-table {
 
-  .custom-thead{
-    .custom-tr{
+  .custom-thead {
+    .custom-tr {
       @include prefix('display', 'flex');
       max-width: 100%;
     }
-    .custom-th{
+
+    .custom-th {
       // @include truncate(100%);
       width: calc(100% / 6);
       flex-basis: calc(100% / 6);
@@ -85,27 +96,33 @@
       height: 50px;
       border: 1px solid $clr-tri;
       padding: 15px 0;
-      font-size : 12px;
+      font-size: 12px;
       color: $clr-di;
       text-transform: capitalize;
       margin: 0 -1px -1px 0;
       text-align: center;
-      .fa{
+
+      .fa {
         margin: 0 5px;
         position: absolute;
-        &.fa-sort{
+
+        &.fa-sort {
           top: 3px;
         }
-        &.fa-sort-up{
+
+        &.fa-sort-up {
           top: 6px;
         }
-        &.fa-sort-down{
+
+        &.fa-sort-down {
           top: 2px;
         }
       }
+
       .dropdown-menu {
         > li {
           padding: 0;
+
           > a {
             font-size: 13px;
             color: #565656;
@@ -114,8 +131,9 @@
           }
         }
       }
-      &:nth-child(7){
-        .fa{
+
+      &:nth-child(7) {
+        .fa {
           right: 25%;
           @include media($min: 1092px, $max: 1299px) {
             right: 20%;
@@ -127,12 +145,14 @@
       }
     }
   }
-  .custom-tbody{
-    .custom-tr{
+
+  .custom-tbody {
+    .custom-tr {
       @include prefix('display', 'flex');
       max-width: 100%;
     }
-    .custom-td{
+
+    .custom-td {
       width: calc(100% / 6);
       max-width: calc(100% / 6);
       flex-basis: calc(100% / 6);
@@ -147,58 +167,70 @@
       margin: 0 -1px -1px 0;
       flex-wrap: wrap;
 
-      > span{
+      > span {
         // max-width: 100%;
         // white-space: nowrap;
         // overflow: hidden;
         // text-overflow: ellipsis;
       }
+
       &:nth-child(4) {
         text-transform: lowercase;
-        > span{
+
+        > span {
           @include truncate();
         }
-        & span::first-letter{
+
+        & span::first-letter {
           text-transform: capitalize;
         }
       }
+
       &:nth-child(3),
       &:nth-child(5),
       &:nth-child(6),
       &:nth-child(7),
-      &:nth-child(8){
+      &:nth-child(8) {
         justify-content: center;
       }
-      &:last-child{
+
+      &:last-child {
         padding: 15px 0;
       }
-      input[type="image"]{
+
+      input[type="image"] {
         cursor: pointer;
         margin: 5px;
       }
-      p{ margin: 0 }
+
+      p {
+        margin: 0
+      }
     }
-    .btn-saved{
+
+    .btn-saved {
       min-width: 70px;
       padding: 0;
     }
   }
-  .declined{
+
+  .declined {
     color: #d0021b;
   }
 }
 
-#completed_deliverables{
-  .custom-table{
-    .custom-thead{
-      .custom-th{
+#completed_deliverables {
+  .custom-table {
+    .custom-thead {
+      .custom-th {
         width: calc(100% / 5);
         max-width: calc(100% / 5);
         flex-basis: calc(100% / 5);
       }
     }
-    .custom-tbody{
-      .custom-td{
+
+    .custom-tbody {
+      .custom-td {
         width: calc(100% / 5);
         max-width: calc(100% / 5);
         flex-basis: calc(100% / 5);
@@ -206,18 +238,23 @@
     }
   }
 }
-.in-progress-responsive{
+
+.in-progress-responsive {
   text-align: left;
-  .separator{
+
+  .separator {
     margin: 0px -15px;
   }
-  .card-view{
+
+  .card-view {
     border: 1px solid $clr-tri;
   }
-  h6{
+
+  h6 {
     font-size: 12px;
     color: $clr-di;
     margin: 0;
+
     &.no-deliverables {
       display: flex;
       color: $bg-tertiary;
@@ -227,64 +264,78 @@
       min-height: 100px;
     }
   }
-  h5.sorting{
+
+  h5.sorting {
     font-size: 13px;
     color: $clr-quinary;
     padding: 15px 0 15px 15px;
     margin: 0;
-    .fa{
+
+    .fa {
       margin: 0 0 0 5px;
     }
   }
-  p{
+
+  p {
     font-size: 12px;
     color: $clr-quinary;
     margin: 0 0 15px;
   }
-  .job-title{
+
+  .job-title {
     font-size: 12px;
     color: $clr-di;
     border-bottom: 1px solid $clr-tri;
     text-align: left;
     padding: 15px;
     cursor: pointer;
+
     &[aria-expanded="false"] {
       background: url("/images/add-more-icon.png") 95% no-repeat;
       background-size: 22px;
     }
+
     &[aria-expanded="true"] {
       background: url("/images/minus.png") 95% no-repeat;
       background-size: 22px;
     }
   }
-  .job-details{
+
+  .job-details {
     text-align: left;
-    h6{
+
+    h6 {
       font-size: 12px;
       color: $clr-di;
       margin: 0;
-      &:last-of-type{
+
+      &:last-of-type {
         margin-bottom: 5px;
       }
     }
-    p{
+
+    p {
       font-size: 12px;
       color: $clr-quinary;
       margin: 0 0 15px;
     }
   }
-  input[type="image"]{
+
+  input[type="image"] {
     margin-right: 10px;
   }
+
   @include media($min: 992px) {
     display: none;
   }
-  .dropdown-menu{
+
+  .dropdown-menu {
     left: auto;
     right: 0;
     padding: 0 20px;
     margin: 10px 0 0;
-    &:before{
+
+    &:before {
       content: "";
       height: 0;
       border-left: 6px solid transparent;
@@ -294,7 +345,8 @@
       top: -9px;
       right: 19px;
     }
-    &:after{
+
+    &:after {
       content: "";
       width: 0;
       height: 0;
@@ -305,35 +357,39 @@
       top: -7px;
       right: 20px;
     }
-    > li{
+
+    > li {
       padding: 0;
-      > a{
+
+      > a {
         font-size: 13px;
         color: #565656;
         padding: 15px 0 !important;
         border-bottom: 0;
       }
     }
-    >li.divider{
+
+    > li.divider {
       margin: 0;
     }
   }
 }
 
-.custom-carousel{
-  .carousel-inner{
+.custom-carousel {
+  .carousel-inner {
     // text-align: center;
-    .item{
+    .item {
       // display: inline-block;
       // left: 25px;
       font-size: 14px;
       color: #666666;
       max-width: 50%;
       text-align: center;
-      &.active{
+
+      &.active {
         color: #000000;
         // display: inline-block;
-        &:after{
+        &:after {
           content: "";
           display: block;
           width: 85px;
@@ -342,29 +398,35 @@
           margin: 1px auto 0;
         }
       }
+
       @include media($max: 991px) {
         // max-width: 60%;
         max-width: 100%;
       }
     }
   }
-  .carousel-control{
+
+  .carousel-control {
     background: none;
     text-shadow: none;
-    &.left{
+
+    &.left {
       text-align: left;
       top: 3px;
     }
-    &.right{
+
+    &.right {
       text-align: right;
       top: 3px;
     }
-    .fa{
+
+    .fa {
       font-size: 15px;
       color: #666666;
     }
   }
 }
+
 .delivery-break-word {
   word-wrap: break-word;
   display: block;

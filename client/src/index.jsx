@@ -6,13 +6,13 @@ var Provider = require('react-redux').Provider;
 var routes = require('./routes.jsx');
 
 function reducer(state) {
-  return state;
+    return state;
 }
 
 var store = Redux.createStore(reducer, window.PROPS);
 
 ReactDOM.render(
-  <Provider store={store}>
-    {routes}
-  </Provider>, document
+    <Provider store={store}>
+        {routes}
+    </Provider>, document
 );

@@ -6,8 +6,8 @@ import LegablyLargeFooter from './shared/footer/LargeFooter';
 import Loader from './shared/loader/Loader';
 import FlashMsg from './shared/flash-msg/FlashMsg';
 
-import AvatarCropper from  './shared/plugins/cropper/AvatarCropper';
-import AvatarFileUpload from  './shared/plugins/cropper/AvatarFileUpload';
+import AvatarCropper from './shared/plugins/cropper/AvatarCropper';
+import AvatarFileUpload from './shared/plugins/cropper/AvatarFileUpload';
 import Mask from './shared/plugins/mask/Mask';
 
 import Dashboard from './dashboard/Index';
@@ -19,19 +19,19 @@ import CreateStripeAccount from './dashboard/shared/CreateStripeAccount';
 import PostJobComp from './dashboard/poster-jobs/shared/PostJobComp';
 
 module.exports = {
-  Role,
-  LegablyHeader,
-  LegablyFooter,
-  LegablyLargeFooter,
-  Loader,
-  FlashMsg,
-  AvatarCropper,
-  AvatarFileUpload,
-  Mask,
-  Dashboard,
-  Job,
-  JobStepsView,
-  NoRecordFound,
-  CreateStripeAccount,
-  PostJobComp
+    Role,
+    LegablyHeader,
+    LegablyFooter,
+    LegablyLargeFooter,
+    Loader,
+    FlashMsg,
+    AvatarCropper,
+    AvatarFileUpload,
+    Mask,
+    Dashboard,
+    Job,
+    JobStepsView,
+    NoRecordFound,
+    CreateStripeAccount,
+    PostJobComp
 }

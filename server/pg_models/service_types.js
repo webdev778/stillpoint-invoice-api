@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     // Service_Types.associate = ({Services}) => {
     //     Service_Types.hasMany(Services);
+    //     Service.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
     // };
     return Service_Types;
 };

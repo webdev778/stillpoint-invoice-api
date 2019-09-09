@@ -227,6 +227,8 @@ module.exports = (sequelize, DataTypes) => {
     // Counselor.associate = ({ Invoice }) => {
 
     //     Counselor.hasMany(Invoice);
+    //     Counselor.hasMany(Service_Types);
+    //     Counselor.hasMany(Invoice_Detail);
     // };
 
     return Counselor;

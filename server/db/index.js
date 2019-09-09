@@ -1,5 +1,8 @@
 var rfr = require('rfr'),
 Mongoose = require('mongoose');
+
+const fs = require('fs');
+const path = require('path');
 const Sequelize = require('sequelize');
 
 var config = rfr('/server/shared/config'),
@@ -40,6 +43,20 @@ const db={};
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
+  });
+
+  const model_path = __dirname+'../pg_models/';
+  fs.readdirSync(model_path).filter(file => {
+    return (file.indexOf('.') !== 0) && (file.slice(-3) === '.js');
+  }).forEach(file => {
+    const model = sequelize['import'](path.join(model_path, file));
+    db[model.name] = model;
+  });
+
+  Object.keys(db).forEach(modelName => {
+    if (db[modelName].associate) {
+      db[modelName].associate(db);
+    }
   });
 
   db.sequelize = sequelize;

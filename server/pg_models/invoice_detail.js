@@ -5,17 +5,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        invoice_name: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        invoiceName: {
+            type: DataTypes.CHAR
         },
         address: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
         tax: {
-            type: DataTypes.DOUBLE,
-            defaultValue: ''
+            type: DataTypes.DOUBLE
         }
     });
     // Invoice_Detail.associate = ({ Counselor, Currency }) => {

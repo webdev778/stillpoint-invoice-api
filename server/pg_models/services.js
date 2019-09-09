@@ -6,20 +6,16 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         description: {
-            type: DataTypes.TEXT,
-            defaultValue: ''
+            type: DataTypes.TEXT
         },
         quantity: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+            type: DataTypes.INTEGER
         },
-        unit_price: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        unitPrice: {
+            type: DataTypes.INTEGER
         },
-        text_charge: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        textCharge: {
+            type: DataTypes.BOOLEAN
         }
     });
 

@@ -7,8 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         },
        
         code: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         }
     });
 

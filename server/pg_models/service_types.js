@@ -6,16 +6,13 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         name: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
         type: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+            type: DataTypes.INTEGER
         },
         price: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+            type: DataTypes.INTEGER
         }
     });
     // Service_Types.associate = ({Services}) => {

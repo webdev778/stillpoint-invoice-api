@@ -8,220 +8,166 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         title: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
         tagline: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
         about: {
-            type: DataTypes.TEXT,
-            defaultValue: ''
+            type: DataTypes.TEXT
         },
-        how_i_work: {
-            type: DataTypes.TEXT,
-            defaultValue: ''
+        howIWork: {
+            type: DataTypes.TEXT
         },
         education: {
-            type: DataTypes.TEXT,
-            defaultValue: ''
+            type: DataTypes.TEXT
         },
-        user_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        userId: {
+            type: DataTypes.INTEGER
         },
-        created_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        createdAt: {
+            type: DataTypes.TIME
         },
-        updated_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        updatedAt: {
+            type: DataTypes.TIME
         },
-        high_res_image_file_name: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        highResImageFileName: {
+            type: DataTypes.CHAR
         },
-        high_res_image_content_type: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        highResImageContentType: {
+            type: DataTypes.CHAR
         },
-        high_res_image_file_size: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        highResImageFileSize: {
+            type: DataTypes.INTEGER
         },
-        high_res_image_updated_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        highResImageUpdatedAt: {
+            type: DataTypes.TIME
         },
-        price_per_session_hour: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        pricePerSessionHour: {
+            type: DataTypes.INTEGER
         },
         experience: {
-            type: DataTypes.TEXT,
-            defaultValue: ''
+            type: DataTypes.TEXT
         },
         hidden: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+            type: DataTypes.BOOLEAN
         },
         available: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+            type: DataTypes.BOOLEAN
         },
-        blog_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        blogUrl: {
+            type: DataTypes.CHAR
         },
-        google_maps_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        googleMapsUrl: {
+            type: DataTypes.CHAR
         },
-        vimeo_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        vimeoUrl: {
+            type: DataTypes.CHAR
         },
-        soundcloud_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        soundcloudUrl: {
+            type: DataTypes.CHAR
         },
-        language_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        languageId: {
+            type: DataTypes.INTEGER
         },
-        sliding_scale: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        slidingScale: {
+            type: DataTypes.BOOLEAN
         },
-        google_plus_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        googlePlusUrl: {
+            type: DataTypes.CHAR
         },
-        facebook_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        facebookUrl: {
+            type: DataTypes.CHAR
         },
-        meetup_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        meetupUrl: {
+            type: DataTypes.CHAR
         },
-        pinterest_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        pinterestUrl: {
+            type: DataTypes.CHAR
         },
-        twitter_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        twitterUrl: {
+            type: DataTypes.CHAR
         },
-        instagram_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        instagramUrl: {
+            type: DataTypes.CHAR
         },
-        tumblr_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        tumblrUrl: {
+            type: DataTypes.CHAR
         },
         website: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
-        admin_notified_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        adminNotifiedAt: {
+            type: DataTypes.TIME
         },
-        updated_attributes: {
-            type: DataTypes.HSTORE,
-            defaultValue: ''
+        updatedAttributes: {
+            type: DataTypes.HSTORE
         },
-        stored_payout_details: {
-            type: DataTypes.TEXT,
-            defaultValue: ''
+        storedPayoutDetails: {
+            type: DataTypes.TEXT
         },
-        paid_outside_adyen: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        paidOutsideAdyen: {
+            type: DataTypes.BOOLEAN
         },
-        berlin_counselor_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        berlinCounselorId: {
+            type: DataTypes.INTEGER
         },
         summary: {
-            type: DataTypes.TEXT,
-            defaultValue: ''
+            type: DataTypes.TEXT
         },
-        is_using_stripe: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        isUsingStripe: {
+            type: DataTypes.BOOLEAN
         },
-        stripe_account_id: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        stripeAccountId: {
+            type: DataTypes.CHAR
         },
-        stripe_sk: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        stripeSk: {
+            type: DataTypes.CHAR
         },
-        stripe_pk: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        stripePk: {
+            type: DataTypes.CHAR
         },
-        default_city_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        defaultCityId: {
+            type: DataTypes.INTEGER
         },
         currency: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
         state: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
-        notified_approved_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        notifiedApprovedAt: {
+            type: DataTypes.TIME
         },
-        active_subscription: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        activeSubscription: {
+            type: DataTypes.BOOLEAN
         },
-        show_price_per_session: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        showPricePerSession: {
+            type: DataTypes.BOOLEAN
         },
-        linkedin_url: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        linkedinUrl: {
+            type: DataTypes.CHAR
         },
-        online_session: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        onlineSession: {
+            type: DataTypes.BOOLEAN
         },
-        in_person_session: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        inPersonSession: {
+            type: DataTypes.BOOLEAN
         },
         ethics: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+            type: DataTypes.TIME
         },
         subscription: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
-        stillpoint_percentage: {
-            type: DataTypes.FLOAT,
-            defaultValue: ''
+        stillpointPercentage: {
+            type: DataTypes.FLOAT
         },
-        subscription_required: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        subscriptionRequired: {
+            type: DataTypes.BOOLEAN
         },
-        skype_id: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        skypeId: {
+            type: DataTypes.CHAR
         }
     });
     // Counselor.associate = ({ Invoice }) => {

@@ -115,7 +115,7 @@ module.exports = (sequelize, DataTypes) => {
     Invoice.associate = ({ Counselor, Client, Payment, Services }) => {
         Invoice.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
         Invoice.belongsTo(Client, { as: 'counselor', foreignKey: 'client_id', onDelete: 'cascade' });
-        Invoice.belongsTo(Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });
+        Invoice.belongsTo(Stripe_Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });
         Invoice.hasMany(Services);
     };
 

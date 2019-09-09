@@ -34,7 +34,18 @@ const db={};
   */
 
   // postgres db
-  const sequelize = new Sequelize('postgres://postgres:123123@10.10.10.194:5432/d7bjegrmpo9e7k');
+  // const sequelize = new Sequelize('postgres://postgres:123123@10.10.10.194:5432/d7bjegrmpo9e7k');
+  const sequelize = new Sequelize(
+    config.database.db,
+    config.database.username,
+    config.database.password, {
+        host: config.database.host,
+        dialect: 'postgres',
+        define: {
+            underscored: true
+        }
+    }
+  );
 
   sequelize
   .authenticate()
@@ -45,12 +56,15 @@ const db={};
     console.error('Unable to connect to the database:', err);
   });
 
-  const model_path = __dirname+'../pg_models/';
+  const model_path = __dirname+'/../pg_models/';
   fs.readdirSync(model_path).filter(file => {
     return (file.indexOf('.') !== 0) && (file.slice(-3) === '.js');
   }).forEach(file => {
     const model = sequelize['import'](path.join(model_path, file));
-    db[model.name] = model;
+    if(model.name === 'new_invoice')
+      db['Invoice'] = model;
+    else
+      db[model.name] = model;
   });
 
   Object.keys(db).forEach(modelName => {

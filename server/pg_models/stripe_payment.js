@@ -63,9 +63,9 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
 
-    Stripe_Payment.associate = ({ Invoice }) => {
-        Stripe_Payment.hasMany(Invoice);
-    };
+    // Stripe_Payment.associate = ({ Invoice }) => {
+    //     Stripe_Payment.hasMany(Invoice);
+    // };
 
     return Stripe_Payment;
 };

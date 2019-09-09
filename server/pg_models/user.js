@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: ''
         },
         confirmation_sent_at: {
-            type: DataTypes.Time,
+            type: DataTypes.TIME,
             defaultValue: ''
         },
         unconfirmed_email: {
@@ -208,10 +208,10 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: ''
         }
     });
-    User.associate = ({ Invoice }) => {
-        
-        Counselor.hasMany(Invoice);
-    };
+    // User.associate = ({ Invoice }) => {
+
+    //     User.hasMany(Invoice);
+    // };
 
     return User;
 };

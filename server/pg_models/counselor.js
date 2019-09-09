@@ -224,10 +224,10 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: ''
         }
     });
-    Counselor.associate = ({ Invoice }) => {
-        
-        Counselor.hasMany(Invoice);
-    };
+    // Counselor.associate = ({ Invoice }) => {
+
+    //     Counselor.hasMany(Invoice);
+    // };
 
     return Counselor;
 };

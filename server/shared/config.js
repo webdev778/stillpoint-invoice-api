@@ -12,8 +12,8 @@ var database = {
 };
 
 if (parsedEnv.DB_USER) {
-  database.username = parseEnv.DB_USER,
-  database.password = parseEnv.DB_PASS
+  database.username = parsedEnv.DB_USER,
+  database.password = parsedEnv.DB_PASS
 }
 
 var server = {

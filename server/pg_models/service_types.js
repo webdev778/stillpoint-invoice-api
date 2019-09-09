@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: ''
         }
     });
-    Service_Types.associate = ({Services}) => {
-        Service_Types.hasMany(Services);
-    };
+    // Service_Types.associate = ({Services}) => {
+    //     Service_Types.hasMany(Services);
+    // };
     return Service_Types;
 };

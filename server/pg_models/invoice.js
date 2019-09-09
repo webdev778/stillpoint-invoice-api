@@ -2,7 +2,7 @@
 
 module.exports = (sequelize, DataTypes) => {
 
-    const Invoice = sequelize.define('Invoice', {
+    const Invoice = sequelize.define('new_invoice', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.CHAR,
             defaultValue: ''
         },
-        sender_coutnry: {
+        sender_country: {
             type: DataTypes.CHAR,
             defaultValue: ''
         },
@@ -112,12 +112,12 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: ''
         }
     });
-    Invoice.associate = ({ Counselor, Client, Payment, Services }) => {
-        Invoice.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
-        Invoice.belongsTo(Client, { as: 'counselor', foreignKey: 'client_id', onDelete: 'cascade' });
-        Invoice.belongsTo(Stripe_Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });
-        Invoice.hasMany(Services);
-    };
+    // Invoice.associate = ({ Counselor, Client, Payment, Services }) => {
+    //     Invoice.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
+    //     Invoice.belongsTo(Client, { as: 'counselor', foreignKey: 'client_id', onDelete: 'cascade' });
+    //     Invoice.belongsTo(Stripe_Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });
+    //     Invoice.hasMany(Services);
+    // };
 
     return Invoice;
 };

@@ -7,205 +7,156 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        first_name: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        firstMame: {
+            type: DataTypes.CHAR
         },
         timezone: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
         admin: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+            type: DataTypes.BOOLEAN
         },
         email: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
-        encrypted_password: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        encryptedPassword: {
+            type: DataTypes.CHAR
         },
-        reset_password_token: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        resetPasswordToken: {
+            type: DataTypes.CHAR
         },
-        reset_password_sent_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        resetPasswordSentAt: {
+            type: DataTypes.TIME
         },
-        remember_created_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        rememberCreatedAt: {
+            type: DataTypes.TIME
         },
-        confirmation_token: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        confirmationToken: {
+            type: DataTypes.CHAR
         },
-        confirmed_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        confirmedAt: {
+            type: DataTypes.TIME
         },
-        confirmation_sent_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        confirmationSentAt: {
+            type: DataTypes.TIME
         },
-        unconfirmed_email: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        unconfirmedEmail: {
+            type: DataTypes.CHAR
         },
-        created_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        createdAt: {
+            type: DataTypes.TIME
         },
-        updated_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        updatedAt: {
+            type: DataTypes.TIME
         },
-        avatar_file_name: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        avatarFileName: {
+            type: DataTypes.CHAR
         },
-        avatar_content_type: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        avatarContentType: {
+            type: DataTypes.CHAR
         },
-        avatar_file_size: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        avatarFileSize: {
+            type: DataTypes.INTEGER
         },
-        avatar_updated_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        avatarUpdatedAt: {
+            type: DataTypes.TIME
         },
-        last_name: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        lastName: {
+            type: DataTypes.CHAR
         },
-        wants_newsletter: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        wantsNewsletter: {
+            type: DataTypes.BOOLEAN
         },
-        sent_order_for_newsletter: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        sentOrderForNewsletter: {
+            type: DataTypes.BOOLEAN
         },
-        sent_instructions: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        sentInstructions: {
+            type: DataTypes.BOOLEAN
         },
-        sign_in_count: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        signInCount: {
+            type: DataTypes.INTEGER            
         },
-        current_sign_in_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        currentSignInAt: {
+            type: DataTypes.TIME
         },
-        last_sign_in_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        lastSignInAt: {
+            type: DataTypes.TIME
         },
-        current_sign_in_ip: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        currentSignInIp: {
+            type: DataTypes.CHAR
         },
-        last_sign_in_ip: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        lastSignInIp: {
+            type: DataTypes.CHAR
         },
         slug: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
-        sign_up_reason: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        signUpReason: {
+            type: DataTypes.CHAR
         },
         uuid: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
-        berlin_user_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        berlinUserId: {
+            type: DataTypes.INTEGER
         },
-        sign_up_city_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        signUpCityId: {
+            type: DataTypes.INTEGER
         },
-        stripe_customer_id: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        stripeCustomerId: {
+            type: DataTypes.CHAR
         },
-        invitation_token: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        invitationToken: {
+            type: DataTypes.CHAR
         },
-        lab_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        labId: {
+            type: DataTypes.INTEGER
         },
         erased: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+            type: DataTypes.BOOLEAN
         },
         gender: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
-        date_of_birth: {
-            type: DataTypes.DATE,
-            defaultValue: ''
+        dateOfBirth: {
+            type: DataTypes.DATE
         },
-        forum_admin: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        forumAdmin: {
+            type: DataTypes.BOOLEAN
         },
-        terms_of_service: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        termsOfService: {
+            type: DataTypes.TIME
         },
-        privacy_policy: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        privacyPolicy: {
+            type: DataTypes.TIME
         },
-        trial_days: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        trialDays: {
+            type: DataTypes.INTEGER
         },
-        free_trial: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: ''
+        freeTrial: {
+            type: DataTypes.BOOLEAN
         },
-        free_trial_start_date: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        freeTrialStartDate: {
+            type: DataTypes.TIME
         },
-        failed_attempts: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        failedAttempts: {
+            type: DataTypes.INTEGER
         },
-        unlock_token: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        unlockToken: {
+            type: DataTypes.CHAR
         },
-        locked_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        lockedAt: {
+            type: DataTypes.TIME
         },
-        fiscal_code: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        fiscalCode: {
+            type: DataTypes.CHAR
         },
-        companies_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        companiesId: {
+            type: DataTypes.INTEGER
         },
-        company_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        companyId: {
+            type: DataTypes.INTEGER
+
         }
     });
     // User.associate = ({ Invoice }) => {

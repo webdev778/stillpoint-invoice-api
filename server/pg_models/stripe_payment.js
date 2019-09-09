@@ -6,60 +6,46 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         description: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
         plan: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+            type: DataTypes.INTEGER
         },
         card: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
-        created_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        createdAt: {
+            type: DataTypes.TIME
         },
-        updated_at: {
-            type: DataTypes.TIME,
-            defaultValue: ''
+        updatedAt: {
+            type: DataTypes.TIME
         },
-        event_order_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        eventOrderId: {
+            type: DataTypes.INTEGER
         },
-        customer_id: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        customerId: {
+            type: DataTypes.CHAR
         },
         amount: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+            type: DataTypes.INTEGER
         },
         status: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+            type: DataTypes.INTEGER
         },
         email: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
-        charge_id: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        chargeId: {
+            type: DataTypes.CHAR
         },
-        refund_id: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        refundId: {
+            type: DataTypes.CHAR
         },
-        sy_club_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        syClubId: {
+            type: DataTypes.INTEGER
         },
-        config_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        configId: {
+            type: DataTypes.INTEGER
         },
     });
 

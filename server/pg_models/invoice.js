@@ -7,109 +7,84 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        invoice_sn: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        invoiceSn: {
+            type: DataTypes.CHAR
         },
-        invoice_type: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        invoiceType: {
+            type: DataTypes.INTEGER
         },
-        invoice_interval: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        invoiceInterval: {
+            type: DataTypes.INTEGER
         },
         subject: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+            type: DataTypes.CHAR
         },
         tax: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+            type: DataTypes.INTEGER
         },
-        currency_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        currencyId: {
+            type: DataTypes.INTEGER
         },
-        sender_name: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        senderName: {
+            type: DataTypes.CHAR
         },
-        sender_street: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        senderStreet: {
+            type: DataTypes.CHAR
         },
-        sender_city: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        senderCity: {
+            type: DataTypes.CHAR
         },
-        sender_post_code: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        senderPostCode: {
+            type: DataTypes.CHAR
         },
-        sender_country: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        senderCountry: {
+            type: DataTypes.CHAR
         },
-        recipient_name: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        recipientName: {
+            type: DataTypes.CHAR
         },
-        recipient_street: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        recipientStreet: {
+            type: DataTypes.CHAR
         },
-        recipient_city: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        recipientCity: {
+            type: DataTypes.CHAR
         },
-        recipient_post_code: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        recipientPostCode: {
+            type: DataTypes.CHAR
         },
-        recipient_country: {
-            type: DataTypes.CHAR,
-            defaultValue: ''
+        recipientCountry: {
+            type: DataTypes.CHAR
         },
         total: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+            type: DataTypes.INTEGER
         },
         amount: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+            type: DataTypes.INTEGER
         },
-        paid_amount: {
-            type: DataTypes.INTEGER,
-            defaultValue: ''
+        paidAmount: {
+            type: DataTypes.INTEGER
         },
         notes: {
-            type: DataTypes.TEXT,
-            defaultValue: ''
+            type: DataTypes.TEXT
         },
         status: {
             type: DataTypes.INTEGER,
             defaultValue: 'draft'
         },
-        issue_at: {
-            type: DataTypes.DATE,
-            defaultValue: ''
+        issueAt: {
+            type: DataTypes.DATE
         },
-        due_at: {
-            type: DataTypes.DATE,
-            defaultValue: ''
+        dueAt: {
+            type: DataTypes.DATE
         },
-        viewed_at: {
-            type: DataTypes.DATE,
-            defaultValue: ''
+        viewedAt: {
+            type: DataTypes.DATE
         },
-        sent_at: {
-            type: DataTypes.DATE,
-            defaultValue: ''
+        sentAt: {
+            type: DataTypes.DATE
         },
-        paid_at: {
-            type: DataTypes.DATE,
-            defaultValue: ''
+        paidAt: {
+            type: DataTypes.DATE
         }
     });
     // Invoice.associate = ({ Counselor, Client, Payment, Services }) => {

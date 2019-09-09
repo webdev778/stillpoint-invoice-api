@@ -20,9 +20,12 @@ function index(req, res, cb) {
   })
 }
 
-function create(req, res, cb) {
+const create = async (req, res, cb) => {
   utils.writeInsideFunctionLog('invoices', 'create');
-  cb({Code: 200, Status: true, Message: 'huhahaha'});
+
+  const newInvoice = req.body;
+  const result = await db.Invoice.create(newInvoice)
+  cb({Code: 200, Status: true, Message: result});
 }
 
 module.exports = {

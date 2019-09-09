@@ -41,6 +41,7 @@ const db={};
     config.database.password, {
         host: config.database.host,
         dialect: 'postgres',
+        omitNull: true,
         define: {
             underscored: true
         }

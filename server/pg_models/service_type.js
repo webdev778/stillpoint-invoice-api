@@ -19,5 +19,5 @@ module.exports = (sequelize, DataTypes) => {
     //     Service_Type.hasMany(Service);
     //     Service_Type.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
     // };
-    return Service_Types;
+    return Service_Type;
 };

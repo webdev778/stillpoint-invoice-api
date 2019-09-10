@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         invoiceSn: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         invoiceType: {
             type: DataTypes.INTEGER
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
         },
         subject: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         tax: {
             type: DataTypes.INTEGER
@@ -26,34 +26,34 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
         },
         senderName: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         senderStreet: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         senderCity: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         senderPostCode: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         senderCountry: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         recipientName: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         recipientStreet: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         recipientCity: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         recipientPostCode: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         recipientCountry: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         total: {
             type: DataTypes.INTEGER
@@ -72,24 +72,24 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 'draft'
         },
         issueAt: {
-            type: DataTypes.DATE
+            type: DataTypes.TIME
         },
         dueAt: {
-            type: DataTypes.DATE
+            type: DataTypes.TIME
         },
         viewedAt: {
-            type: DataTypes.DATE
+            type: DataTypes.TIME
         },
         sentAt: {
-            type: DataTypes.DATE
+            type: DataTypes.TIME
         },
         paidAt: {
-            type: DataTypes.DATE
+            type: DataTypes.TIME
         }
     }, {
         tableName: "new_invoices"
     });
-    Invoice.associate = ({ Service }) => {
+    Invoice.associate = ({ Service/*, Client, Stripe_Payment*/ }) => {
         // Invoice.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
         // Invoice.belongsTo(Client, { as: 'counselor', foreignKey: 'client_id', onDelete: 'cascade' });
         // Invoice.belongsTo(Stripe_Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });

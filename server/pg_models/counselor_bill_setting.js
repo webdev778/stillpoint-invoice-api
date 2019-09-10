@@ -1,11 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const Counselor_Bill_Setting = sequelize.define('Counselor_Bill_Setting', {
+    const CounselorBillSetting = sequelize.define('CounselorBillSetting', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        invoiceName: {
+        businessName: {
             type: DataTypes.STRING
         },
         street: {
@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         city: {
             type: DataTypes.STRING
+        },
+        counselorId: {
+            type: DataTypes.INTEGER
+        },
+        currencyId: {
+            type: DataTypes.INTEGER
         },
         country: {
             type: DataTypes.STRING
@@ -29,11 +35,15 @@ module.exports = (sequelize, DataTypes) => {
         tax: {
             type: DataTypes.INTEGER
         }
-    });
-    // Counselor_Bill_Setting.associate = ({ Counselor, Currency }) => {
+    }
+    ,{
+        tableName: 'counselor_bill_settings'
+    }
+    );
+    CounselorBillSetting.associate = ({ Counselor, Currency }) => {
     
-    //     Counselor_Bill_Setting.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
-    //     Counselor_Bill_Setting.belongsTo(Currency, { as: 'currency', foreignKey: 'currency_id', onDelete: 'cascade' });
-    // };
-    return Counselor_Bill_Setting;
+        CounselorBillSetting.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselorId', onDelete: 'cascade' });
+        CounselorBillSetting.belongsTo(Currency, { as: 'currency', foreignKey: 'currencyId', onDelete: 'cascade' });
+    };
+    return CounselorBillSetting;
 };

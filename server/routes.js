@@ -21,6 +21,8 @@ wNineInfoCtrl = rfr('/server/controllers/wNineInfo'),
 
 invoiceCtrl = rfr('/server/controllers/invoices'),
 serviceCtrl = rfr('/server/controllers/services'),
+
+counselorBillSettingCtrl = rfr('/server/controllers/counselorBillSettings');
 clientCtrl = rfr('/server/controllers/clients'),
 currencyCtrl = rfr('/server/controllers/currencies'),
 counselorCtrl = rfr('/server/controllers/counselors');
@@ -31,6 +33,7 @@ postHandler = {}
 // All get services
 getHandler['/invoices'] = invoiceCtrl.index;
 getHandler['/services'] = serviceCtrl.index;
+getHandler['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.index;
 getHandler['/clients'] = clientCtrl.index;
 getHandler['/counselors'] = counselorCtrl.index;
 getHandler['/currencies'] = currencyCtrl.index;
@@ -57,7 +60,7 @@ postHandler['/webhook'] = stripeAccCtlr.webhook;
 
 postHandler['/invoice'] = invoiceCtrl.create;
 postHandler['/service'] = serviceCtrl.create;
-
+postHandler['/invoice/setting'] = counselorBillSettingCtrl.create;
 function _bindAllGetRequests(app) {
   for (var key in getHandler) {
     app.get(key, getHandler[key]);

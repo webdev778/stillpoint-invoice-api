@@ -93,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
         // Invoice.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
         // Invoice.belongsTo(Client, { as: 'counselor', foreignKey: 'client_id', onDelete: 'cascade' });
         // Invoice.belongsTo(Stripe_Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });
-        Invoice.hasMany(Service);
+        Invoice.Services = Invoice.hasMany(Service, { as: 'services'});
     };
 
     return Invoice;

@@ -27,7 +27,12 @@ const create = async (req, res, cb) => {
   try{
     console.log(invoice);
     const result = await db.Invoice.create(invoice
-      ,{include: [db.Invoice.Service]}
+      ,{include: [
+        {
+          association: db.Invoice.Services,
+          as: 'services'
+        }
+      ]}
       );
     cb({Code: 200, Status: true, Message: result});
   }catch(e){

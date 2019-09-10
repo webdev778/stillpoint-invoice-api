@@ -14,7 +14,7 @@ function create(req, res) {
     var cb = function (result) {
         utils.sendResponse(res, result);
     }
-    counselorBillSettingModel.updateorcreate(req, res, cb);
+    counselorBillSettingModel.updateOrCreate(req, res, cb);
 }
 
 module.exports = {

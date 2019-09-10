@@ -18,7 +18,7 @@ function index(req, res, cb) {
       cb(counselor_bill_settings);
     }
     else{
-      cb({Code: 500, Status: false, Message: 'no data'})
+      cb({Code: 404, Status: false, Message: 'no data'})
     }
   }).catch(err => {
     cb({Code: 500, Status: false, Message: 'model error'})
@@ -26,7 +26,7 @@ function index(req, res, cb) {
 }
 
 
-const updateorcreate = async (req, res, cb) => {
+const updateOrCreate = async (req, res, cb) => {
   // First try to find the record
   const counselorId =  req.body.counselorId;  
 
@@ -50,9 +50,8 @@ const updateorcreate = async (req, res, cb) => {
                 req.body,
                  { where: { 'counselorId': counselorId }, attributes: ['businessName', 'street', 'city', 'currencyId', 'country', 'postCode', 'state', 'aptUnit', 'tax' ] }
                 ).then(updatedMax => {
-                  console.log(updatedMax)
+                  cb({Code: 200, Status: true, Message: result});
                 });
-              cb({Code: 200, Status: true, Message: result});
             }catch(e){
               cb({Code: 500, Status: true, Message: 'Failed to create service'});
             }
@@ -62,5 +61,5 @@ const updateorcreate = async (req, res, cb) => {
 
 module.exports = {
   index,
-  updateorcreate
+  updateOrCreate
 }

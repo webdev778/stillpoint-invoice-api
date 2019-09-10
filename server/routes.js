@@ -20,42 +20,20 @@ stripeAccCtlr = rfr('/server/controllers/stripeAccounts'),
 wNineInfoCtrl = rfr('/server/controllers/wNineInfo'),
 
 invoiceCtrl = rfr('/server/controllers/invoices'),
-serviceCtrl = rfr('/server/controllers/services');
+serviceCtrl = rfr('/server/controllers/services'),
+clientCtrl = rfr('/server/controllers/clients'),
+currencyCtrl = rfr('/server/controllers/currencies'),
+counselorCtrl = rfr('/server/controllers/counselors');
 
 var getHandler = {},
 postHandler = {}
 
 // All get services
-getHandler['/getCategories'] = categoryCtlr.get;
-getHandler['/getDegrees'] = degreeCtlr.get;
-getHandler['/getEmploymentTypes'] = employmentTypeCtlr.get;
-getHandler['/getPracticeAreas'] = practiceAreaCtlr.get;
-getHandler['/getStates'] = stateCtlr.get;
-getHandler['/getSkills'] = skillCtlr.get;
-getHandler['/getWorkLocations'] = workLocationCtlr.get;
-getHandler['/getServiceCharge'] = serviceChargeCtlr.get;
-
-getHandler['/getUserProfile/:forUser/:fromUser/:userId?'] = userCtlr.getUserProfile;
-getHandler['/resendEmail/:email'] = userCtlr.resendEmail;
-getHandler['/verifyEmail/:secretId'] = userCtlr.verifyEmail;
-getHandler['/getCandidatesData'] = userCtlr.getCandidatesData;
-
-getHandler['/getPostJob/:jobId'] = postJobCtlr.getPostJobData;
-
-getHandler['/exportUsers'] = adminCtlr.exportUsers;
-getHandler['/exportPostJobs'] = adminCtlr.exportPostJobs;
-
-getHandler['/getAllLists'] = universalCtlr.getAllListsData;
-getHandler['/getLogFile/:token/:fileName'] = universalCtlr.getLogFile;
-
-getHandler['/getPostJobDetails/:jobId/:userRole?'] = postJobCtlr.getPostJobDetails;
-getHandler['/getPostJobByUserId/:page'] = postJobCtlr.getPostJobByUserId;
-
-getHandler['/getSavedJobs/:page'] = savedJobsCtlr.get;
-getHandler['/getAppliedJobs/:page'] = jobStatusCtlr.getAll;
-
 getHandler['/invoices'] = invoiceCtrl.index;
 getHandler['/services'] = serviceCtrl.index;
+getHandler['/clients'] = clientCtrl.index;
+getHandler['/counselors'] = counselorCtrl.index;
+getHandler['/currencies'] = currencyCtrl.index;
 
 // All post services
 postHandler['/login'] = userCtlr.login;
@@ -66,26 +44,6 @@ postHandler['/resetPassword/:secretId'] = userCtlr.resetPassword;
 postHandler['/changePassword'] = userCtlr.changePassword;
 postHandler['/logout'] = userCtlr.logout;
 
-postHandler['/userBasicProfile'] = userCtlr.basicProfile;
-postHandler['/userExperienceProfile'] = userCtlr.experienceProfile;
-postHandler['/userNetworkProfile'] = userCtlr.networkProfile;
-postHandler['/userJobProfile'] = userCtlr.jobProfile;
-postHandler['/posterBasicProfile'] = userCtlr.posterBasicProfile;
-
-postHandler['/postJob'] = postJobCtlr.postJobData;
-postHandler['/updatePostedJobStatus'] = postJobCtlr.updatePostedJobStatus;
-postHandler['/getStepData'] = postJobCtlr.getStepData;
-postHandler['/getPostJobs/:page'] = postJobCtlr.getAll;
-
-postHandler['/updateSavedJob'] = savedJobsCtlr.updateSavedJob;
-postHandler['/updateJobStatus'] = jobStatusCtlr.updateJobStatus;
-postHandler['/saveRating'] = jobStatusCtlr.saveRating;
-
-postHandler['/updateNegotiateTerms'] = negotiateTermsCtlr.update;
-postHandler['/updateDeliverableStatus'] = negotiateTermsCtlr.updateDeliverableStatus;
-postHandler['/updateHourlyFixedTerms'] = negotiateTermsCtlr.updateHourlyFixedTerms;
-postHandler['/downloadDeliverableFile'] = negotiateTermsCtlr.downloadDeliverableFile;
-
 postHandler['/getReleaseFundUrl'] = stripeAccCtlr.getReleaseFundUrl;
 postHandler['/getCreateStripeAccountLink'] = stripeAccCtlr.getCreateStripeAccountLink;
 postHandler['/setStripeAccountInfo'] = stripeAccCtlr.setStripeAccountInfo;
@@ -94,9 +52,6 @@ postHandler['/transferFunds'] = stripeAccCtlr.transferFunds;
 postHandler['/realeaseFund'] = stripeAccCtlr.realeaseFund;
 
 postHandler['/setWNineInfo'] = wNineInfoCtrl.setAndUpdate;
-
-postHandler['/contactus'] = universalCtlr.contactUs;
-postHandler['/sendMessage'] = universalCtlr.sendMsg;
 
 postHandler['/webhook'] = stripeAccCtlr.webhook;
 

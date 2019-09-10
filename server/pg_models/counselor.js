@@ -170,12 +170,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         }
     });
-    // Counselor.associate = ({ Invoice, Service_Type, Counselor_Bill_Setting }) => {
+    Counselor.associate = ({ Invoice, Service_Type, CounselorBillSetting, User }) => {
 
-    //     Counselor.hasMany(Invoice);
-    //     Counselor.hasMany(Service_Type);
-    //     Counselor.hasMany(Counselor_Bill_Setting);
-    // };
+        // Counselor.hasMany(Invoice);
+        // Counselor.hasMany(Service_Type);
+        // Counselor.hasMany(Counselor_Bill_Setting);
+        Counselor.User = Counselor.belongsTo(User);
+    };
 
     return Counselor;
 };

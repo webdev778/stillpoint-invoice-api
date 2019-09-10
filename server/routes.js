@@ -21,8 +21,7 @@ wNineInfoCtrl = rfr('/server/controllers/wNineInfo'),
 
 invoiceCtrl = rfr('/server/controllers/invoices'),
 serviceCtrl = rfr('/server/controllers/services'),
-
-counselorBillSettingCtrl = rfr('/server/controllers/counselorBillSettings');
+counselorBillSettingCtrl = rfr('/server/controllers/counselorBillSettings'),
 clientCtrl = rfr('/server/controllers/clients'),
 currencyCtrl = rfr('/server/controllers/currencies'),
 counselorCtrl = rfr('/server/controllers/counselors');

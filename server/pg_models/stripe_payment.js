@@ -6,13 +6,13 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         description: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         plan: {
             type: DataTypes.INTEGER
         },
         card: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         createdAt: {
             type: DataTypes.TIME
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
         },
         customerId: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         amount: {
             type: DataTypes.INTEGER
@@ -33,13 +33,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
         },
         email: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         chargeId: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         refundId: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         syClubId: {
             type: DataTypes.INTEGER

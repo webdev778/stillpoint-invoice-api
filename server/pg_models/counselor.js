@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         title: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         tagline: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         about: {
             type: DataTypes.TEXT
@@ -32,10 +32,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TIME
         },
         highResImageFileName: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         highResImageContentType: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         highResImageFileSize: {
             type: DataTypes.INTEGER
@@ -56,16 +56,16 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         blogUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         googleMapsUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         vimeoUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         soundcloudUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         languageId: {
             type: DataTypes.INTEGER
@@ -74,28 +74,28 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         googlePlusUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         facebookUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         meetupUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         pinterestUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         twitterUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         instagramUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         tumblrUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         website: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         adminNotifiedAt: {
             type: DataTypes.TIME
@@ -119,22 +119,22 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         stripeAccountId: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         stripeSk: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         stripePk: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         defaultCityId: {
             type: DataTypes.INTEGER
         },
         currency: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         state: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         notifiedApprovedAt: {
             type: DataTypes.TIME
@@ -146,7 +146,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         linkedinUrl: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         onlineSession: {
             type: DataTypes.BOOLEAN
@@ -158,7 +158,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TIME
         },
         subscription: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         stillpointPercentage: {
             type: DataTypes.FLOAT
@@ -167,14 +167,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         skypeId: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         }
     });
-    // Counselor.associate = ({ Invoice }) => {
+    // Counselor.associate = ({ Invoice, Service_Type, Counselor_Bill_Setting }) => {
 
     //     Counselor.hasMany(Invoice);
-    //     Counselor.hasMany(Service_Types);
-    //     Counselor.hasMany(Invoice_Detail);
+    //     Counselor.hasMany(Service_Type);
+    //     Counselor.hasMany(Counselor_Bill_Setting);
     // };
 
     return Counselor;

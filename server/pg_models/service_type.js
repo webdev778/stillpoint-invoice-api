@@ -1,12 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const Service_Types = sequelize.define('Services_Types', {
+    const Service_Type = sequelize.define('Service_Type', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
         name: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         },
         type: {
             type: DataTypes.INTEGER
@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
         }
     });
-    // Service_Types.associate = ({Services}) => {
-    //     Service_Types.hasMany(Services);
-    //     Service.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
+    // Service_Type.associate = ({ Service, Counselor }) => {
+    //     Service_Type.hasMany(Service);
+    //     Service_Type.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
     // };
     return Service_Types;
 };

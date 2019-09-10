@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
-    Service.associate = ({ Invoice, Service_Types }) => {
+    Service.associate = ({ Invoice/*, Service_Type*/ }) => {
         Service.belongsTo(Invoice, { as: 'invoice', foreignKey: 'invoice_id', onDelete: 'cascade'});
-        // Services.belongsTo(Service_Types, { as: 'service_types', foreignKey: 'service_type_id', onDelete: 'cascade'});
+        // Service.belongsTo(Service_Type, { as: 'service_type', foreignKey: 'service_type_id', onDelete: 'cascade'});
     };
 
     return Service;

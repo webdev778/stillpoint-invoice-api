@@ -7,12 +7,12 @@ module.exports = (sequelize, DataTypes) => {
         },
        
         code: {
-            type: DataTypes.CHAR
+            type: DataTypes.STRING
         }
     });
 
-    // Currency.associate = ({ Invoice_Detail }) => {
-    //     Currency.hasMany(Invoice_Detail);
+    // Currency.associate = ({ Counselor_Bill_Setting }) => {
+    //     Currency.hasMany(Counselor_Bill_Setting);
     
     // };
 

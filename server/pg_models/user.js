@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        firstMame: {
+        firstName: {
             type: DataTypes.STRING
         },
         timezone: {
@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         signInCount: {
-            type: DataTypes.INTEGER            
+            type: DataTypes.INTEGER
         },
         currentSignInAt: {
             type: DataTypes.TIME

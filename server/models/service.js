@@ -26,7 +26,7 @@ const create = async (req, res, cb) => {
   const service = req.body;
   try{
     console.log(service);
-    const result = await db.Invoice.create(service
+    const result = await db.Service.create(service
       );
     cb({Code: 200, Status: true, Message: result});
   }catch(e){

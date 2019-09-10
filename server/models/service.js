@@ -11,28 +11,27 @@ utils = rfr('/server/shared/utils'),
 db = rfr('/server/db');
 
 function index(req, res, cb) {
-  utils.writeInsideFunctionLog('invoices', 'index');
-  // cb({Code: 200, Status: true, Message: 'invoices/index'});
-  db.Invoice.findAll().then(invoices => {
-    cb(invoices);
+  utils.writeInsideFunctionLog('services', 'index');
+  // cb({Code: 200, Status: true, Message: 'services/index'});
+  db.Invoice.findAll().then(services => {
+    cb(services);
   }).catch(err => {
     cb({Code: 500, Status: false, Message: 'model error'})
   })
 }
 
 const create = async (req, res, cb) => {
-  utils.writeInsideFunctionLog('invoices', 'create');
+  utils.writeInsideFunctionLog('services', 'create');
 
-  const invoice = req.body;
+  const service = req.body;
   try{
-    console.log(invoice);
-    const result = await db.Invoice.create(invoice
-      ,{include: [db.Invoice.Service]}
+    console.log(service);
+    const result = await db.Invoice.create(service
       );
     cb({Code: 200, Status: true, Message: result});
   }catch(e){
     console.log(e);
-    cb({Code: 500, Status: true, Message: 'Failed to create inovice'});
+    cb({Code: 500, Status: true, Message: 'Failed to create service'});
   }
 }
 

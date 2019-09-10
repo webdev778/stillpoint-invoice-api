@@ -2,7 +2,7 @@
 
 module.exports = (sequelize, DataTypes) => {
 
-    const Invoice = sequelize.define('new_invoice', {
+    const Invoice = sequelize.define('Invoice', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true
@@ -86,13 +86,15 @@ module.exports = (sequelize, DataTypes) => {
         paidAt: {
             type: DataTypes.DATE
         }
+    }, {
+        tableName: "new_invoices"
     });
-    // Invoice.associate = ({ Counselor, Client, Payment, Services }) => {
-    //     Invoice.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
-    //     Invoice.belongsTo(Client, { as: 'counselor', foreignKey: 'client_id', onDelete: 'cascade' });
-    //     Invoice.belongsTo(Stripe_Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });
-    //     Invoice.hasMany(Services);
-    // };
+    Invoice.associate = ({ Service }) => {
+        // Invoice.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
+        // Invoice.belongsTo(Client, { as: 'counselor', foreignKey: 'client_id', onDelete: 'cascade' });
+        // Invoice.belongsTo(Stripe_Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });
+        Invoice.hasMany(Service);
+    };
 
     return Invoice;
 };

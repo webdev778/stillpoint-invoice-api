@@ -62,9 +62,6 @@ const db={};
     return (file.indexOf('.') !== 0) && (file.slice(-3) === '.js');
   }).forEach(file => {
     const model = sequelize['import'](path.join(model_path, file));
-    if(model.name === 'new_invoice')
-      db['Invoice'] = model;
-    else
       db[model.name] = model;
   });
 

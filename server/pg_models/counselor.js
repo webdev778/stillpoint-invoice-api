@@ -174,7 +174,7 @@ module.exports = (sequelize, DataTypes) => {
 
         // Counselor.hasMany(Invoice);
         // Counselor.hasMany(Service_Type);
-        // Counselor.hasMany(Counselor_Bill_Setting);
+        Counselor.CounselorBillSetting = Counselor.hasOne(CounselorBillSetting);
         Counselor.User = Counselor.belongsTo(User);
     };
 

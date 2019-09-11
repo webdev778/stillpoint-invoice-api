@@ -14,16 +14,17 @@ function index(req, res, cb) {
   utils.writeInsideFunctionLog('counselor', 'index');
   db.Counselor.findAll(
     {
-      
+      attributes: ['id'],
       include: [{
         model: db.User,
         attributes: ['firstName', 'lastName'],
-        include: [{
-          association: db.User.ClientContactAddress,
-          as: 'clientContactAddress',
-          attributes: ['country', 'city', 'street', 'postCode', 'email', 'phone', 'latitude', 'longitude']
-        }]
-      }],
+      },
+      {
+        model: db.CounselorBillSetting,
+        // as: 'CounselorBillSetting',
+        attributes: ['businessName', 'street', 'city', 'country', 'postCode', 'tax', 'currencyId', 'state', 'aptUnit']
+      }
+    ],
       
     }
   ).then(counselors => {

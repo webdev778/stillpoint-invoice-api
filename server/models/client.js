@@ -14,11 +14,7 @@ function index(req, res, cb) {
   utils.writeInsideFunctionLog('users', 'index');
   db.User.findAll(
     {
-      attributes: ['id', 'firstName', 'lastName', 'timezone', 'email', 'admin', 'avatarFileName',
-    'avatarContentType', 'avatarFileSize', 'wantsNewsletter', 'sentOrderForNewsletter', 'sentInstructions', 'signInCount',
-    'currentSignInIp', 'currentSignInIp', 'lastSignInIp', 'slug', 'signUpReason', 'uuid', 'berlinUserId', 'signUpCityId',
-    'stripeCustomerId', 'labId', 'erased', 'gender', 'dateOfBirth', 'forumAdmin', 'termsOfService', 'privacyPolicy',
-    'trialDays', 'freeTrial', 'freeTrialStartDate', 'failedAttempts', 'fiscalCode', 'companiesId', 'companyId'],
+      attributes: ['id', 'firstName', 'lastName'],
       include: [{
         association: db.User.ClientContactAddress,
         as: 'clientContactAddress',

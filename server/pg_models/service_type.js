@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
+        counselorId: {
+            type: DataTypes.INTEGER
+        },
         name: {
             type: DataTypes.STRING
         },

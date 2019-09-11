@@ -10,10 +10,22 @@ mailHelper = rfr('/server/shared/mailHelper'),
 utils = rfr('/server/shared/utils'),
 db = rfr('/server/db');
 
+const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId', 
+'invoiceInterval', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
+'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
+'paymentId', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt'];
+
 function index(req, res, cb) {
   utils.writeInsideFunctionLog('invoices', 'index');
   // cb({Code: 200, Status: true, Message: 'invoices/index'});
-  db.Invoice.findAll().then(invoices => {
+  db.Invoice.findAll({
+    attributes: invoice_whiltelist,
+    include: [{
+      association: db.Invoice.Services,
+      as: 'services',
+      attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+    }]
+  }).then(invoices => {
     cb(invoices);
   }).catch(err => {
     cb({Code: 500, Status: false, Message: 'model error'})
@@ -23,17 +35,19 @@ function index(req, res, cb) {
 const create = async (req, res, cb) => {
   utils.writeInsideFunctionLog('invoices', 'create');
 
-  const invoice = req.body;
+  
   try{
-    console.log(invoice);
-    const result = await db.Invoice.create(invoice
-      ,{include: [
+    
+    const result = await db.Invoice.create(req.body, {
+      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']     
+      ,include: [
         {
           association: db.Invoice.Services,
-          as: 'services'
-        }
-      ]}
-      );
+          as: 'services',
+          attributes: ['name', 'quantity', 'unitPrice', 'taxCharge']
+        }]
+      });
+      
     cb({Code: 200, Status: true, Message: result});
   }catch(e){
     console.log(e);

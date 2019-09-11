@@ -159,10 +159,11 @@ module.exports = (sequelize, DataTypes) => {
 
         }
     });
-    // User.associate = ({ Invoice }) => {
-
+    User.associate = ({ ClientContactAddress }) => {
+        User.ClientContactAddress = User.hasMany(ClientContactAddress, { as: 'clientContactAddress'});
     //     User.hasMany(Invoice);
-    // };
+    };
+
 
     return User;
 };

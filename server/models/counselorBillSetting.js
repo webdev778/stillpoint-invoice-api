@@ -13,7 +13,9 @@ var config = rfr("/server/shared/config"),
 function index(req, res, cb) {
   utils.writeInsideFunctionLog("counselor_bill_settings", "index");
   db.CounselorBillSetting.findOne({
-    where: { counselorId: req.params.counselorId }
+    
+    where: { counselorId: req.params.counselorId },
+    attributes: ['id', 'businessName', 'street', 'city', 'country', 'postCode', 'tax', 'currencyId', 'state', 'aptUnit', 'counselorId']
   })
     .then(counselor_bill_settings => {
       if (counselor_bill_settings) {

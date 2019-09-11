@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         tax: {
-            type: DataTypes.INTEGER
+            type: DataTypes.REAL
         },
         currencyId: {
             type: DataTypes.INTEGER
@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
         amount: {
             type: DataTypes.INTEGER
         },
-        
+
         paidAmount: {
             type: DataTypes.INTEGER
         },
@@ -103,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
         // Invoice.belongsTo(Counselor, { as: 'counselor', foreignKey: 'counselor_id', onDelete: 'cascade' });
         // Invoice.belongsTo(Client, { as: 'counselor', foreignKey: 'client_id', onDelete: 'cascade' });
         // Invoice.belongsTo(Stripe_Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });
-        Invoice.Services = Invoice.hasMany(Service, { as: 'services'});
+        Invoice.Services = Invoice.hasMany(Service, { as: 'services' });
     };
 
     return Invoice;

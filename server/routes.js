@@ -27,7 +27,9 @@ currencyCtrl = rfr('/server/controllers/currencies'),
 counselorCtrl = rfr('/server/controllers/counselors');
 
 var getHandler = {},
-postHandler = {}
+postHandler = {},
+putHandler = {},
+deleteHandler = {};
 
 // All get services
 getHandler['/invoices'] = invoiceCtrl.index;
@@ -36,6 +38,9 @@ getHandler['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.index;
 getHandler['/clients'] = clientCtrl.index;
 getHandler['/counselors'] = counselorCtrl.index;
 getHandler['/currencies'] = currencyCtrl.index;
+getHandler['/invoice'] = currencyCtrl.index;
+getHandler['/invoice/types'] = invoiceCtrl.type;
+getHandler['/invoice/status'] = invoiceCtrl.status;
 
 // All post services
 postHandler['/login'] = userCtlr.login;
@@ -60,6 +65,12 @@ postHandler['/webhook'] = stripeAccCtlr.webhook;
 postHandler['/invoice'] = invoiceCtrl.create;
 postHandler['/service'] = serviceCtrl.create;
 postHandler['/invoice/setting'] = counselorBillSettingCtrl.create;
+postHandler['/invoice/:id/send'] = invoiceCtrl.send;
+
+putHandler['/invoice/:invoiceId'] = invoiceCtrl.update;
+
+deleteHandler['/invoice/:invoiceId'] = invoiceCtrl.destroy;
+
 function _bindAllGetRequests(app) {
   for (var key in getHandler) {
     app.get(key, getHandler[key]);
@@ -72,9 +83,23 @@ function _bindAllPostRequests(app) {
   }
 }
 
+function _bindAllPutRequests(app) {
+  for (var key in putHandler) {
+    app.put(key, putHandler[key]);
+  }
+}
+
+function _bindAllDeleteRequests(app) {
+  for (var key in deleteHandler) {
+    app.delete(key, deleteHandler[key]);
+  }
+}
+
 function bindAllRequests(app) {
   _bindAllGetRequests(app);
   _bindAllPostRequests(app);
+  _bindAllPutRequests(app);
+  _bindAllDeleteRequests(app);
 }
 
 module.exports.bindAllRequests = bindAllRequests;

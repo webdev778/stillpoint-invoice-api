@@ -5,6 +5,12 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
+        invoiceId: {
+            type: DataTypes.INTEGER
+        },
+        serviceTypeId: {
+            type: DataTypes.INTEGER
+        },
         name: {
             type: DataTypes.STRING
         },

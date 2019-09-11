@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         invoiceType: {
             type: DataTypes.INTEGER
         },
+        clientId: {
+            type: DataTypes.INTEGER
+        },
+        counselorId: {
+            type: DataTypes.INTEGER
+        },
         invoiceInterval: {
             type: DataTypes.INTEGER
         },
@@ -61,15 +67,19 @@ module.exports = (sequelize, DataTypes) => {
         amount: {
             type: DataTypes.INTEGER
         },
+        
         paidAmount: {
             type: DataTypes.INTEGER
         },
         notes: {
             type: DataTypes.TEXT
         },
+        paymentId: {
+            type: DataTypes.INTEGER
+        },
         status: {
             type: DataTypes.INTEGER,
-            defaultValue: 'draft'
+            defaultValue: '0'
         },
         issueAt: {
             type: DataTypes.TIME

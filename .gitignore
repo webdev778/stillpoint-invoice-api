@@ -5,7 +5,6 @@ node_modules
 dist
 public/uploaded_files/
 server/config/config.js
-package-lock.json
 server/config/util.js
 .env
 .audit.json

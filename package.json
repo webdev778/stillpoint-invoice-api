@@ -5,7 +5,7 @@
   "author": "webdev778",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js --watch ./server",
+    "dev": "nodemon --watch ./server index.js",
     "watch:webpack": "webpack -w",
     "watch:server": "nodemon --ext js,jsx --ignore client/src/assets index.js"
   },
@@ -16,7 +16,7 @@
   "dependencies": {
     "amdefine": "^1.0.1",
     "armor-payments": "^0.1.4",
-    "aws-sdk": "^2.176.0",
+    "aws-sdk": "^2.528.0",
     "axios": "^0.19.0",
     "babel-core": "^6.25.0",
     "babel-loader": "^6.4.1",
@@ -34,6 +34,7 @@
     "dotenv-parse-variables": "^0.1.0",
     "es6-promise-promise": "^1.0.0",
     "express": "^4.15.4",
+    "g": "^2.0.1",
     "guid": "0.0.12",
     "jquery": "^3.4.1",
     "jsonexport": "^2.0.11",
@@ -78,6 +79,7 @@
     "winston-daily-rotate-file": "^3.1.4"
   },
   "devDependencies": {
+    "child_process": "^1.0.2",
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.5.1",
@@ -86,9 +88,9 @@
     "node-sass": "^4.11.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^3.1.2",
-    "sass-loader": "^6.0.6",
+    "sass-loader": "^6.0.7",
     "url-loader": "^0.6.2",
-    "webpack": "^3.10.0"
+    "webpack": "^3.12.0"
   },
   "repository": {
     "type": "git",

@@ -137,7 +137,6 @@ class Layout extends React.Component {
           <script src="//propeller.in/components/range-slider/js/wNumb.js"></script>
           <script src="//propeller.in/components/range-slider/js/nouislider.js"></script>
           <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
-          <script src="//sandbox.armorpayments.com/assets/js/modal.min.js"></script>
           <script src="/js/custom.js"></script>
           <script src='/bundle.js'></script>
         </body>

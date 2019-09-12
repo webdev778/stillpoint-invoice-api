@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         tax: {
-            type: DataTypes.INTEGER
+            type: DataTypes.REAL
         }
     }
     ,{

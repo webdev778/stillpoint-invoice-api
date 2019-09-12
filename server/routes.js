@@ -24,7 +24,8 @@ serviceCtrl = rfr('/server/controllers/services'),
 counselorBillSettingCtrl = rfr('/server/controllers/counselorBillSettings'),
 clientCtrl = rfr('/server/controllers/clients'),
 currencyCtrl = rfr('/server/controllers/currencies'),
-counselorCtrl = rfr('/server/controllers/counselors');
+counselorCtrl = rfr('/server/controllers/counselors'),
+stripeConnectCtrl = rfr('/server/controllers/stripeConnect');
 
 var getHandler = {},
 postHandler = {},
@@ -32,12 +33,14 @@ putHandler = {},
 deleteHandler = {};
 
 // All get services
-getHandler['/invoices'] = invoiceCtrl.index;
+
 getHandler['/services'] = serviceCtrl.index;
-getHandler['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.index;
 getHandler['/clients'] = clientCtrl.index;
 getHandler['/counselors'] = counselorCtrl.index;
 getHandler['/currencies'] = currencyCtrl.index;
+
+getHandler['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.index;
+getHandler['/invoices'] = invoiceCtrl.index;
 getHandler['/invoice'] = currencyCtrl.index;
 getHandler['/invoice/types'] = invoiceCtrl.type;
 getHandler['/invoice/status'] = invoiceCtrl.status;
@@ -66,8 +69,11 @@ postHandler['/invoice'] = invoiceCtrl.create;
 postHandler['/service'] = serviceCtrl.create;
 postHandler['/invoice/setting'] = counselorBillSettingCtrl.create;
 postHandler['/invoice/:id/send'] = invoiceCtrl.send;
+postHandler['/stripe/dashboard_url'] = stripeConnectCtrl.dasbhoardUrl;
+postHandler['/stripe/connect'] = stripeConnectCtrl.connect;
 
 putHandler['/invoice/:invoiceId'] = invoiceCtrl.update;
+putHandler['/stripe/disconnect/:counselorId'] = stripeConnectCtrl.disconnect;
 
 deleteHandler['/invoice/:invoiceId'] = invoiceCtrl.destroy;
 

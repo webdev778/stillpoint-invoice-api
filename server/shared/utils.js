@@ -28,7 +28,12 @@ const getErrorResObj = () => {
 
 const callCB = (callback, resObj) => { (typeof(callback) === 'function') && callback(resObj); }
 
-const sendResponse = (res, resObj) => { res.send(resObj); }
+const sendResponse = (res, resObj) => {
+  if(resObj.Code)
+    res.status(resObj.Code).send(resObj);
+  else
+    res.send(resObj);
+}
 
 const log = (msg, value = null) => {
   if (config['showServerLog']) {

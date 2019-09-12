@@ -10,23 +10,37 @@ var config = rfr("/server/shared/config"),
   utils = rfr("/server/shared/utils"),
   db = rfr("/server/db");
 
-function index(req, res, cb) {
+const index = async (req, res, cb) => {
   utils.writeInsideFunctionLog("counselor_bill_settings", "index");
-  db.CounselorBillSetting.findOne({
-    
-    where: { counselorId: req.params.counselorId },
-    attributes: ['id', 'businessName', 'street', 'city', 'country', 'postCode', 'tax', 'currencyId', 'state', 'aptUnit', 'counselorId']
-  })
-    .then(counselor_bill_settings => {
-      if (counselor_bill_settings) {
-        cb(counselor_bill_settings);
-      } else {
-        cb({ Code: 404, Status: false, Message: "no data" });
-      }
-    })
-    .catch(err => {
-      cb({ Code: 500, Status: false, Message: "model error" });
+
+  const counselorId = req.params.counselorId;
+
+  try{
+    const setting = await db.CounselorBillSetting.findOne({
+      where: { counselorId: req.params.counselorId },
+      attributes: ['id', 'businessName', 'street', 'city', 'country', 'postCode', 'tax', 'currencyId', 'state', 'aptUnit', 'counselorId']
     });
+
+    if (setting) {
+      cb(setting);
+    } else {
+      const emptySetting = {
+        "businessName": "",
+        "street": "",
+        "city": "",
+        "country": "",
+        "postCode": "",
+        "tax": 0.00,
+        "currencyId": 1,
+        "state": "",
+        "aptUnit": "",
+        "counselorId": counselorId
+      }
+      cb(emptySetting);
+    }
+  }catch(e) {
+    cb({ Code: 500, Status: false, Message: "Server Error" });
+  };
 }
 
 const updateOrCreate = async (req, res, cb) => {

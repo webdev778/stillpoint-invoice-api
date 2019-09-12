@@ -25,7 +25,8 @@ counselorBillSettingCtrl = rfr('/server/controllers/counselorBillSettings'),
 clientCtrl = rfr('/server/controllers/clients'),
 currencyCtrl = rfr('/server/controllers/currencies'),
 counselorCtrl = rfr('/server/controllers/counselors'),
-stripeConnectCtrl = rfr('/server/controllers/stripeConnect');
+stripeConnectCtrl = rfr('/server/controllers/stripeConnect'),
+authCtrl = rfr('/server/controllers/auth');
 
 var getHandler = {},
 postHandler = {},
@@ -71,6 +72,7 @@ postHandler['/invoice/setting'] = counselorBillSettingCtrl.create;
 postHandler['/invoice/:id/send'] = invoiceCtrl.send;
 postHandler['/stripe/dashboard_url'] = stripeConnectCtrl.dasbhoardUrl;
 postHandler['/stripe/connect/:counselorId'] = stripeConnectCtrl.connect;
+postHandler['/user'] = authCtrl.login;
 
 putHandler['/invoice/:invoiceId'] = invoiceCtrl.update;
 putHandler['/stripe/disconnect/:counselorId'] = stripeConnectCtrl.disconnect;

@@ -70,7 +70,7 @@ postHandler['/service'] = serviceCtrl.create;
 postHandler['/invoice/setting'] = counselorBillSettingCtrl.create;
 postHandler['/invoice/:id/send'] = invoiceCtrl.send;
 postHandler['/stripe/dashboard_url'] = stripeConnectCtrl.dasbhoardUrl;
-postHandler['/stripe/connect'] = stripeConnectCtrl.connect;
+postHandler['/stripe/connect/:counselorId'] = stripeConnectCtrl.connect;
 
 putHandler['/invoice/:invoiceId'] = invoiceCtrl.update;
 putHandler['/stripe/disconnect/:counselorId'] = stripeConnectCtrl.disconnect;

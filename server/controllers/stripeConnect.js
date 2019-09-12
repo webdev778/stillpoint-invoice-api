@@ -14,6 +14,13 @@ const dasbhoardUrl = (req, res) => {
 }
 
 const connect = async (req, res) => {
+    const counselorId = req.params.counselorId;
+
+    if (!counselorId) {
+        utils.sendResponse(res, { Code: 400, Status: false });
+        return;
+    }
+
     const stripe_auth_code = req.body.stripeAuthCode;
 
     if (!stripe_auth_code) {
@@ -43,7 +50,7 @@ const connect = async (req, res) => {
         Object.keys(result).forEach(key => result1[snakeToCamel(key)] = result[key]);
 
         let newRecordData = Object.assign({}, result1);
-        newRecordData.counselorId = 15;
+        newRecordData.counselorId = counselorId;
         newRecordData.revoked = false;
 
         if (StripeConnect.updateOrCreate(newRecordData)) {

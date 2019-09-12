@@ -7,10 +7,29 @@ var utils = rfr('/server/shared/utils');
 var StripeConnect = rfr('/server/models/stripeConnect');
 var db = rfr('/server/db');
 
-const dasbhoardUrl = (req, res) => {
-    utils.sendResponse(res, {
-        redirectUrl: 'https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_Fl06oKXb0RJV0TPhRgHNhMvkCSSlBePx&scope=read_write'
-    });
+const crypto = require('crypto');
+
+const generateToken = async () => {
+    try{
+        const buffer = await crypto.randomBytes(48);
+        const token = buffer.toString('hex');
+        return token;
+    }catch(e){
+        console.log(e);
+        throw 'Failed to generate token';
+    }
+}
+const dasbhoardUrl = async (req, res) => {
+    try{
+        const token = await generateToken();
+        console.log(token);
+        utils.sendResponse(res, {
+            redirectUrl: `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_Fl06oKXb0RJV0TPhRgHNhMvkCSSlBePx&scope=read_write&state=${token}`
+        });
+    }catch(e){
+        utils.sendResponse(res, {Code: 500, Status: false});
+    }
+
 }
 
 const connect = async (req, res) => {

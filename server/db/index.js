@@ -15,12 +15,7 @@ const db={};
   var dbObj = config['database'];
 
   // mongo database
-  /*
-  if (env !== 'development' || dbObj.username) {
-    Mongoose.connect('mongodb://' + dbObj['username'] + ':' + dbObj['password'] + '@' + dbObj['host'] + ':' + dbObj['port'] + '/' + dbObj['db']);
-  } else {
-    Mongoose.connect('mongodb://' + dbObj['host'] + ':' + dbObj['port'] + '/' + dbObj['db']);
-  }
+  Mongoose.connect('mongodb://localhost:27017/legably-dev');
 
   var con = Mongoose.connection;
   con.once('open', function() {
@@ -31,7 +26,7 @@ const db={};
     utils.log('Connection Error -->', err);
     utils.writeErrorLog('index', 'IIFE', 'Error while connecting to database', err);
   });
-  */
+
 
   // postgres db
   // const sequelize = new Sequelize('postgres://postgres:123123@10.10.10.194:5432/d7bjegrmpo9e7k');

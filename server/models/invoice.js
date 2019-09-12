@@ -90,7 +90,8 @@ const update = async (req, res, cb) => {
       return;
     }
 
-    const foundInvoice = await db.Invoice.findOne({ where: { 'id': invoiceId },
+    const foundInvoice = await db.Invoice.findOne({
+      where: { 'id': invoiceId },
       include: [
         {
           association: db.Invoice.Services,
@@ -111,7 +112,7 @@ const update = async (req, res, cb) => {
     });
 
     services.forEach(async service => {
-      const dbService = await db.Service.findOne({where: {'id': service.id, 'invoiceId': invoiceId }});
+      const dbService = await db.Service.findOne({ where: { 'id': service.id, 'invoiceId': invoiceId } });
       if (!!dbService) {
         await dbService.update(service, { attributes: ['invoiceSn', 'subject', 'tax', 'currencyId', 'notes'] });
       }
@@ -136,7 +137,8 @@ const destroy = async (req, res, cb) => {
       return;
     }
 
-    const foundInvoice = await db.Invoice.findOne({ where: { 'id': invoiceId },
+    const foundInvoice = await db.Invoice.findOne({
+      where: { 'id': invoiceId },
       include: [
         {
           association: db.Invoice.Services,
@@ -162,25 +164,25 @@ const destroy = async (req, res, cb) => {
 const send = async (req, res, cb) => {
   const id = req.params.id;
 
-  if(!id){
+  if (!id) {
     cb({ Code: 400, Status: true, Message: 'Bad Request' });
     return;
   }
 
-  try{
+  try {
     // send email
 
     // update invoice status
-    const invoice = await db.Invoice.findOne({where: {'id': id}})
-    if(!invoice) {
+    const invoice = await db.Invoice.findOne({ where: { 'id': id } })
+    if (!invoice) {
       cb({ Code: 400, Status: true, Message: 'Bad Request' });
       return;
     }
 
-    await invoice.update({'status': 1});
+    await invoice.update({ 'status': 1 });
 
     cb({ Code: 200, Status: true, Message: 'Sent Successfully' });
-  }catch(e){
+  } catch (e) {
     console.log(e);
     cb({ Code: 500, Status: true, Message: 'Failed to send invoice' });
   }

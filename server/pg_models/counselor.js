@@ -170,10 +170,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         }
     });
-    Counselor.associate = ({ Invoice, Service_Type, CounselorBillSetting, User }) => {
+    Counselor.associate = ({ Invoice, Service_Type, CounselorBillSetting, User, StripeConnect }) => {
 
         // Counselor.hasMany(Invoice);
         // Counselor.hasMany(Service_Type);
+        Counselor.hasOne(StripeConnect);
         Counselor.CounselorBillSetting = Counselor.hasOne(CounselorBillSetting);
         Counselor.User = Counselor.belongsTo(User);
     };

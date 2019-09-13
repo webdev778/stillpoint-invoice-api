@@ -58,7 +58,7 @@ const pay = async (req, res) => {
     invoice.services.forEach(service => {
       let item = {
         name: service.name,
-        description: service.description,  // musn't be ''
+        description: service.description || ' ',  // musn't be ''
         amount: service.unitPrice,
         quantity: service.quantity,
         currency: invoice.Currency.code

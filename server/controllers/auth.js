@@ -6,7 +6,7 @@ const login = (req, res) => {
 
    const userId = req.params.id;
   // const counselorId = 203;
-  console.log(userId);
+
   let result;
   if (userId == 1){
     result = {

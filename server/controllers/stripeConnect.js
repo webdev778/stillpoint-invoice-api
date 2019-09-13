@@ -6,6 +6,7 @@ var utils = rfr('/server/shared/utils');
 //stripeAccModel = rfr('/server/models/stripeAccounts');
 var StripeConnect = rfr('/server/models/stripeConnect');
 var db = rfr('/server/db');
+var config = rfr('/server/shared/config');
 
 const crypto = require('crypto');
 
@@ -24,7 +25,7 @@ const dasbhoardUrl = async (req, res) => {
         const token = await generateToken();
         console.log(token);
         utils.sendResponse(res, {
-            redirectUrl: `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_Fl06oKXb0RJV0TPhRgHNhMvkCSSlBePx&scope=read_write&state=${token}`
+            redirectUrl: `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${config.stripe.clientId}&scope=read_write&state=${token}`
         });
     }catch(e){
         utils.sendResponse(res, {Code: 500, Status: false});
@@ -49,7 +50,7 @@ const connect = async (req, res) => {
 
     const fetchReqData = {
         code: stripe_auth_code,
-        client_secret: 'sk_test_2yMC93yYFuP2x5C03yISPmrG00R3uHWGG4',
+        client_secret: config.stripe.secretKey,
         grant_type: 'authorization_code'
     }
 
@@ -108,11 +109,11 @@ const disconnect = async (req, res) => {
         try{
             await axios.post('https://connect.stripe.com/oauth/deauthorize',
                 {
-                    client_id: 'ca_Fl06oKXb0RJV0TPhRgHNhMvkCSSlBePx',
+                    client_id: config.stripe.clientId,
                     stripe_user_id: connectedAccount.stripeUserId,
                 },
                 {
-                    headers: { 'Authorization': `Bearer ${'sk_test_2yMC93yYFuP2x5C03yISPmrG00R3uHWGG4'}` }
+                    headers: { 'Authorization': `Bearer ${config.stripe.secretKey}` }
                 }
             );
 

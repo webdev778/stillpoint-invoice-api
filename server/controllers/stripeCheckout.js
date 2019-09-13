@@ -5,6 +5,7 @@ var db = rfr('/server/db');
 var invoiceModel = rfr('/server/models/invoice');
 var stripePaymentModel = rfr('/server/models/stripePayment');
 var constant = rfr('/server/shared/constant');
+var config = rfr('/server/shared/config');
 
 
 const pay = async (req, res) => {
@@ -53,17 +54,29 @@ const pay = async (req, res) => {
     const stripe = require('stripe')(stripeConnect.accessToken);
 
     let items = [];
-
+    let sum = 0;
     invoice.services.forEach(service => {
       let item = {
         name: service.name,
-        description: service.description,  // musn't be ''
+        description: service.description || ' ',  // musn't be ''
         amount: service.unitPrice,
         quantity: service.quantity,
         currency: invoice.Currency.code
       }
+      sum += service.unitPrice * service.quantity;
       items.push(item);
     })
+
+    //add tax line
+    let tax_item = {
+      name: 'Tax',
+      description: invoice.tax * 100 + '%',  // musn't be ''
+      amount: sum * invoice.tax,
+      quantity: 1,
+      currency: invoice.Currency.code
+    }
+    items.push(tax_item);
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: items,
@@ -71,8 +84,8 @@ const pay = async (req, res) => {
       billing_address_collection: 'auto',  // 'auto' or 'required'
       // customer: "Test Client",
       // customer_email: "abc@gmail.com", // You may set one of customer, customer_email
-      success_url: 'https://stillpointspaces-invoicing.netlify.com/stripe-checkout/success',
-      cancel_url: 'https://stillpointspaces-invoicing.netlify.com/stripe-checkout/cancel',
+      success_url: `${config.reactUrl}/invoice/${id}?payment=success`,
+      cancel_url: `${config.reactUrl}/invoice/${id}?payment=cancel`,
     });
 
     // save session info
@@ -102,10 +115,10 @@ const webhook = (req, res) => {
   utils.writeInsideFunctionLog('stripeCheckout', 'webhook');
   // Set your secret key: remember to change this to your live secret key in production
   // See your keys here: https://dashboard.stripe.com/account/apikeys
-  const stripe = require('stripe')('sk_test_2yMC93yYFuP2x5C03yISPmrG00R3uHWGG4');
+  const stripe = require('stripe')(config.stripe.secretKey);
 
   // Find your endpoint's secret in your Dashboard's webhook settings
-  const endpointSecret = 'whsec_WyeRFjshpr17Agk0oOa8Qc47FbWcxESk';
+  const endpointSecret = config.stripe.hookKey;
 
   const sig = req.headers['stripe-signature'];
   console.log('sig', sig);

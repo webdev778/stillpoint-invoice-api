@@ -128,7 +128,7 @@ postHandler['/invoice/:id/pay'] = stripeCheckoutCtrl.pay;
 
 postHandler['/stripe/dashboard_url'] = stripeConnectCtrl.dasbhoardUrl;
 postHandler['/stripe/connect/:counselorId'] = stripeConnectCtrl.connect;
-postHandler['/user'] = authCtrl.login;
+postHandler['/user/:id'] = authCtrl.login;
 postHandler['/stripe/webhook'] = stripeCheckoutCtrl.webhook;
 
 putHandler['/invoice/:invoiceId'] = invoiceCtrl.update;

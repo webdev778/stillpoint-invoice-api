@@ -4,8 +4,10 @@ module.exports = (sequelize, DataTypes) => {
 
     const User = sequelize.define('User', {
         id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
         },
         firstName: {
             type: DataTypes.STRING
@@ -26,28 +28,22 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         resetPasswordSentAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         rememberCreatedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         confirmationToken: {
             type: DataTypes.STRING
         },
         confirmedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         confirmationSentAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         unconfirmedEmail: {
             type: DataTypes.STRING
-        },
-        createdAt: {
-            type: DataTypes.TIME
-        },
-        updatedAt: {
-            type: DataTypes.TIME
         },
         avatarFileName: {
             type: DataTypes.STRING
@@ -56,10 +52,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         avatarFileSize: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         avatarUpdatedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         lastName: {
             type: DataTypes.STRING
@@ -74,13 +70,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         signInCount: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         currentSignInAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         lastSignInAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         currentSignInIp: {
             type: DataTypes.STRING
@@ -98,10 +94,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         berlinUserId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         signUpCityId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         stripeCustomerId: {
             type: DataTypes.STRING
@@ -110,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         labId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         erased: {
             type: DataTypes.BOOLEAN
@@ -125,37 +121,37 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         termsOfService: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         privacyPolicy: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         trialDays: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         freeTrial: {
             type: DataTypes.BOOLEAN
         },
         freeTrialStartDate: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         failedAttempts: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         unlockToken: {
             type: DataTypes.STRING
         },
         lockedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         fiscalCode: {
             type: DataTypes.STRING
         },
         companiesId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         companyId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
 
         }
     });

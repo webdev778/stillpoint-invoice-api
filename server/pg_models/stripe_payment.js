@@ -2,8 +2,10 @@
 module.exports = (sequelize, DataTypes) => {
     const StripePayment = sequelize.define('StripePayment', {
         id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
         },
         description: {
             type: DataTypes.STRING
@@ -11,23 +13,17 @@ module.exports = (sequelize, DataTypes) => {
         card: {
             type: DataTypes.STRING
         },
-        createdAt: {
-            type: DataTypes.TIME
-        },
-        updatedAt: {
-            type: DataTypes.TIME
-        },
         invoiceId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         customerId: {
             type: DataTypes.STRING
         },
         amount: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         status: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         email: {
             type: DataTypes.STRING
@@ -39,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         stripeConnectId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
     });
 

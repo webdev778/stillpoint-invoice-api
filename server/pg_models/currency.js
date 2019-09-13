@@ -1,21 +1,22 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-    const Currency = sequelize.define('Currency', {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true
-        },
-       
-        code: {
-            type: DataTypes.STRING
-        }
-    });
+  const Currency = sequelize.define("Currency", {
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
 
-    // Currency.associate = ({ Counselor_Bill_Setting }) => {
-    //     Currency.hasMany(Counselor_Bill_Setting);
-    
-    // };
+    code: {
+      type: DataTypes.STRING
+    }
+  });
 
-    return Currency;
+  // Currency.associate = ({ Counselor_Bill_Setting }) => {
+  //     Currency.hasMany(Counselor_Bill_Setting);
+
+  // };
+
+  return Currency;
 };
-

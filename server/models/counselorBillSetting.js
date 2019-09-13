@@ -77,7 +77,22 @@ const updateOrCreate = async (req, res, cb) => {
           "tax"
         ]
       });
-      cb({ Code: 200, Status: true, Message: result });
+
+      const ret = await db.CounselorBillSetting.findOne({
+        where: { counselorId: counselorId },
+        attributes: [
+          "businessName",
+          "street",
+          "city",
+          "currencyId",
+          "country",
+          "postCode",
+          "state",
+          "aptUnit",
+          "tax"
+        ]
+      });
+      cb(ret);
     }
   } catch (e) {
     cb({ Code: 500, Status: true, Message: "Failed to updateOrCreate" });

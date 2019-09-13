@@ -15,6 +15,7 @@ const db={};
   var dbObj = config['database'];
 
   // mongo database
+/*
   Mongoose.connect('mongodb://localhost:27017/legably-dev');
 
   var con = Mongoose.connection;
@@ -26,6 +27,7 @@ const db={};
     utils.log('Connection Error -->', err);
     utils.writeErrorLog('index', 'IIFE', 'Error while connecting to database', err);
   });
+*/
 
 
   // postgres db

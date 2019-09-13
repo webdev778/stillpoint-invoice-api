@@ -5,6 +5,7 @@ var db = rfr('/server/db');
 var invoiceModel = rfr('/server/models/invoice');
 var stripePaymentModel = rfr('/server/models/stripePayment');
 var constant = rfr('/server/shared/constant');
+var constant = rfr('/server/shared/config');
 
 
 const pay = async (req, res) => {
@@ -102,10 +103,10 @@ const webhook = (req, res) => {
   utils.writeInsideFunctionLog('stripeCheckout', 'webhook');
   // Set your secret key: remember to change this to your live secret key in production
   // See your keys here: https://dashboard.stripe.com/account/apikeys
-  const stripe = require('stripe')('sk_test_2yMC93yYFuP2x5C03yISPmrG00R3uHWGG4');
+  const stripe = require('stripe')(config.stripe.secretKey);
 
   // Find your endpoint's secret in your Dashboard's webhook settings
-  const endpointSecret = 'whsec_WyeRFjshpr17Agk0oOa8Qc47FbWcxESk';
+  const endpointSecret = config.stripe.hookKey;
 
   const sig = req.headers['stripe-signature'];
   console.log('sig', sig);

@@ -63,8 +63,10 @@ var bucketUrl = "https://" + s3Bucket + ".s3.amazonaws.com/";
 // };
 
 var stripe = {
-  client_id: parsedEnv.STRIPE_CLIENT_ID,
-  secret_key: parsedEnv.STRIPE_SECRET_KEY
+  clientId: parsedEnv.STRIPE_CLIENT_ID,
+  secretKey: parsedEnv.STRIPE_SECRET_KEY,
+  pubKey: parsedEnv.STRIPE_PUB_KEY,
+  hookKey: parsedEnv.WEBHOOK_KEY
 }
 
 module.exports = {

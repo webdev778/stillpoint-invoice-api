@@ -4,15 +4,26 @@ var utils = rfr('/server/shared/utils');
 
 const login = (req, res) => {
 
-  // const userId = 11;
+   const userId = req.params.id;
   // const counselorId = 203;
+  console.log(userId);
+  let result;
+  if (userId == 1){
+    result = {
+      id: 203,
+      firstName: 'Anthony',
+      lastName: 'Maki',
+      isCounsellor: true,
+    };
+  }else{
+    result = {
+      id: 1332,
+      firstName: 'Linda',
+      lastName: 'Smith',
+      isCounsellor: false,
+    };
+  }
 
-  const result = {
-    id: 203,
-    firstName: 'Anthony',
-    lastName: 'Maki',
-    isCounsellor: true,
-  };
 
   utils.sendResponse(res, result);
 }

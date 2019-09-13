@@ -54,7 +54,7 @@ const pay = async (req, res) => {
     const stripe = require('stripe')(stripeConnect.accessToken);
 
     let items = [];
-
+    let sum = 0;
     invoice.services.forEach(service => {
       let item = {
         name: service.name,
@@ -63,8 +63,20 @@ const pay = async (req, res) => {
         quantity: service.quantity,
         currency: invoice.Currency.code
       }
+      sum += service.unitPrice * service.quantity;
       items.push(item);
     })
+
+    //add tax line
+    let tax_item = {
+      name: 'Tax',
+      description: invoice.tax * 100 + '%',  // musn't be ''
+      amount: sum * invoice.tax,
+      quantity: 1,
+      currency: invoice.Currency.code
+    }
+    items.push(tax_item);
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: items,

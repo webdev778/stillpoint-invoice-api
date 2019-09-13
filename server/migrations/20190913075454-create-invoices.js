@@ -94,27 +94,32 @@ module.exports = {
         },
         issue_at: {
           type: "TIMESTAMP",
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           allowNull: false
         },
         due_at: {
           type: "TIMESTAMP",
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           allowNull: false
         },
         viewed_at: {
           type: "TIMESTAMP",
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           allowNull: false
         },
         sent_at: {
           type: "TIMESTAMP",
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           allowNull: false
         },
         paid_at: {
           type: "TIMESTAMP",
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false
+        },
+        created_at: {
+          type: 'TIMESTAMP',
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+          allowNull: false
+        },
+        updated_at: {
+          type: 'TIMESTAMP',
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
           allowNull: false
         }
       },

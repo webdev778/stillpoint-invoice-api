@@ -5,7 +5,7 @@ var db = rfr('/server/db');
 var invoiceModel = rfr('/server/models/invoice');
 var stripePaymentModel = rfr('/server/models/stripePayment');
 var constant = rfr('/server/shared/constant');
-var constant = rfr('/server/shared/config');
+var config = rfr('/server/shared/config');
 
 
 const pay = async (req, res) => {

@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes) {
       const ClientContactAddress = sequelize.define('ClientContactAddress', {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
@@ -33,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: true
       },
       userId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: true
       },
       latitude: {

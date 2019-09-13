@@ -6,12 +6,12 @@ module.exports = {
       "service_types",
       {
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           primaryKey: true,
           autoIncrement: true
         },
         counselor_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
           // references: {
           //     model: 'counselors',
           //     key: 'id'
@@ -23,7 +23,7 @@ module.exports = {
           type: Sequelize.STRING
         },
         type: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         price: {
           type: "NUMERIC(10, 2)"

@@ -2,22 +2,22 @@
 module.exports = (sequelize, DataTypes) => {
   const Service_Type = sequelize.define("Service_Type", {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
     counselorId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.BIGINT
     },
     name: {
       type: DataTypes.STRING
     },
     type: {
-      type: DataTypes.INTEGER
+      type: DataTypes.BIGINT
     },
     price: {
-      type: DataTypes.INTEGER
+      type: DataTypes.BIGINT
     }
   });
   // Service_Type.associate = ({ Service, Counselor }) => {

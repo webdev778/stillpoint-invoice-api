@@ -2,16 +2,16 @@
 module.exports = (sequelize, DataTypes) => {
   const Service = sequelize.define("Service", {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
     invoiceId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.BIGINT
     },
     serviceTypeId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.BIGINT
     },
     name: {
       type: DataTypes.STRING
@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     quantity: {
-      type: DataTypes.INTEGER
+      type: DataTypes.BIGINT
     },
     unitPrice: {
-      type: DataTypes.INTEGER
+      type: DataTypes.BIGINT
     },
     taxCharge: {
       type: DataTypes.BOOLEAN

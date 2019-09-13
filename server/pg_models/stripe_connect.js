@@ -3,13 +3,13 @@
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('StripeConnect', {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
       },
       counselorId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false
       },
       accessToken: {

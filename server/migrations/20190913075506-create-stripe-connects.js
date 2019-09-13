@@ -6,12 +6,12 @@ module.exports = {
       "stripe_connects",
       {
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           primaryKey: true,
           autoIncrement: true
         },
         counselor_id: {
-            type: Sequelize.INTEGER
+            type: Sequelize.BIGINT
             // references: {
             //     model: 'counselors',
             //     key: 'id'

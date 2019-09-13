@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
 
     const User = sequelize.define('User', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         avatarFileSize: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         avatarUpdatedAt: {
             type: DataTypes.DATE
@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         signInCount: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         currentSignInAt: {
             type: DataTypes.DATE
@@ -94,10 +94,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         berlinUserId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         signUpCityId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         stripeCustomerId: {
             type: DataTypes.STRING
@@ -106,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         labId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         erased: {
             type: DataTypes.BOOLEAN
@@ -127,7 +127,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE
         },
         trialDays: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         freeTrial: {
             type: DataTypes.BOOLEAN
@@ -136,7 +136,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE
         },
         failedAttempts: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         unlockToken: {
             type: DataTypes.STRING
@@ -148,10 +148,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         companiesId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         companyId: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
 
         }
     });

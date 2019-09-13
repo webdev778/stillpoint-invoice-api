@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     "Invoice",
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
@@ -14,16 +14,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       invoiceType: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       clientId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       counselorId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       invoiceInterval: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       subject: {
         type: DataTypes.STRING
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.REAL
       },
       currencyId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       senderName: {
         type: DataTypes.STRING
@@ -65,23 +65,23 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       total: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       amount: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
 
       paidAmount: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       notes: {
         type: DataTypes.TEXT
       },
       paymentId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       status: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         defaultValue: "0"
       },
       issueAt: {

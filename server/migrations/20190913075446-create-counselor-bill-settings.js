@@ -6,7 +6,7 @@ module.exports = {
       "counselor_bill_settings",
       {
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           primaryKey: true,
           autoIncrement: true
         },
@@ -20,7 +20,7 @@ module.exports = {
           type: Sequelize.STRING
         },
         counselor_id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT
           // references: {
           //   model: "counselors",
           //   key: "id"
@@ -29,7 +29,7 @@ module.exports = {
           // onDelete: "cascade"
         },
         currency_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
           // references: {
           //   model: "currencies",
           //   key: "id"

@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     "CounselorBillSetting",
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
@@ -19,10 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       counselorId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       currencyId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BIGINT
       },
       country: {
         type: DataTypes.STRING

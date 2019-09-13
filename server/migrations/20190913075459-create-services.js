@@ -6,13 +6,13 @@ module.exports = {
       "services",
       {
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           primaryKey: true,
           autoIncrement: true
         },
         //foreign key usage
         invoice_id: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.BIGINT
             // references: {
             //     model: 'new_invoices',
             //     key: 'id'
@@ -21,7 +21,7 @@ module.exports = {
             // onDelete: 'cascade'
         },
         service_type_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
           // references: {
           //     model: 'service_types',
           //     key: 'id'
@@ -36,7 +36,7 @@ module.exports = {
           type: Sequelize.TEXT
         },
         quantity: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         unit_price: {
           type: "NUMERIC(10, 2)"

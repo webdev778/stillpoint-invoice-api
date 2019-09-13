@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Currency = sequelize.define("Currency", {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true

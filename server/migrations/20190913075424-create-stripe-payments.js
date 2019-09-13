@@ -6,7 +6,7 @@ module.exports = {
       "stripe_payments",
       {
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           primaryKey: true,
           autoIncrement: true
         },
@@ -17,7 +17,7 @@ module.exports = {
           type: Sequelize.STRING
         },
         invoice_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
           // references: {
           //     model: 'invoices',
           //     key: 'id'
@@ -32,7 +32,7 @@ module.exports = {
           type: "NUMERIC(10, 2)"
         },
         status: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         email: {
           type: Sequelize.STRING
@@ -44,7 +44,7 @@ module.exports = {
           type: Sequelize.STRING
         },
         stripe_connect_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         created_at: {
           type: 'TIMESTAMP',

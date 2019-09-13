@@ -6,7 +6,7 @@ module.exports = {
       "new_invoices",
       {
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           primaryKey: true,
           autoIncrement: true
         },
@@ -14,10 +14,10 @@ module.exports = {
           type: Sequelize.STRING
         },
         invoice_type: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         client_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
           // references: {
           //     model: 'users',
           //     key: 'id'
@@ -26,7 +26,7 @@ module.exports = {
           // onDelete: 'cascade'
         },
         counselor_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
           // references: {
           //     model: 'counselors',
           //     key: 'id'
@@ -35,7 +35,7 @@ module.exports = {
           // onDelete: 'cascade'
         },
         invoice_interval: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         subject: {
           type: Sequelize.STRING
@@ -44,7 +44,7 @@ module.exports = {
           type: Sequelize.REAL
         },
         currency_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         sender_name: {
           type: Sequelize.STRING
@@ -89,7 +89,7 @@ module.exports = {
           type: Sequelize.TEXT
         },
         status: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           defaultValue: "0"
         },
         issue_at: {

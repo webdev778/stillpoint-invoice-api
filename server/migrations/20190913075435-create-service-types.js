@@ -11,7 +11,7 @@ module.exports = {
           autoIncrement: true
         },
         counselor_id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.INTEGER
           // references: {
           //     model: 'counselors',
           //     key: 'id'

@@ -26,7 +26,7 @@ module.exports = {
           // onDelete: 'cascade'
         },
         counselor_id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.INTEGER
           // references: {
           //     model: 'counselors',
           //     key: 'id'

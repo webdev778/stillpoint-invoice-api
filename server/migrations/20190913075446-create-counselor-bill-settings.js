@@ -29,7 +29,7 @@ module.exports = {
           // onDelete: "cascade"
         },
         currency_id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.INTEGER
           // references: {
           //   model: "currencies",
           //   key: "id"

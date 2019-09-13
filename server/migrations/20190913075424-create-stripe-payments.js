@@ -17,7 +17,7 @@ module.exports = {
           type: Sequelize.STRING
         },
         invoice_id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.INTEGER
           // references: {
           //     model: 'invoices',
           //     key: 'id'

@@ -21,7 +21,7 @@ module.exports = {
             // onDelete: 'cascade'
         },
         service_type_id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.INTEGER
           // references: {
           //     model: 'service_types',
           //     key: 'id'

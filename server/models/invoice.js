@@ -60,12 +60,12 @@ const create = async (req, res, cb) => {
   try {
 
     const result = await db.Invoice.create(req.body, {
-      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
+      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'invoiceInterval', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
       , include: [
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['name', 'quantity', 'unitPrice', 'taxCharge']
+          attributes: ['name', 'quantity', 'unitPrice', 'taxCharge', 'description']
         }]
     });
 

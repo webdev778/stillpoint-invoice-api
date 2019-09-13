@@ -81,5 +81,6 @@ module.exports = {
   aws: aws,
   bucketUrl: bucketUrl,
   stripe,
-  env: parsedEnv.ENV
+  env: parsedEnv.ENV,
+  reactUrl: parsedEnv.REACT_URL
 };

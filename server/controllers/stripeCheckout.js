@@ -72,8 +72,8 @@ const pay = async (req, res) => {
       billing_address_collection: 'auto',  // 'auto' or 'required'
       // customer: "Test Client",
       // customer_email: "abc@gmail.com", // You may set one of customer, customer_email
-      success_url: `https://stillpointspaces-invoicing.netlify.com/invoice/${id}?payment=success`,
-      cancel_url: `https://stillpointspaces-invoicing.netlify.com/invoice/${id}?payment=cancel`,
+      success_url: `${config.reactUrl}/invoice/${id}?payment=success`,
+      cancel_url: `${config.reactUrl}/invoice/${id}?payment=cancel`,
     });
 
     // save session info

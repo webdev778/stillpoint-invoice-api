@@ -6,6 +6,7 @@ var utils = rfr('/server/shared/utils');
 //stripeAccModel = rfr('/server/models/stripeAccounts');
 var StripeConnect = rfr('/server/models/stripeConnect');
 var db = rfr('/server/db');
+var config = rfr('/server/shared/config');
 
 const crypto = require('crypto');
 

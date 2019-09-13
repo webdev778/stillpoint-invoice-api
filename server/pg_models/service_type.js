@@ -3,7 +3,9 @@ module.exports = (sequelize, DataTypes) => {
   const Service_Type = sequelize.define("Service_Type", {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
     },
     counselorId: {
       type: DataTypes.INTEGER
@@ -16,14 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     price: {
       type: DataTypes.INTEGER
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true
     }
   });
   // Service_Type.associate = ({ Service, Counselor }) => {

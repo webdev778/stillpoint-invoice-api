@@ -3,19 +3,13 @@ module.exports = (sequelize, DataTypes) => {
   const Currency = sequelize.define("Currency", {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
     },
 
     code: {
       type: DataTypes.STRING
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true
     }
   });
 

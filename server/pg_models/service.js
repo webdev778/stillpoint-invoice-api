@@ -3,7 +3,9 @@ module.exports = (sequelize, DataTypes) => {
   const Service = sequelize.define("Service", {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
     },
     invoiceId: {
       type: DataTypes.INTEGER
@@ -25,14 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     taxCharge: {
       type: DataTypes.BOOLEAN
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true
     }
   });
 

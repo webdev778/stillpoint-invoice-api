@@ -4,7 +4,9 @@ module.exports = (sequelize, DataTypes) => {
   const Counselor = sequelize.define("Counselor", {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
     },
     title: {
       type: DataTypes.STRING
@@ -23,14 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true
     },
     highResImageFileName: {
       type: DataTypes.STRING

@@ -4,7 +4,9 @@ module.exports = function(sequelize, DataTypes) {
     return sequelize.define('StripeConnect', {
       id: {
         type: DataTypes.INTEGER,
-        primaryKey: true
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
       },
       counselorId: {
         type: DataTypes.INTEGER,
@@ -32,14 +34,6 @@ module.exports = function(sequelize, DataTypes) {
       },
       revoked: {
         type: DataTypes.BOOLEAN
-      },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: true
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: true
       }
     }, {
       tableName: 'stripe_connects'

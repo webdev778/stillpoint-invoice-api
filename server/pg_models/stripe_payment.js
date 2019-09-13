@@ -3,19 +3,15 @@ module.exports = (sequelize, DataTypes) => {
     const StripePayment = sequelize.define('StripePayment', {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
         },
         description: {
             type: DataTypes.STRING
         },
         card: {
             type: DataTypes.STRING
-        },
-        createdAt: {
-            type: DataTypes.DATE
-        },
-        updatedAt: {
-            type: DataTypes.DATE
         },
         invoiceId: {
             type: DataTypes.INTEGER

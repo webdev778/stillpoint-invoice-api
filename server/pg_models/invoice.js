@@ -6,7 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.INTEGER,
-        primaryKey: true
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
       },
       invoiceSn: {
         type: DataTypes.STRING
@@ -96,14 +98,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       paidAt: {
         type: DataTypes.DATE
-      },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: true
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: true
       }
     },
     {

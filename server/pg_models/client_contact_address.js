@@ -43,14 +43,6 @@ module.exports = function(sequelize, DataTypes) {
       longitude: {
         type: DataTypes.DOUBLE,
         allowNull: true
-      },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false
       }
     }, {
       tableName: 'client_contact_addresses'

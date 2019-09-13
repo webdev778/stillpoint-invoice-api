@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
         },
         firstName: {
             type: DataTypes.STRING
@@ -42,12 +44,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         unconfirmedEmail: {
             type: DataTypes.STRING
-        },
-        createdAt: {
-            type: DataTypes.DATE
-        },
-        updatedAt: {
-            type: DataTypes.DATE
         },
         avatarFileName: {
             type: DataTypes.STRING

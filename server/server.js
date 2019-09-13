@@ -34,14 +34,14 @@ function start() {
     next();
   });
 
-  app.use(express.static('./client/src/assets'));
-  app.use(express.static('./client/dist'));
+  // app.use(express.static('./client/src/assets'));
+  // app.use(express.static('./client/dist'));
 
   var PORT = config['server']['port'];
   http.createServer(app).listen(PORT, function () {
     utils.log('Server started successfully on port -->', PORT);
     routes.bindAllRequests(app);
-    app.use(rfr('/server/universalRoute.jsx'));
+    // app.use(rfr('/server/universalRoute.jsx'));
   });
 }
 

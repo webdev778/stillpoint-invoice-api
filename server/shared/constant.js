@@ -221,5 +221,16 @@ module.exports = {
   'FETCH_DATA_MAX_LIMIT': 999999,
   'DATE_FORMAT': 'MM/DD/YYYY',
   'PASSWORD_SYMBOL': '********',
-  'CENT_TO_DOLLAR': 100
+  'CENT_TO_DOLLAR': 100,
+
+  // invoice status
+  INVOICE_DRAFT: 0,
+  INVOICE_SENT: 1,
+  INVOICE_PAID: 2,
+
+  // stripe one-time checkout transaction status
+  STRIPE_PAYMENT:{
+    TRANS_INIT: 0,
+    TRANS_COMPLETE: 1
+  }
 }

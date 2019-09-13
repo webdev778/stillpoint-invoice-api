@@ -188,10 +188,35 @@ const send = async (req, res, cb) => {
   }
 }
 
+const findById = (id) => {
+  return db.Invoice.findOne({
+    where: { id },
+    include: [
+      {
+        model: db.Counselor,
+        include: [db.StripeConnect]
+      },
+      {
+        association: db.Invoice.Services,
+        as: 'services',
+      },
+      db.Currency]
+  });
+}
+
+const setStatusAsPaid = (id) => {
+  return db.Invoice.update({ status: 2 },
+    {
+      where: { id }
+    })
+}
+
 module.exports = {
   index,
   create,
   update,
   destroy,
-  send
+  send,
+  findById,
+  setStatusAsPaid
 }

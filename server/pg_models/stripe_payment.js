@@ -1,15 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const Stripe_Payment = sequelize.define('Stripe_Payment', {
+    const StripePayment = sequelize.define('StripePayment', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
         description: {
             type: DataTypes.STRING
-        },
-        plan: {
-            type: DataTypes.INTEGER
         },
         card: {
             type: DataTypes.STRING
@@ -20,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: {
             type: DataTypes.TIME
         },
-        eventOrderId: {
+        invoiceId: {
             type: DataTypes.INTEGER
         },
         customerId: {
@@ -35,16 +32,13 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING
         },
-        chargeId: {
+        sessionId: {
             type: DataTypes.STRING
         },
         refundId: {
             type: DataTypes.STRING
         },
-        syClubId: {
-            type: DataTypes.INTEGER
-        },
-        configId: {
+        stripeConnectId: {
             type: DataTypes.INTEGER
         },
     });
@@ -53,6 +47,6 @@ module.exports = (sequelize, DataTypes) => {
     //     Stripe_Payment.hasMany(Invoice);
     // };
 
-    return Stripe_Payment;
+    return StripePayment;
 };
 

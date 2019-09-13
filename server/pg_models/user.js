@@ -26,28 +26,28 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         resetPasswordSentAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         rememberCreatedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         confirmationToken: {
             type: DataTypes.STRING
         },
         confirmedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         confirmationSentAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         unconfirmedEmail: {
             type: DataTypes.STRING
         },
         createdAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         updatedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         avatarFileName: {
             type: DataTypes.STRING
@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
         },
         avatarUpdatedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         lastName: {
             type: DataTypes.STRING
@@ -77,10 +77,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
         },
         currentSignInAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         lastSignInAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         currentSignInIp: {
             type: DataTypes.STRING
@@ -125,10 +125,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         termsOfService: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         privacyPolicy: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         trialDays: {
             type: DataTypes.INTEGER
@@ -137,7 +137,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         },
         freeTrialStartDate: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         failedAttempts: {
             type: DataTypes.INTEGER
@@ -146,7 +146,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         lockedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         fiscalCode: {
             type: DataTypes.STRING

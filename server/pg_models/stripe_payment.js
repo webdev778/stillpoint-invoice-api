@@ -12,10 +12,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         createdAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         updatedAt: {
-            type: DataTypes.TIME
+            type: DataTypes.DATE
         },
         invoiceId: {
             type: DataTypes.INTEGER

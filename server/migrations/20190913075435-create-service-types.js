@@ -26,7 +26,7 @@ module.exports = {
           type: Sequelize.INTEGER
         },
         price: {
-          type: Sequelize.NUMERIC
+          type: "NUMERIC(10, 2)"
         }
       },
       {

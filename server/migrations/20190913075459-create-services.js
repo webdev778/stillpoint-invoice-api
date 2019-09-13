@@ -39,7 +39,7 @@ module.exports = {
           type: Sequelize.INTEGER
         },
         unit_price: {
-          type: Sequelize.NUMERIC
+          type: "NUMERIC(10, 2)"
         },
         tax_charge: {
           type: Sequelize.BOOLEAN

@@ -29,7 +29,7 @@ module.exports = {
           type: Sequelize.STRING
         },
         amount: {
-          type: Sequelize.NUMERIC
+          type: "NUMERIC(10, 2)"
         },
         status: {
           type: Sequelize.INTEGER

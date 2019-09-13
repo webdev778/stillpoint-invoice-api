@@ -17,7 +17,7 @@ module.exports = {
           type: Sequelize.INTEGER
         },
         client_id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.INTEGER
           // references: {
           //     model: 'users',
           //     key: 'id'
@@ -77,13 +77,13 @@ module.exports = {
           type: Sequelize.STRING
         },
         total: {
-          type: Sequelize.NUMERIC
+          type: "NUMERIC(10, 2)"
         },
         amount: {
-          type: Sequelize.NUMERIC
+          type: "NUMERIC(10, 2)"
         },
         paid_amount: {
-          type: Sequelize.NUMERIC
+          type: "NUMERIC(10, 2)"
         },
         notes: {
           type: Sequelize.TEXT
@@ -93,19 +93,29 @@ module.exports = {
           defaultValue: "0"
         },
         issue_at: {
-          type: Sequelize.DATE
+          type: "TIMESTAMP",
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false
         },
         due_at: {
-          type: Sequelize.DATE
+          type: "TIMESTAMP",
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false
         },
         viewed_at: {
-          type: Sequelize.DATE
+          type: "TIMESTAMP",
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false
         },
         sent_at: {
-          type: Sequelize.DATE
+          type: "TIMESTAMP",
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false
         },
         paid_at: {
-          type: Sequelize.DATE
+          type: "TIMESTAMP",
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false
         }
       },
       {
@@ -117,6 +127,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('new_invoices');
+    return queryInterface.dropTable("new_invoices");
   }
 };

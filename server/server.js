@@ -37,7 +37,7 @@ function start() {
   // app.use(express.static('./client/src/assets'));
   // app.use(express.static('./client/dist'));
 
-  app.set('json null omit', (k, v) => (v === null ? undefined : v)); //json omit null values
+  app.set('json replacer', (k, v) => (v === null ? undefined : v)); //json omit null values
 
   var PORT = config['server']['port'];
   http.createServer(app).listen(PORT, function () {

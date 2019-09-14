@@ -56,7 +56,6 @@ function index(req, res, cb) {
 const create = async (req, res, cb) => {
   utils.writeInsideFunctionLog('invoices', 'create');
 
-
   try {
 
     const result = await db.Invoice.create(req.body, {
@@ -96,7 +95,7 @@ const update = async (req, res, cb) => {
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['id', 'name', 'quantity', 'unitPrice', 'taxCharge']
+          attributes: ['id', 'name', 'quantity', 'description', 'unitPrice', 'taxCharge']
         }]
     });
 
@@ -120,12 +119,12 @@ const update = async (req, res, cb) => {
 
     const ret = await db.Invoice.findOne({
       where: { id: invoiceId },
-      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'dueAt', 'sentAt', 'paidAt'],
+      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'notes', 'dueAt', 'sentAt', 'paidAt'],
       include: [
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['name', 'quantity', 'unitPrice', 'taxCharge']
+          attributes: ['name', 'description', 'quantity', 'unitPrice', 'taxCharge']
         }]
     });
 
@@ -154,7 +153,7 @@ const destroy = async (req, res, cb) => {
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['name', 'quantity', 'unitPrice', 'taxCharge']
+          attributes: ['name', 'description', 'quantity', 'unitPrice', 'taxCharge']
         }]
     });
 

@@ -193,7 +193,7 @@ const destroy = async (req, res, cb) => {
   try {
 
     if (!invoiceId) {
-      cb({ Code: 400, Status: true, Message: '' });
+      cb({ Code: 400, Status: true, Message: 'Invalid Params' });
       return;
     }
 
@@ -207,9 +207,14 @@ const destroy = async (req, res, cb) => {
         }]
     });
 
+    // vaildated
+
     if (!foundInvoice) {
-      cb({ Code: 400, Status: true, Message: '' });
-      return;
+      return cb({ Code: 404, Status: true, Message: 'Invoice Not Found!' });
+    }
+
+    if (foundInvoice.status == constant.INVOICE_PAID){
+      return cb({ Code: 400, Status: true, Message: 'You have no permission to delete a paid one!'});
     }
 
     await foundInvoice.destroy();

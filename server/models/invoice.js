@@ -13,7 +13,7 @@ var config = rfr('/server/shared/config'),
   db = rfr('/server/db');
 
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
-  'invoiceInterval', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
+  'sendEvery ', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
   'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
   'paymentId', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt'];
 
@@ -104,14 +104,12 @@ const create = async (req, res, cb) => {
       return cb({Code: 400, Status: true, Message: e.message});
     }
 
-    if(type === 0) {
+    if(type === constant.INVOICE_INDIVIDUAL) {
       newInvoice.dueAt = moment(newInvoice.issueAt).add(newInvoice.daysActive, 'day').format();
-    }else {
-      newInvoice.invoiceInterval = newInvoice.sendEvery
     }
 
     const result = await db.Invoice.create(newInvoice, {
-      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'invoiceInterval', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
+      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'sendEvery ', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
       , include: [
         {
           association: db.Invoice.Services,

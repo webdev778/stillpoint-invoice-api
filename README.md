@@ -45,13 +45,20 @@ Run `brew services start mongodb` to start mongodb after install.
 
 ### Daily Development Process
 
-1. Start MongoDB locally if not already running:
+1. DB migration in PostgreSQL.
 
-    $ mongod --config /path/to/your/mongo.conf
-
+  - set up sequelize  
+    $ npm install -g sequelize-cli
+  - set up pg
+    $ npm install -g pg pg-hstore
+  - create migration
+    $ sequelize db:migrate
+  - delete migration 
+    $ sequelize db:migrate:under:all
 
 1. Start the server
 
 	$ npm run start
 
 1. View the development environment website at [`http://localhost:3001`](http://localhost:3001)
+

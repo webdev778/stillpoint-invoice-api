@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       counselorId: {
         type: DataTypes.INTEGER
       },
-      sendEvery : {
+      sendEvery: {
         type: DataTypes.INTEGER
       },
       subject: {

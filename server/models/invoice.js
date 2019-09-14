@@ -13,7 +13,7 @@ var config = rfr('/server/shared/config'),
   db = rfr('/server/db');
 
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
-  'sendEvery ', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
+  'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
   'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
   'paymentId', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt'];
 
@@ -59,6 +59,8 @@ function index(req, res, cb) {
   }).then(invoices => {
     cb(invoices);
   }).catch(err => {
+    console.log(err);
+    utils.writeErrorLog('invoces', 'index', 'Error while findAll invoices', err);
     cb({ Code: 500, Status: false, Message: 'model error' })
   })
 }
@@ -109,7 +111,7 @@ const create = async (req, res, cb) => {
     }
 
     const result = await db.Invoice.create(newInvoice, {
-      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'sendEvery ', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
+      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'sendEvery', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
       , include: [
         {
           association: db.Invoice.Services,

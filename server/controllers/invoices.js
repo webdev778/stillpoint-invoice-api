@@ -10,6 +10,13 @@ function index(req, res) {
     invoiceModel.index(req, res, cb);
 }
 
+function show(req, res) {
+    var cb = function (result) {
+        utils.sendResponse(res, result);
+    }
+    invoiceModel.show(req, res, cb);
+}
+
 function create(req, res) {
     var cb = function (result) {
         utils.sendResponse(res, result);
@@ -72,6 +79,7 @@ const status = (req, res) => {
 
 module.exports = {
     index,
+    show,
     create,
     update,
     destroy,

@@ -4,10 +4,12 @@ var rfr = require('rfr'),
   moment = require('moment'),
   _ = require('lodash');
 
+
 var config = rfr('/server/shared/config'),
   constant = rfr('/server/shared/constant'),
   mailHelper = rfr('/server/shared/mailHelper'),
   utils = rfr('/server/shared/utils'),
+  logger = rfr('/server/shared/logger'),
   db = rfr('/server/db');
 
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
@@ -20,37 +22,43 @@ function index(req, res, cb) {
 
   // get counselor_id or client_id from auth
   const userRole = 1;
-  const counselorId = 5;
-  const clientId = 10;
-  if (userRole) {
-    db.Invoice.findAll({
-      // where: { 'counselorId': counselorId },
-      attributes: invoice_whiltelist,
-      include: [{
-        association: db.Invoice.Services,
-        as: 'services',
-        attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
-      }]
-    }).then(invoices => {
-      cb(invoices);
-    }).catch(err => {
-      cb({ Code: 500, Status: false, Message: 'model error' })
-    })
-  } else {
-    db.Invoice.findAll({
-      where: { 'clientId': clientId },
-      attributes: invoice_whiltelist,
-      include: [{
-        association: db.Invoice.Services,
-        as: 'services',
-        attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
-      }]
-    }).then(invoices => {
-      cb(invoices);
-    }).catch(err => {
-      cb({ Code: 500, Status: false, Message: 'model error' })
-    })
-  }
+  const counselorId = 203;
+  const clientId = 1332;
+
+  db.Invoice.findAll({
+    where: { 'counselorId': counselorId },
+    attributes: invoice_whiltelist,
+    include: [{
+      association: db.Invoice.Services,
+      as: 'services',
+      attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+    }]
+  }).then(invoices => {
+    cb(invoices);
+  }).catch(err => {
+    cb({ Code: 500, Status: false, Message: 'model error' })
+  })
+}
+
+const show = (req, res, cb) => {
+  utils.writeInsideFunctionLog('invoices', 'show');
+
+  const id = req.params.id;
+
+  db.Invoice.findOne({
+    where: { id },
+    attributes: invoice_whiltelist,
+    include: [{
+      association: db.Invoice.Services,
+      as: 'services',
+      attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+    }]
+  }).then(invoice => {
+    cb(invoice);
+  }).catch(err => {
+    utils.writeErrorLog('invoices', 'show', 'Error while find invoice ', err);
+    cb({ Code: 500, Status: false, Message: 'model error' })
+  })
 }
 
 const create = async (req, res, cb) => {
@@ -223,6 +231,7 @@ const setStatusAsPaid = (id) => {
 
 module.exports = {
   index,
+  show,
   create,
   update,
   destroy,

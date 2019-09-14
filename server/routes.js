@@ -106,6 +106,11 @@ postHandler['/sendMessage'] = universalCtlr.sendMsg;
 
 postHandler['/webhook'] = stripeAccCtlr.webhook;
 
+/**************************************************************************
+ * Invoice Management Platform
+ *
+ */
+
 // All get services
 
 getHandler['/services'] = serviceCtrl.index;
@@ -113,11 +118,11 @@ getHandler['/clients'] = clientCtrl.index;
 getHandler['/counselors'] = counselorCtrl.index;
 getHandler['/currencies'] = currencyCtrl.index;
 
-getHandler['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.index;
 getHandler['/invoices'] = invoiceCtrl.index;
-getHandler['/invoice'] = currencyCtrl.index;
+getHandler['/invoice/:id'] = invoiceCtrl.show;
 getHandler['/invoice/types'] = invoiceCtrl.type;
 getHandler['/invoice/status'] = invoiceCtrl.status;
+getHandler['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.index;
 
 // All post services
 postHandler['/invoice'] = invoiceCtrl.create;

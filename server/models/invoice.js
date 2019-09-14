@@ -17,6 +17,25 @@ const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'couns
   'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
   'paymentId', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt'];
 
+const validateCreateRequest = (req) => {
+
+
+  if(!req.issueAt) throw 'issueAt is invalid';
+  if( (req.invoiceType !== 0 && !req.invoiceType) || req.invoiceType === undefined) throw Error('invoice type is invalid');
+
+  switch (req.invoiceType){
+    case constant.INVOICE_INDIVIDUAL:
+        if(!req.daysActive) throw Error('daysActive is invalid');
+        break;
+    case constant.INVOICE_RECURRING:
+        if(!req.sendEvery) throw Error('sendEvery is invalid');
+        break;
+    default:
+        throw Error('invoiceType is invalid');
+  }
+
+}
+
 function index(req, res, cb) {
   utils.writeInsideFunctionLog('invoices', 'index');
 
@@ -74,8 +93,24 @@ const create = async (req, res, cb) => {
   utils.writeInsideFunctionLog('invoices', 'create');
 
   try {
+    const newInvoice = req.body;
+    const { invoiceType: type } = newInvoice;
 
-    const result = await db.Invoice.create(req.body, {
+    // validate request
+    try {
+      validateCreateRequest(req.body);
+    }catch(e){
+      console.log('validate error', e);
+      return cb({Code: 400, Status: true, Message: e.message});
+    }
+
+    if(type === 0) {
+      newInvoice.dueAt = moment(newInvoice.issueAt).add(newInvoice.daysActive, 'day').format();
+    }else {
+      newInvoice.invoiceInterval = newInvoice.sendEvery
+    }
+
+    const result = await db.Invoice.create(newInvoice, {
       attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'invoiceInterval', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
       , include: [
         {
@@ -127,8 +162,8 @@ const update = async (req, res, cb) => {
       plain: true
     });
 
-    await Promise.all (services.map(service => {      
-         return db.Service.update(service, { where: { id: service.id, invoiceId: invoiceId },  
+    await Promise.all (services.map(service => {
+         return db.Service.update(service, { where: { id: service.id, invoiceId: invoiceId },
           attributes: ['id', 'name', 'quantity', 'description', 'unitPrice', 'taxCharge'] });
       }));
 

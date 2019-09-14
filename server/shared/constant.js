@@ -223,6 +223,10 @@ module.exports = {
   'PASSWORD_SYMBOL': '********',
   'CENT_TO_DOLLAR': 100,
 
+  // invoice type
+  INVOICE_INDIVIDUAL: 0,
+  INVOICE_RECURRING: 1,
+
   // invoice status
   INVOICE_DRAFT: 0,
   INVOICE_SENT: 1,

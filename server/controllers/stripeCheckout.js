@@ -47,7 +47,8 @@ const pay = async (req, res) => {
 
     if (!stripeConnect || !stripeConnect.accessToken) {
       console.log('yet connected to stripe properly');
-      cb({ Code: 400, Status: true, Message: 'Bad Request' });
+      utils.writeErrorLog('stripe_checkout', 'pay', 'Error while validating stripe connect status', 'yet connected to stripe properly');
+      cb({ Code: 400, Status: true, Message: 'You didn\'t perform to connect stripe yet' });
       return;
     }
 
@@ -71,7 +72,7 @@ const pay = async (req, res) => {
     let tax_item = {
       name: 'Tax',
       description: invoice.tax * 100 + '%',  // musn't be ''
-      amount: sum * invoice.tax,
+      amount: Math.trunc(sum * invoice.tax),
       quantity: 1,
       currency: invoice.Currency.code
     }

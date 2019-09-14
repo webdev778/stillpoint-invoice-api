@@ -14,16 +14,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       invoiceType: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       clientId: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       counselorId: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       sendEvery : {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       subject: {
         type: DataTypes.STRING
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.REAL
       },
       currencyId: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       senderName: {
         type: DataTypes.STRING
@@ -65,23 +65,23 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       total: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       amount: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
 
       paidAmount: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       notes: {
         type: DataTypes.TEXT
       },
       paymentId: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       status: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
         defaultValue: "0"
       },
       issueAt: {

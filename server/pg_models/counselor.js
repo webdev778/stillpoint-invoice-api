@@ -3,7 +3,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Counselor = sequelize.define("Counselor", {
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     userId: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     highResImageFileName: {
       type: DataTypes.STRING
@@ -33,13 +33,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     highResImageFileSize: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     highResImageUpdatedAt: {
       type: DataTypes.DATE
     },
     pricePerSessionHour: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     experience: {
       type: DataTypes.TEXT
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     languageId: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     slidingScale: {
       type: DataTypes.BOOLEAN
@@ -105,7 +105,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN
     },
     berlinCounselorId: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     summary: {
       type: DataTypes.TEXT
@@ -123,7 +123,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     defaultCityId: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     currency: {
       type: DataTypes.STRING

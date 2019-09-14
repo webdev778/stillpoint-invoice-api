@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         amount: {
-            type: DataTypes.BIGINT
+            type: DataTypes.INTEGER
         },
         status: {
-            type: DataTypes.BIGINT
+            type: DataTypes.INTEGER
         },
         email: {
             type: DataTypes.STRING

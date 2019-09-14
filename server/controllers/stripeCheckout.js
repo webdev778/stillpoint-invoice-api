@@ -155,6 +155,7 @@ const webhook = (req, res) => {
 }
 
 const handleCheckoutSession = async (session) => {
+  utils.writeInsideFunctionLog('stripeCheckout', 'handleCheckoutSession');
   console.log(session);
 
   const invoiceId = session.client_reference_id;
@@ -164,13 +165,20 @@ const handleCheckoutSession = async (session) => {
     status: constant.STRIPE_PAYMENT.TRANS_COMPLETE
   };
 
+  const stripePayment = await stripePaymentModel.findBySessionId(sessionId);
+
+  if (!stripePayment){
+    return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while validating sessionId', 'sessionId not exist', {sessionId});
+  }
+
   // update invoice as paid
   try{
     await Promise.all([
       stripePaymentModel.updateBySessionId(sessionId, paymentInfo),
       invoiceModel.setStatusAsPaid(invoiceId)
     ]);
-    console.log('successfully updated');
+    console.log('successfully paid');
+    logger.info('[stripeCheckout] | <handleCheckoutSession> - successfully paid and updated invoice and payement data in the db,', JSON.stringify(session));
   }catch(e) {
     console.log(e);
   }

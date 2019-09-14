@@ -20,6 +20,15 @@ const create = (stripePaymentInfo) => {
   });
 }
 
+const findBySessionId = (sessionId) => {
+  return db.StripePayment.findOne(
+    {
+      where: { sessionId },
+      attributes: whiteList
+    }
+  );
+}
+
 const updateBySessionId = (sessionId, stripePaymentInfo) => {
   return db.StripePayment.update(stripePaymentInfo,
     {
@@ -31,5 +40,6 @@ const updateBySessionId = (sessionId, stripePaymentInfo) => {
 
 module.exports = {
   create,
+  findBySessionId,
   updateBySessionId
 }

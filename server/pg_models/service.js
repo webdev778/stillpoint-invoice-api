@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     quantity: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     unitPrice: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     taxCharge: {
       type: DataTypes.BOOLEAN

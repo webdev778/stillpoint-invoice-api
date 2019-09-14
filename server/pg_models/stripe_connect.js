@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
         autoIncrement: true
       },
       counselorId: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
         allowNull: false
       },
       accessToken: {

@@ -19,10 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       counselorId: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       currencyId: {
-        type: DataTypes.BIGINT
+        type: DataTypes.INTEGER
       },
       country: {
         type: DataTypes.STRING

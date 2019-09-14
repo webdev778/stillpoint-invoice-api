@@ -32,7 +32,7 @@ module.exports = {
           type: "NUMERIC(10, 2)"
         },
         status: {
-          type: Sequelize.BIGINT
+          type: Sequelize.INTEGER
         },
         email: {
           type: Sequelize.STRING

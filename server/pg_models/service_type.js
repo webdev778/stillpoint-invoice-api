@@ -8,16 +8,16 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     counselorId: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     name: {
       type: DataTypes.STRING
     },
     type: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     },
     price: {
-      type: DataTypes.BIGINT
+      type: DataTypes.INTEGER
     }
   });
   // Service_Type.associate = ({ Service, Counselor }) => {

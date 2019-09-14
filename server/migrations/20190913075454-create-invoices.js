@@ -14,10 +14,10 @@ module.exports = {
           type: Sequelize.STRING
         },
         invoice_type: {
-          type: Sequelize.BIGINT
+          type: Sequelize.INTEGER
         },
         client_id: {
-          type: Sequelize.BIGINT
+          type: Sequelize.INTEGER
           // references: {
           //     model: 'users',
           //     key: 'id'
@@ -26,7 +26,7 @@ module.exports = {
           // onDelete: 'cascade'
         },
         counselor_id: {
-          type: Sequelize.BIGINT
+          type: Sequelize.INTEGER
           // references: {
           //     model: 'counselors',
           //     key: 'id'
@@ -35,7 +35,7 @@ module.exports = {
           // onDelete: 'cascade'
         },
         send_every : {
-          type: Sequelize.BIGINT
+          type: Sequelize.INTEGER
         },
         subject: {
           type: Sequelize.STRING
@@ -44,7 +44,7 @@ module.exports = {
           type: Sequelize.REAL
         },
         currency_id: {
-          type: Sequelize.BIGINT
+          type: Sequelize.INTEGER
         },
         sender_name: {
           type: Sequelize.STRING
@@ -89,7 +89,7 @@ module.exports = {
           type: Sequelize.TEXT
         },
         status: {
-          type: Sequelize.BIGINT,
+          type: Sequelize.INTEGER,
           defaultValue: "0"
         },
         issue_at: {

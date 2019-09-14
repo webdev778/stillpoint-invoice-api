@@ -11,7 +11,7 @@ module.exports = {
           autoIncrement: true
         },
         counselor_id: {
-          type: Sequelize.BIGINT
+          type: Sequelize.INTEGER
           // references: {
           //     model: 'counselors',
           //     key: 'id'
@@ -23,7 +23,7 @@ module.exports = {
           type: Sequelize.STRING
         },
         type: {
-          type: Sequelize.BIGINT
+          type: Sequelize.INTEGER
         },
         price: {
           type: "NUMERIC(10, 2)"

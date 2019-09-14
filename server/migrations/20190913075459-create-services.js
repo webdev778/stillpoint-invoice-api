@@ -36,7 +36,7 @@ module.exports = {
           type: Sequelize.TEXT
         },
         quantity: {
-          type: Sequelize.BIGINT
+          type: Sequelize.INTEGER
         },
         unit_price: {
           type: "NUMERIC(10, 2)"

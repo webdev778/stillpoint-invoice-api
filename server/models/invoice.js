@@ -233,11 +233,27 @@ const send = async (req, res, cb) => {
     // update invoice status
     const invoice = await db.Invoice.findOne({ where: { 'id': id } })
     if (!invoice) {
+      console.log('Invoie not exist in the db, invoiceId:', id);
+      utils.writeErrorLog('invoice', 'send', 'Error while find invoice by id', 'Not Exist');
       cb({ Code: 400, Status: true, Message: 'Bad Request' });
       return;
     }
 
-    await invoice.update({ 'status': 1 });
+    const invoiceStatus = invoice.status;
+    switch (invoiceStatus) {
+      case constant.INVOICE_SENT:
+        console.log('Already sent');
+        utils.writeErrorLog('invoice', 'send', 'validate invoice status', 'Can\'t change status of invoice');
+        return cb({ Code: 400, Status: true, Message: 'Already sent' });
+      case constant.INVOICE_PAID:
+        console.log('Can\'t change status of paid');
+        utils.writeErrorLog('invoice', 'send', 'validate invoice status', 'Can\'t change status of paid invoice');
+        return cb({ Code: 400, Status: true, Message: 'Already paid' });
+      default:
+        break;
+    }
+
+    await invoice.update({ 'status': constant.INVOICE_SENT });
 
     cb({ Code: 200, Status: true, Message: 'Sent Successfully' });
   } catch (e) {

@@ -85,7 +85,7 @@ const create = async (req, res, cb) => {
         }]
     });
 
-    cb({ Code: 200, Status: true, Message: result });
+    cb(result);
   } catch (e) {
     console.log(e);
     cb({ Code: 500, Status: true, Message: 'Failed to create inovice' });
@@ -127,16 +127,14 @@ const update = async (req, res, cb) => {
       plain: true
     });
 
-    services.forEach(async service => {
-      const dbService = await db.Service.findOne({ where: { 'id': service.id, 'invoiceId': invoiceId } });
-      if (!!dbService) {
-        await dbService.update(service, { attributes: ['invoiceSn', 'subject', 'tax', 'currencyId', 'notes'] });
-      }
-    });
+    await Promise.all (services.map(service => {      
+         return db.Service.update(service, { where: { id: service.id, invoiceId: invoiceId },  
+          attributes: ['id', 'name', 'quantity', 'description', 'unitPrice', 'taxCharge'] });
+      }));
 
     const ret = await db.Invoice.findOne({
       where: { id: invoiceId },
-      attributes: ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'notes', 'dueAt', 'sentAt', 'paidAt'],
+      attributes: ['id','invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'notes', 'dueAt', 'sentAt', 'paidAt'],
       include: [
         {
           association: db.Invoice.Services,

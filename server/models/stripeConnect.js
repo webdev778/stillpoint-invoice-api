@@ -11,7 +11,7 @@ var config = rfr('/server/shared/config'),
   db = rfr('/server/db');
 
 const whiteList = ['counselorId', 'accessToken', 'refreshToken',
-                'stripePublishableKey', 'stripeUserId', 'scope'];
+                'stripePublishableKey', 'stripeUserId', 'scope', 'revoked'];
 
 const create = async (stripeConnectInfo) => {
   utils.writeInsideFunctionLog('stripe_connects', 'create');

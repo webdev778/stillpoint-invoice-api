@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       counselorId: {
         type: DataTypes.BIGINT
       },
-      invoiceInterval: {
+      sendEvery : {
         type: DataTypes.BIGINT
       },
       subject: {

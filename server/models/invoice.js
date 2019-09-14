@@ -127,12 +127,12 @@ const update = async (req, res, cb) => {
 
     const ret = await db.Invoice.findOne({
       where: { id: invoiceId },
-      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'notes', 'dueAt', 'sentAt', 'paidAt'],
+      attributes: ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'notes', 'dueAt', 'sentAt', 'paidAt'],
       include: [
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+          attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
         }]
     });
 

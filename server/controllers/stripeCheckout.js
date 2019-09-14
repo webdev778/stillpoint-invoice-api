@@ -6,6 +6,7 @@ var invoiceModel = rfr('/server/models/invoice');
 var stripePaymentModel = rfr('/server/models/stripePayment');
 var constant = rfr('/server/shared/constant');
 var config = rfr('/server/shared/config');
+var logger = rfr('/server/shared/logger');
 
 
 const pay = async (req, res) => {
@@ -26,13 +27,12 @@ const pay = async (req, res) => {
 
     if (!invoice) {
       console.log('invalid invoice id');
-      cb({ Code: 400, Status: true, Message: 'Bad Request' });
+      utils.writeErrorLog('stripe_checkout', 'pay', 'Error while validating request params', 'invoice not exist', {id});
+      cb({ Code: 400, Status: true, Message: `the invoice doesn't exist, id: ${id}`});
       return;
     }
 
     // check state
-    console.log(invoice.status);
-    console.log(constant['INVOICE_PAID']);
     if(invoice.status === constant['INVOICE_PAID'])
       return cb({ Code: 400, Status: true, Message: 'Already paid' });
 
@@ -78,16 +78,23 @@ const pay = async (req, res) => {
     }
     items.push(tax_item);
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: items,
-      client_reference_id: id,
-      billing_address_collection: 'auto',  // 'auto' or 'required'
-      // customer: "Test Client",
-      // customer_email: "abc@gmail.com", // You may set one of customer, customer_email
-      success_url: `${config.reactUrl}/invoice/${id}?payment=success`,
-      cancel_url: `${config.reactUrl}/invoice/${id}?payment=cancel`,
-    });
+    let session;
+    try{
+        session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: items,
+        client_reference_id: id,
+        billing_address_collection: 'auto',  // 'auto' or 'required'
+        // customer: "Test Client",
+        // customer_email: "abc@gmail.com", // You may set one of customer, customer_email
+        success_url: `${config.reactUrl}/invoice/${id}?payment=success`,
+        cancel_url: `${config.reactUrl}/invoice/${id}?payment=cancel`,
+      });
+    }catch(e){
+      console.log(e);
+      utils.writeErrorLog('stripe_checkout', 'pay', 'Error while creating new session of stripe checkout', e, e.message);
+      return cb({ Code: 400, Status: true, Message: e.message });
+    }
 
     // save session info
     const paymentInfo = {
@@ -98,7 +105,8 @@ const pay = async (req, res) => {
       stripeConnectId: stripeConnect.id
     };
     await stripePaymentModel.create(paymentInfo);
-    console.log('---save stripe checkout session info into db---');
+    console.log('---saved stripe checkout session info into db---');
+    logger.info('[stripeCheckout] | <pay> - saved session of stripe checkout info into db,', JSON.stringify(paymentInfo));
 
     const ret = {
       stripeSessionId: session.id,
@@ -108,7 +116,8 @@ const pay = async (req, res) => {
     cb(ret);
   } catch (e) {
     console.log(e);
-    cb({ Code: 500, Status: true, Message: 'Failed to pay invoice' });
+    utils.writeErrorLog('stripe_checkout', 'pay', 'Error while stripe checkout', e, e.message)
+    cb({ Code: 500, Status: true, Message: 'Failed to pay' });
   }
 }
 

@@ -27,7 +27,11 @@ function index(req, res, cb) {
 
   db.Invoice.findAll({
     where: { 'counselorId': counselorId },
-    attributes: invoice_whiltelist,
+    attributes: [...invoice_whiltelist,
+      [db.sequelize.literal(
+        'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
+        'onlinePayable']
+      ],
     include: [{
       association: db.Invoice.Services,
       as: 'services',
@@ -47,7 +51,11 @@ const show = (req, res, cb) => {
 
   db.Invoice.findOne({
     where: { id },
-    attributes: invoice_whiltelist,
+    attributes: [...invoice_whiltelist,
+      [db.sequelize.literal(
+        'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
+        'onlinePayable']
+      ],
     include: [{
       association: db.Invoice.Services,
       as: 'services',
@@ -56,6 +64,7 @@ const show = (req, res, cb) => {
   }).then(invoice => {
     cb(invoice);
   }).catch(err => {
+    console.log(err);
     utils.writeErrorLog('invoices', 'show', 'Error while find invoice ', err);
     cb({ Code: 500, Status: false, Message: 'model error' })
   })

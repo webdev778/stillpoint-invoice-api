@@ -116,7 +116,19 @@ const update = async (req, res, cb) => {
         await dbService.update(service, { attributes: ['invoiceSn', 'subject', 'tax', 'currencyId', 'notes'] });
       }
     });
-    cb({ Code: 200, Status: true, Message: 'Updated Successfully' });
+
+    const ret = await db.Invoice.findOne({
+      where: { id: invoiceId },
+      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'dueAt', 'sentAt', 'paidAt'],
+      include: [
+        {
+          association: db.Invoice.Services,
+          as: 'services',
+          attributes: ['name', 'quantity', 'unitPrice', 'taxCharge']
+        }]
+    });
+
+    cb(ret);
   } catch (e) {
     console.log(e);
     cb({ Code: 500, Status: true, Message: 'Failed to update inovice' });

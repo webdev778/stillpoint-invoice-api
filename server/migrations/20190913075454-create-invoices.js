@@ -34,7 +34,7 @@ module.exports = {
           // onUpdate: 'cascade',
           // onDelete: 'cascade'
         },
-        invoice_interval: {
+        send_every : {
           type: Sequelize.BIGINT
         },
         subject: {

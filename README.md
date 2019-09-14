@@ -47,14 +47,14 @@ Run `brew services start mongodb` to start mongodb after install.
 
 1. DB migration in PostgreSQL.
 
-  - set up sequelize  
-    $ npm install -g sequelize-cli
-  - set up pg
-    $ npm install -g pg pg-hstore
-  - create migration
-    $ sequelize db:migrate
-  - delete migration 
-    $ sequelize db:migrate:under:all
+    - set up sequelize  
+      $ npm install -g sequelize-cli
+    - set up pg
+      $ npm install -g pg pg-hstore
+    - create db migration
+      $ sequelize db:migrate
+    - delete migration db
+      $ sequelize db:migrate:under:all
 
 1. Start the server
 

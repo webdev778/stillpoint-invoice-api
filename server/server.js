@@ -18,6 +18,35 @@ var config = rfr('/server/shared/config'),
 function start() {
   var app = express();
 
+  const jwt = require("express-jwt");
+  const jwksRsa = require("jwks-rsa");
+
+  // Set up Auth0 configuration
+  const authConfig = {
+    domain: "broad-bread-7994.eu.auth0.com",
+    audience: "http://10.66.127.118:3000/api"
+  };
+
+  const checkJwt = jwt({
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
+    }),
+
+    audience: authConfig.audience,
+    issuer: `https://${authConfig.domain}/`,
+    algorithm: ["RS256"]
+  });
+
+  app.get("/api/external", checkJwt, (req, res) => {
+    res.send({
+      msg: "Your Access Token was successfully validated!"
+    });
+  });
+
+
   app.use('/stripe/webhook', bodyParser.raw({ type: 'application/json' }));
   app.use(bodyParser.json({ limit: '500mb' })); // support json encoded bodies
   app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" })); // support encoded bodies

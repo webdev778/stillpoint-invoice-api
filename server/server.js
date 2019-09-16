@@ -23,8 +23,9 @@ function start() {
 
   // Set up Auth0 configuration
   const authConfig = {
-    domain: "broad-bread-7994.eu.auth0.com",
-    audience: "http://10.66.127.118:3000/api"
+    "domain": "webdev778.auth0.com",
+    "clientId": "muogQcXDLufn09vuhPlhgphhduRFH2Tf",
+    "audience": "https://culturecurator.co.uk/"
   };
 
   const checkJwt = jwt({

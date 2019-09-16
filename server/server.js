@@ -26,7 +26,7 @@ function start() {
   {
     "domain": "broad-bread-7994.eu.auth0.com",
     "client_id": "xQ4jITufFzRTF4cD1FS8dwWVjESho8r3",
-    "audience": "https://culturecurator.co.uk/"
+    "audience": "https://culturecurator.co.uk"
   };
 
 

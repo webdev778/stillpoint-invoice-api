@@ -43,7 +43,7 @@ function start() {
 
   app.get("/api/external", checkJwt, (req, res) => {
     res.send({
-      msg: "Your Access Token was successfully validated!"
+      msg: "Invoice App, Your Access Token was successfully validated!"
     });
   });
 

@@ -43,9 +43,18 @@ function index(req, res, cb) {
 
   if(!userInfo) return cb({Code: 401});
 
+  let condition = undefined;
+
+  const Op = db.Sequelize.Op;
+
+  if(userInfo.isCounsellor){
+    condition = { 'counselorId': userInfo.counselorId  };
+  }else{
+    condition = { 'clientId': userInfo.id, status: { [Op.in]: [constant.INVOICE_SENT, constant.INVOICE_PAID]} };
+  }
 
   db.Invoice.findAll({
-    where: { 'counselorId': userInfo.counselorId },
+    where: condition,
     attributes: [...invoice_whiltelist,
       [db.sequelize.literal(
         'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
@@ -163,8 +172,8 @@ const update = async (req, res, cb) => {
     });
     console.log('pin');
     // db.Service.create(service, { where: { invoiceId: invoiceId}})
-    await Promise.all (services.map( async service => {
-        if(!parseInt(service.id)){
+    await Promise.all (services.map( service => {
+        if(isNaN(service.id)){
           let newService = Object.assign({}, service);
           newService.id = undefined;
           newService.invoiceId = invoiceId;

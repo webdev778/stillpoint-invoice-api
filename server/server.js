@@ -14,6 +14,7 @@ var config = rfr('/server/shared/config'),
   utils = rfr('/server/shared/utils'),
   routes = rfr('/server/routes');
 
+const userParser = rfr('/server/controllers/auth')
 // initialize our application
 function start() {
   var app = express();
@@ -24,9 +25,9 @@ function start() {
   // Set up Auth0 configuration
   const authConfig =
   {
-    "domain": "broad-bread-7994.eu.auth0.com",
-    "client_id": "xQ4jITufFzRTF4cD1FS8dwWVjESho8r3",
-    "audience": "https://culturecurator.co.uk"
+    "domain": config.auth0.domain,
+    "client_id": config.auth0.reactClientId,
+    "audience": config.auth0.nodeApi
   };
 
 
@@ -43,20 +44,10 @@ function start() {
     algorithm: ["RS256"]
   });
 
-  app.get("/api/external", checkJwt, (req, res) => {
-    const { user } = req;
-
-      if(user)
-        console.log(req.user);
-      else
-      console.log('empty user');
-
-    res.send({
-      msg: "Invoice App, Your Access Token was successfully validated!"
-    });
-  });
-
   app.use(checkJwt);
+
+  app.use(userParser.UserParser);
+
   app.use('/stripe/webhook', bodyParser.raw({ type: 'application/json' }));
   app.use(bodyParser.json({ limit: '500mb' })); // support json encoded bodies
   app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" })); // support encoded bodies

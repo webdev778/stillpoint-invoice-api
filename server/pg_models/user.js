@@ -21,30 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING
         },
-        encryptedPassword: {
-            type: DataTypes.STRING
-        },
-        resetPasswordToken: {
-            type: DataTypes.STRING
-        },
-        resetPasswordSentAt: {
-            type: DataTypes.DATE
-        },
-        rememberCreatedAt: {
-            type: DataTypes.DATE
-        },
-        confirmationToken: {
-            type: DataTypes.STRING
-        },
-        confirmedAt: {
-            type: DataTypes.DATE
-        },
-        confirmationSentAt: {
-            type: DataTypes.DATE
-        },
-        unconfirmedEmail: {
-            type: DataTypes.STRING
-        },
         avatarFileName: {
             type: DataTypes.STRING
         },
@@ -60,92 +36,14 @@ module.exports = (sequelize, DataTypes) => {
         lastName: {
             type: DataTypes.STRING
         },
-        wantsNewsletter: {
-            type: DataTypes.BOOLEAN
-        },
-        sentOrderForNewsletter: {
-            type: DataTypes.BOOLEAN
-        },
-        sentInstructions: {
-            type: DataTypes.BOOLEAN
-        },
-        signInCount: {
-            type: DataTypes.INTEGER
-        },
-        currentSignInAt: {
-            type: DataTypes.DATE
-        },
-        lastSignInAt: {
-            type: DataTypes.DATE
-        },
-        currentSignInIp: {
-            type: DataTypes.STRING
-        },
-        lastSignInIp: {
-            type: DataTypes.STRING
-        },
-        slug: {
-            type: DataTypes.STRING
-        },
         signUpReason: {
             type: DataTypes.STRING
-        },
-        uuid: {
-            type: DataTypes.STRING
-        },
-        berlinUserId: {
-            type: DataTypes.INTEGER
-        },
-        signUpCityId: {
-            type: DataTypes.INTEGER
-        },
-        stripeCustomerId: {
-            type: DataTypes.STRING
-        },
-        invitationToken: {
-            type: DataTypes.STRING
-        },
-        labId: {
-            type: DataTypes.INTEGER
-        },
-        erased: {
-            type: DataTypes.BOOLEAN
         },
         gender: {
             type: DataTypes.STRING
         },
         dateOfBirth: {
             type: DataTypes.DATE
-        },
-        forumAdmin: {
-            type: DataTypes.BOOLEAN
-        },
-        termsOfService: {
-            type: DataTypes.DATE
-        },
-        privacyPolicy: {
-            type: DataTypes.DATE
-        },
-        trialDays: {
-            type: DataTypes.INTEGER
-        },
-        freeTrial: {
-            type: DataTypes.BOOLEAN
-        },
-        freeTrialStartDate: {
-            type: DataTypes.DATE
-        },
-        failedAttempts: {
-            type: DataTypes.INTEGER
-        },
-        unlockToken: {
-            type: DataTypes.STRING
-        },
-        lockedAt: {
-            type: DataTypes.DATE
-        },
-        provider: {
-            type: DataTypes.STRING
         }
     });
     User.associate = ({ ClientContactAddress, Counselor }) => {

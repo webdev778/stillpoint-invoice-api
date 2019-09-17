@@ -160,9 +160,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     subscriptionRequired: {
       type: DataTypes.BOOLEAN
-    },
-    skypeId: {
-      type: DataTypes.STRING
     }
   });
   Counselor.associate = ({

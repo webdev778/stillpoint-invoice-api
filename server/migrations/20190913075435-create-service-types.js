@@ -43,11 +43,6 @@ module.exports = {
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
           allowNull: false
         }
-      },
-      {
-        engine: "MYISAM", // default: 'InnoDB'
-        charset: "latin1", // default: null
-        schema: "public" // default: public, PostgreSQL only.
       }
     );
   },

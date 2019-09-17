@@ -69,6 +69,15 @@ var stripe = {
   hookKey: parsedEnv.WEBHOOK_KEY
 }
 
+var auth0 ={
+  domain: parsedEnv.AUTH0_DOMAIN,
+  railsApi: parsedEnv.AUTH0_RAILS_AUDIENCE,
+  nodeClientId: parsedEnv.AUTH0_NODE_CLIENT_ID,
+  nodeClientSecret: parsedEnv.AUTH0_NODE_CLIENT_SECRET,
+  nodeApi: parsedEnv.AUTH0_NODE_AUDIENCE,
+  reactClientId: parsedEnv.AUTH0_REACT_CLIENT_ID,
+}
+
 module.exports = {
   database: database,
   server: server,
@@ -82,5 +91,6 @@ module.exports = {
   bucketUrl: bucketUrl,
   stripe,
   env: parsedEnv.ENV,
-  reactUrl: parsedEnv.REACT_URL
+  reactUrl: parsedEnv.REACT_URL,
+  auth0
 };

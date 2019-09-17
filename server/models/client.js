@@ -29,7 +29,17 @@ function index(req, res, cb) {
   })
 }
 
+const findById = (id) => {
+  return db.User.findOne({
+    where: { id },
+    include: {
+      model: db.Counselor
+    }
+  })
+}
+
 module.exports = {
-  index
+  index,
+  findById
 }
 

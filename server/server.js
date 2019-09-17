@@ -14,9 +14,39 @@ var config = rfr('/server/shared/config'),
   utils = rfr('/server/shared/utils'),
   routes = rfr('/server/routes');
 
+const userParser = rfr('/server/controllers/auth')
 // initialize our application
 function start() {
   var app = express();
+
+  const jwt = require("express-jwt");
+  const jwksRsa = require("jwks-rsa");
+
+  // Set up Auth0 configuration
+  const authConfig =
+  {
+    "domain": config.auth0.domain,
+    "client_id": config.auth0.reactClientId,
+    "audience": config.auth0.nodeApi
+  };
+
+
+  const checkJwt = jwt({
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
+    }),
+
+    audience: authConfig.audience,
+    issuer: `https://${authConfig.domain}/`,
+    algorithm: ["RS256"]
+  });
+
+  app.use(checkJwt);
+
+  app.use(userParser.UserParser);
 
   app.use('/stripe/webhook', bodyParser.raw({ type: 'application/json' }));
   app.use(bodyParser.json({ limit: '500mb' })); // support json encoded bodies

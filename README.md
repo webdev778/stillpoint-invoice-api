@@ -7,23 +7,23 @@
 ### Tools Required
 
 * [Git](https://git-scm.com/)
-* [NodeJS](https://nodejs.org/en/) - version 8.x LTS (the latest 8.x LTS available known as `lts/carbon`)
+* [NodeJS](https://nodejs.org/en/) - version 10.x LTS (the latest 10.x LTS available known as `lts/carbon`)
 	* It is recommended to use [`nvm`](https://github.com/creationix/nvm) to manage your NodeJS installation and versions.  If you are not on a *nix based environment, and are required to develop in a Windows environment [`nvm-windows`](https://github.com/coreybutler/nvm-windows) is a good alternative.
-* [MongoDB](https://www.mongodb.com/download-center/community) - version 4.x is currently used by Legably
+* [PostgreSQL](https://www.postgresql.org/download/) - version 7.x is currently used
 
 ### Setup with Homebrew ###
 If you are developing on Mac OS X, we recommend installing the required tools with [Homebrew](https://brew.sh/) by running:
 * `brew install git`
 * `brew install nvm`
-* `brew install mongodb`
+* `brew install postgresql`
 
-Run `brew services start mongodb` to start mongodb after install.
+Run `brew services start postgresql` to start postgresql after install.
 
 ### First Time Environment Setup
 
 1. Clone repository:
 
-    $ git clone git@github.com:legably/production.git
+    $ git clone git@github.com:stillpointspaces-invoice/production.git
 
 1. Install node package dependencies:
 
@@ -40,21 +40,27 @@ Run `brew services start mongodb` to start mongodb after install.
     - Minimally required ENV keys that need to be defined to run locally include the following:
       * DB_HOST, DB_NAME, DB_PORT
       * SERVER_HOST, SERVER_PORT
-    - In development, you can comment out the `DB_USER` and `DB_PASS` if your local MongoDB instance doesnt require user auth
+    - In development, you can comment out the `DB_USER` and `DB_PASS` if your local PostgreSQL instance doesnt require user auth
 
+### DB migration in PostgreSQL
+
+1. Set up migration environment(username, password, database, host, dialect) in config.json
+   server/config/config.json
+
+2. Go to server folder
+   cd server/
+
+3. Set up sequelize cli
+  $ npm install -g sequelize-cli
+  $ npm install -g pg pg-hstore
+
+5. Create db migration
+  $ sequelize db:migrate
+  
+6. Delete migration db
+  $ sequelize db:migrate:under:all
 
 ### Daily Development Process
-
-1. DB migration in PostgreSQL.
-
-    - set up sequelize  
-      * $ npm install -g sequelize-cli
-    - set up pg
-      * $ npm install -g pg pg-hstore
-    - create db migration
-      * $ sequelize db:migrate
-    - delete migration db
-      * $ sequelize db:migrate:under:all
 
 1. Start the server
 

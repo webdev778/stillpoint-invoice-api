@@ -15,7 +15,7 @@ var config = rfr('/server/shared/config'),
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
   'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
   'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
-  'paymentId', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt'];
+  'paymentId', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt'];
 
 const validateCreateRequest = (req) => {
 
@@ -161,15 +161,18 @@ const update = async (req, res, cb) => {
       returning: true,
       plain: true
     });
-
-    await Promise.all (services.map(service => {
-         return db.Service.update(service, { where: { id: service.id, invoiceId: invoiceId },
-          attributes: ['id', 'name', 'quantity', 'description', 'unitPrice', 'taxCharge'] });
+    // db.Service.create(service, { where: { invoiceId: invoiceId}})
+    await Promise.all (services.map( async service => {
+          const sr = await db.Service.findOne({where: {id: service.id}});
+          if(!sr) {
+            return db.Service.create(service);
+          }
+         return sr.update(service, {attributes: ['id', 'name', 'quantity', 'description', 'unitPrice', 'taxCharge'] });
       }));
 
     const ret = await db.Invoice.findOne({
       where: { id: invoiceId },
-      attributes: ['id','invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'notes', 'dueAt', 'sentAt', 'paidAt'],
+      attributes: ['id','invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'notes', 'dueAt', 'sentAt', 'paidAt', 'createdAt'],
       include: [
         {
           association: db.Invoice.Services,

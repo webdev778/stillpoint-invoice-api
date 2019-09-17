@@ -39,13 +39,13 @@ const validateCreateRequest = (req) => {
 function index(req, res, cb) {
   utils.writeInsideFunctionLog('invoices', 'index');
 
-  // get counselor_id or client_id from auth
-  const userRole = 1;
-  const counselorId = 203;
-  const clientId = 1332;
+  const { userInfo } = req;
+
+  if(!userInfo) return cb({Code: 401});
+
 
   db.Invoice.findAll({
-    where: { 'counselorId': counselorId },
+    where: { 'counselorId': userInfo.counselorId },
     attributes: [...invoice_whiltelist,
       [db.sequelize.literal(
         'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
@@ -161,13 +161,16 @@ const update = async (req, res, cb) => {
       returning: true,
       plain: true
     });
+    console.log('pin');
     // db.Service.create(service, { where: { invoiceId: invoiceId}})
     await Promise.all (services.map( async service => {
-          const sr = await db.Service.findOne({where: {id: service.id}});
-          if(!sr) {
-            return db.Service.create(service);
-          }
-         return sr.update(service, {attributes: ['id', 'name', 'quantity', 'description', 'unitPrice', 'taxCharge'] });
+        if(!parseInt(service.id)){
+          let newService = Object.assign({}, service);
+          newService.id = undefined;
+          newService.invoiceId = invoiceId;
+          return db.Service.create(newService, { attributes: ['name', 'quantity', 'description', 'unitPrice', 'taxCharge', 'invoiceId'] });
+        }
+        return db.Service.update(service, {where: {id: service.id}, attributes: ['name', 'quantity', 'description', 'unitPrice', 'taxCharge'] });
       }));
 
     const ret = await db.Invoice.findOne({

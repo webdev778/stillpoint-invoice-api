@@ -12,8 +12,38 @@ module.exports = (sequelize, DataTypes) => {
         firstName: {
             type: DataTypes.STRING
         },
+        timezone: {
+            type: DataTypes.STRING
+        },
+        admin: {
+            type: DataTypes.BOOLEAN
+        },
+        email: {
+            type: DataTypes.STRING
+        },
+        avatarFileName: {
+            type: DataTypes.STRING
+        },
+        avatarContentType: {
+            type: DataTypes.STRING
+        },
+        avatarFileSize: {
+            type: DataTypes.INTEGER
+        },
+        avatarUpdatedAt: {
+            type: DataTypes.DATE
+        },
         lastName: {
             type: DataTypes.STRING
+        },
+        signUpReason: {
+            type: DataTypes.STRING
+        },
+        gender: {
+            type: DataTypes.STRING
+        },
+        dateOfBirth: {
+            type: DataTypes.DATE
         }
     });
     User.associate = ({ ClientContactAddress, Counselor }) => {

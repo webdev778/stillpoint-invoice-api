@@ -144,15 +144,8 @@ module.exports = (sequelize, DataTypes) => {
         lockedAt: {
             type: DataTypes.DATE
         },
-        fiscalCode: {
+        provider: {
             type: DataTypes.STRING
-        },
-        companiesId: {
-            type: DataTypes.INTEGER
-        },
-        companyId: {
-            type: DataTypes.INTEGER
-
         }
     });
     User.associate = ({ ClientContactAddress, Counselor }) => {

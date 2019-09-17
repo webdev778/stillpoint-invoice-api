@@ -94,23 +94,23 @@ module.exports = {
         },
         issue_at: {
           type: "TIMESTAMP",
-          allowNull: false
+          allowNull: true
         },
         due_at: {
           type: "TIMESTAMP",
-          allowNull: false
+          allowNull: true
         },
         viewed_at: {
           type: "TIMESTAMP",
-          allowNull: false
+          allowNull: true
         },
         sent_at: {
           type: "TIMESTAMP",
-          allowNull: false
+          allowNull: true
         },
         paid_at: {
           type: "TIMESTAMP",
-          allowNull: false
+          allowNull: true
         },
         created_at: {
           type: 'TIMESTAMP',
@@ -125,7 +125,7 @@ module.exports = {
         deleted_at: {
           type: 'TIMESTAMP',
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-          allowNull: false
+          allowNull: true
         }
       }
     );

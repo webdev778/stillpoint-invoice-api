@@ -44,25 +44,25 @@ Run `brew services start postgresql` to start postgresql after install.
 
 ### DB migration in PostgreSQL
 
-1. Set up migration environment(username, password, database, host, dialect) in config.json
+1. Set up migration environment(username, password, database, host, dialect) in config.json  
    server/config/config.json
 
-2. Go to server folder
+2. Go to server folder  
    cd server/
 
-3. Set up sequelize cli
-  $ npm install -g sequelize-cli
+3. Set up sequelize cli  
+  $ npm install -g sequelize-cli  
   $ npm install -g pg pg-hstore
 
-5. Create db migration
+5. Create db migration  
   $ sequelize db:migrate
   
-6. Delete migration db
+6. Delete migration db  
   $ sequelize db:migrate:under:all
 
 ### Daily Development Process
 
-1. Start the server
+1. Start the server  
 
 	$ npm run start
 

@@ -4,8 +4,8 @@
   "description": "stillpoint invoice management backend",
   "author": "webdev778",
   "scripts": {
-    "start": "node bin/development",
-    "build": "mkdir dist && babel src -s -d dist",
+    "start": "npx babel-node index.js",
+    "build": "mkdir dist && babel ./server -s -d dist",
     "dev": "nodemon -w ./server -x npx babel-node index.js",
     "lint": "eslint"
   },
@@ -45,11 +45,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KiwiTechLLC/Legably-Backend.git"
+    "url": "git+https://github.com/webdev778/stillpointspaces-invoice.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/KiwiTechLLC/Legably-Backend/issues"
+    "url": "https://github.com/webdev778/stillpointspaces-invoice/issues"
   },
-  "homepage": "https://github.com/KiwiTechLLC/Legably-Backend#readme"
+  "homepage": "https://github.com/webdev778/stillpointspaces-invoice#readme"
 }

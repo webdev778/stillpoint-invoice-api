@@ -1,13 +1,15 @@
 {
-  "name": "StillPoints",
+  "name": "stillpoints-invoice-api",
   "version": "1.0.0",
-  "description": "stillpoint invoice management backend",
+  "description": "stillpoint invoice management api",
   "author": "webdev778",
   "scripts": {
-    "start": "npx babel-node index.js",
-    "build": "mkdir dist && babel ./server -s -d dist",
+    "start": "node ./dist/index.js",
+    "build": "babel ./server -s --minified --delete-dir-on-start -d dist",
     "dev": "nodemon -w ./server -x npx babel-node index.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:migrate": "npx sequelize db:migrate",
+    "db:restore": "npx sequelize db:migrate:undo:all"
   },
   "main": "index.js",
   "keywords": [

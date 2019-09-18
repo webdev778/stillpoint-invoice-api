@@ -53,7 +53,7 @@ const db={};
     console.error('Unable to connect to the database:', err);
   });
 
-  const model_path = __dirname+'/../schema/';
+  const model_path = __dirname+'/schema/';
   fs.readdirSync(model_path).filter(file => {
     return (file.indexOf('.') !== 0) && (file.slice(-3) === '.js');
   }).forEach(file => {

@@ -28,7 +28,10 @@ module.exports = (sequelize, DataTypes) => {
     taxCharge: {
       type: DataTypes.BOOLEAN
     }
-  });
+  }, {
+    paranoid: true
+    }
+  );
 
   Service.associate = ({ Invoice }) => {
     Service.belongsTo(Invoice, {

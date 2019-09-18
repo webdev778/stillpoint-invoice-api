@@ -179,7 +179,7 @@ const update = async (req, res, cb) => {
     const serviceIds = [];
 
     services.forEach( service=> {
-      if(!isNaN(service.id)) serviceIds.push(service.id);
+      if(!isNaN(service.id)) serviceIds.push(parseInt(service.id));
     });
 
     const Op = db.Sequelize.Op;
@@ -202,7 +202,7 @@ const update = async (req, res, cb) => {
 
     const ret = await db.Invoice.findOne({
       where: { id: invoiceId },
-      attributes: ['id','invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status', 'issueAt', 'notes', 'dueAt', 'sentAt', 'paidAt', 'createdAt'],
+      attributes: invoice_whiltelist,
       include: [
         {
           association: db.Invoice.Services,

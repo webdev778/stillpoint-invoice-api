@@ -187,7 +187,7 @@ const update = async (req, res, cb) => {
     }
 
     await foundInvoice.update(invoice, {
-      attributes: ['invoiceSn', 'subject', 'tax', 'dueAt', 'currencyId', 'notes'],
+      attributes: ['invoiceSn', 'subject', 'tax', 'dueDateOption', 'dueAt', 'currencyId', 'notes'],
       returning: true,
       plain: true
     });

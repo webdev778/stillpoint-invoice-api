@@ -15,7 +15,7 @@ var config = rfr('/server/shared/config'),
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
   'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
   'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
-  'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt'];
+  'dueDateOption', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt'];
 
 const validateCreateRequest = (req) => {
 
@@ -25,7 +25,8 @@ const validateCreateRequest = (req) => {
 
   switch (req.invoiceType){
     case constant.INVOICE_INDIVIDUAL:
-        if(!req.daysActive) throw Error('daysActive is invalid');
+        if(!req.dueDateOption) throw Error('dueDateOption is invalid');
+        if(req.dueDateOption>4) throw Error('dueDateOption is invalid');
         break;
     case constant.INVOICE_RECURRING:
         if(!req.sendEvery) throw Error('sendEvery is invalid');
@@ -122,6 +123,15 @@ const create = async (req, res, cb) => {
     const newInvoice = req.body;
     const { invoiceType: type } = newInvoice;
 
+    
+    const dueDate = {
+      0: undefined,
+      1: 10,
+      2: 15,
+      3: 30,
+      4: 60
+    };
+
     // validate request
     try {
       validateCreateRequest(req.body);
@@ -131,11 +141,11 @@ const create = async (req, res, cb) => {
     }
 
     if(type === constant.INVOICE_INDIVIDUAL) {
-      newInvoice.dueAt = moment(newInvoice.issueAt).add(newInvoice.daysActive, 'day').format();
+      newInvoice.dueAt = moment(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day').format();
     }
 
     const result = await db.Invoice.create(newInvoice, {
-      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'sendEvery', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
+      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'dueDateOption', 'sendEvery', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
       , include: [
         {
           association: db.Invoice.Services,
@@ -157,7 +167,13 @@ const update = async (req, res, cb) => {
   const invoiceId = req.params.invoiceId;
   const invoice = req.body;
   const services = invoice.services;
-
+  const dueDate = {
+    0: undefined,
+    1: 10,
+    2: 15,
+    3: 30,
+    4: 60
+  };
   try {
 
     if (!invoiceId) {
@@ -165,6 +181,7 @@ const update = async (req, res, cb) => {
       return;
     }
 
+    invoice.dueAt = moment(invoice.issueAt).add(dueDate[invoice.dueDateOption], 'day').format();
     const foundInvoice = await db.Invoice.findOne({
       where: { 'id': invoiceId },
       include: [
@@ -181,7 +198,7 @@ const update = async (req, res, cb) => {
     }
 
     await foundInvoice.update(invoice, {
-      attributes: ['invoiceSn', 'subject', 'tax', 'currencyId', 'notes'],
+      attributes: ['invoiceSn', 'subject', 'tax', 'dueDateOption', 'dueAt', 'currencyId', 'notes'],
       returning: true,
       plain: true
     });

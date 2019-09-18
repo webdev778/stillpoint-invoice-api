@@ -92,6 +92,9 @@ module.exports = {
           type: Sequelize.INTEGER,
           defaultValue: "0"
         },
+        due_date_option: {
+          type: Sequelize.INTEGER
+        },
         issue_at: {
           type: "TIMESTAMP",
           allowNull: true

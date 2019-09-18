@@ -92,8 +92,8 @@ module.exports = {
           type: Sequelize.INTEGER,
           defaultValue: "0"
         },
-        dueDateOptions: {
-          type: DataTypes.INTEGER,
+        due_date_option: {
+          type: Sequelize.INTEGER,
           defaultValue: "1"
         },
         issue_at: {

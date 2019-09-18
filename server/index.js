@@ -60,8 +60,8 @@ function start() {
     next();
   });
 
-  // app.use(express.static('./client/src/assets'));
-  // app.use(express.static('./client/dist'));
+  app.use(express.static('./client/src/assets'));
+  app.use(express.static('./client/dist'));
 
   app.set('json replacer', (k, v) => (v === null ? undefined : v)); //json omit null values
 

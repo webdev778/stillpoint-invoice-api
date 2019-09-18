@@ -156,7 +156,13 @@ const update = async (req, res, cb) => {
   const invoiceId = req.params.invoiceId;
   const invoice = req.body;
   const services = invoice.services;
-
+  const dueDate = {
+    0: undefined,
+    1: 10,
+    2: 15,
+    3: 30,
+    4: 60
+  };
   try {
 
     if (!invoiceId) {
@@ -164,6 +170,7 @@ const update = async (req, res, cb) => {
       return;
     }
 
+    invoice.dueAt = moment(invoice.issueAt).add(dueDate[invoice.dueDateOption], 'day').format();
     const foundInvoice = await db.Invoice.findOne({
       where: { 'id': invoiceId },
       include: [
@@ -180,7 +187,7 @@ const update = async (req, res, cb) => {
     }
 
     await foundInvoice.update(invoice, {
-      attributes: ['invoiceSn', 'subject', 'tax', 'dueDateOption', 'currencyId', 'notes'],
+      attributes: ['invoiceSn', 'subject', 'tax', 'dueAt', 'currencyId', 'notes'],
       returning: true,
       plain: true
     });

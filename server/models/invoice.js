@@ -15,7 +15,7 @@ var config = rfr('/server/shared/config'),
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
   'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
   'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
-  'paymentId', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt'];
+  'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt'];
 
 const validateCreateRequest = (req) => {
 
@@ -63,13 +63,17 @@ function index(req, res, cb) {
     include: [{
       association: db.Invoice.Services,
       as: 'services',
+      // where: {
+      //   deletedAt: {
+      //   [Op.is]: null
+      // }},
       attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
     }]
   }).then(invoices => {
     cb(invoices);
   }).catch(err => {
     console.log(err);
-    utils.writeErrorLog('invoces', 'index', 'Error while findAll invoices', err);
+    utils.writeErrorLog('invoices', 'index', 'Error while findAll invoices', err);
     cb({ Code: 500, Status: false, Message: 'model error' })
   })
 }
@@ -170,8 +174,20 @@ const update = async (req, res, cb) => {
       returning: true,
       plain: true
     });
-    console.log('pin');
-    // db.Service.create(service, { where: { invoiceId: invoiceId}})
+
+    // delete service
+    const serviceIds = [];
+
+    services.forEach( service=> {
+      if(!isNaN(service.id)) serviceIds.push(service.id);
+    });
+
+    const Op = db.Sequelize.Op;
+    console.log('Service ID Array:', JSON.stringify(serviceIds));
+    await db.Service.destroy({where: { id: { [Op.notIn]: serviceIds }, invoiceId}});
+    console.log('Deleted');
+
+    // update service
     await Promise.all (services.map( service => {
         if(isNaN(service.id)){
           let newService = Object.assign({}, service);
@@ -181,6 +197,8 @@ const update = async (req, res, cb) => {
         }
         return db.Service.update(service, {where: {id: service.id}, attributes: ['name', 'quantity', 'description', 'unitPrice', 'taxCharge'] });
       }));
+
+    console.log('Update or Created Service');
 
     const ret = await db.Invoice.findOne({
       where: { id: invoiceId },

@@ -77,9 +77,6 @@ module.exports = (sequelize, DataTypes) => {
       notes: {
         type: DataTypes.TEXT
       },
-      paymentId: {
-        type: DataTypes.INTEGER
-      },
       status: {
         type: DataTypes.INTEGER,
         defaultValue: "0"

@@ -1,23 +1,19 @@
-require('babel-register')({
-  presets: ['react', 'es2015']
-});
 
-var rfr = require('rfr'),
+const rfr = require('rfr'),
   express = require('express'),
   http = require('http'),
   bodyParser = require('body-parser');
 
 const db = rfr('/server/db/index');
-rfr('/server/schemas/ddl/index');
 
-var config = rfr('/server/shared/config'),
+const config = rfr('/server/shared/config'),
   utils = rfr('/server/shared/utils'),
   routes = rfr('/server/routes');
 
 const userParser = rfr('/server/controllers/auth')
 // initialize our application
 function start() {
-  var app = express();
+  const app = express();
 
   const jwt = require("express-jwt");
   const jwksRsa = require("jwks-rsa");
@@ -69,7 +65,7 @@ function start() {
 
   app.set('json replacer', (k, v) => (v === null ? undefined : v)); //json omit null values
 
-  var PORT = config['server']['port'];
+  const PORT = config['server']['port'];
   http.createServer(app).listen(PORT, function () {
     utils.log('Server started successfully on port -->', PORT);
     routes.bindAllRequests(app);

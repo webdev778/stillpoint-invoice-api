@@ -20,7 +20,7 @@ transport.on('rotate', function(oldFilename, newFilename) {
   // do something
 });
 
-const logger = new (winston.Logger)({
+const logger = winston.createLogger({
   transports: [transport]
 });
 

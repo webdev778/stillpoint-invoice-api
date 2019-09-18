@@ -1,5 +1,4 @@
-var rfr = require('rfr'),
-Mongoose = require('mongoose');
+var rfr = require('rfr');
 
 const fs = require('fs');
 const path = require('path');
@@ -54,7 +53,7 @@ const db={};
     console.error('Unable to connect to the database:', err);
   });
 
-  const model_path = __dirname+'/../pg_models/';
+  const model_path = __dirname+'/../schema/';
   fs.readdirSync(model_path).filter(file => {
     return (file.indexOf('.') !== 0) && (file.slice(-3) === '.js');
   }).forEach(file => {

@@ -83,8 +83,19 @@ const show = (req, res, cb) => {
 
   const id = req.params.id;
 
+  const { userInfo } = req;
+
+  if(!userInfo) return cb({Code:401});
+
+  const condition = undefined;
+
+  if(userInfo.isCounsellor)
+    condition = { counselorId: userInfo.counselorId };
+  else
+    condition = { clientId: userInfo.id };
+
   db.Invoice.findOne({
-    where: { id },
+    where: { id, ...condition },
     attributes: [...invoice_whiltelist,
       [db.sequelize.literal(
         'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),

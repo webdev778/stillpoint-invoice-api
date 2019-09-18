@@ -15,7 +15,7 @@ var config = rfr('/server/shared/config'),
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
   'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
   'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
-  'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt'];
+  'dueDateOptions', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt'];
 
 const validateCreateRequest = (req) => {
 
@@ -124,7 +124,7 @@ const create = async (req, res, cb) => {
     }
 
     const result = await db.Invoice.create(newInvoice, {
-      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'sendEvery', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
+      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'dueDateOptions', 'sendEvery', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
       , include: [
         {
           association: db.Invoice.Services,
@@ -170,7 +170,7 @@ const update = async (req, res, cb) => {
     }
 
     await foundInvoice.update(invoice, {
-      attributes: ['invoiceSn', 'subject', 'tax', 'currencyId', 'notes'],
+      attributes: ['invoiceSn', 'subject', 'tax', 'dueDateOptions', 'currencyId', 'notes'],
       returning: true,
       plain: true
     });

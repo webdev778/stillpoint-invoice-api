@@ -70,7 +70,7 @@ const UserParser = async (req, res, next) => {
       firstName: client.firstName,
       lastName: client.lastName,
       isCounsellor: !!client.Counselor,
-      counselorId: !!client && client.Counselor.id
+      counselorId: !!client && client.Counselor && client.Counselor.id
     };
 
     req.userInfo = userInfo;

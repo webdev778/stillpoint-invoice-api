@@ -33,7 +33,11 @@ const findById = (id) => {
   return db.User.findOne({
     where: { id },
     include: {
-      model: db.Counselor
+      model: db.Counselor,
+      include: {
+        model: db.StripeConnect,
+        where: { revoked: false }
+      }
     }
   })
 }

@@ -70,7 +70,8 @@ const UserParser = async (req, res, next) => {
       firstName: client.firstName,
       lastName: client.lastName,
       isCounsellor: !!client.Counselor,
-      counselorId: !!client && client.Counselor && client.Counselor.id
+      counselorId: !!client && !!client.Counselor && client.Counselor.id,
+      isStripeConnected: !!client && !!client.Counselor && !!client.Counselor.StripeConnect
     };
 
     req.userInfo = userInfo;

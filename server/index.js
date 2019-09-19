@@ -40,9 +40,9 @@ function start() {
     algorithm: ["RS256"]
   });
 
-  // app.use(checkJwt);
+  app.use(checkJwt);
 
-  // app.use(userParser.UserParser);
+  app.use(userParser.UserParser);
 
   app.use('/stripe/webhook', bodyParser.raw({ type: 'application/json' }));
   app.use(bodyParser.json({ limit: '500mb' })); // support json encoded bodies

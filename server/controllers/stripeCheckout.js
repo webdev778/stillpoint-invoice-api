@@ -76,7 +76,8 @@ const pay = async (req, res) => {
       quantity: 1,
       currency: invoice.Currency.code
     }
-    items.push(tax_item);
+    if(tax_item.amount > 0)
+      items.push(tax_item);
 
     let session;
     try{
@@ -92,6 +93,7 @@ const pay = async (req, res) => {
       });
     }catch(e){
       console.log(e);
+      console.log(items);
       utils.writeErrorLog('stripe_checkout', 'pay', 'Error while creating new session of stripe checkout', e, e.message);
       return cb({ Code: 400, Status: true, Message: e.message });
     }

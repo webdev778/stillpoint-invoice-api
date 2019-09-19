@@ -60,7 +60,7 @@ const pay = async (req, res) => {
       let item = {
         name: service.name,
         description: service.description || ' ',  // musn't be ''
-        amount: service.unitPrice,
+        amount:  Math.trunc(service.unitPrice),
         quantity: service.quantity,
         currency: invoice.Currency.code
       }
@@ -175,12 +175,75 @@ const handleCheckoutSession = async (session) => {
   try{
     await Promise.all([
       stripePaymentModel.updateBySessionId(sessionId, paymentInfo),
-      invoiceModel.setStatusAsPaid(invoiceId)
+      invoiceModel.setStatusAsPaid(invoiceId),
+      _sendMessageToRails(invoice)
     ]);
+
+    _sendMessageToRailsAPI
     console.log('successfully paid');
     logger.info('[stripeCheckout] | <handleCheckoutSession> - successfully paid and updated invoice and payement data in the db,', JSON.stringify(session));
   }catch(e) {
     console.log(e);
+  }
+}
+
+const _sendMessageToRails = async (invoice) => {
+
+  if(!invoice.clientId || !invoice.counselorId){
+    throw Error('invoice clientId or counselorId invalid');
+  }
+
+  // get counselor Info
+  const counselor = await counselorModel.findById(invoice.counselorId);
+
+  if(!counselor || !counselor.User)
+    throw Error('counselor info is invalid');
+  const sender = {
+    ...counselor.User.dataValues
+  };
+
+  console.log('sender =', sender);
+
+  let accessToken = null;
+  try{
+    const postData = {
+      "client_id": config.auth0.nodeClientId,
+      "client_secret": config.auth0.nodeClientSecretKey,
+      "audience": config.auth0.railsApi,
+      "grant_type": "client_credentials"
+    };
+    const { data: { access_token: ret } } = await axios.post(`https://${config.auth0.domainRails}/oauth/token`, postData);
+
+    console.log('Successfully received access_token token=', ret);
+    accessToken = ret;
+
+  }catch(e){
+    console.log('Failed to get oauth token from rails api', e);
+    throw Error('Failed to get oauth token from rails api');
+  }
+
+  try{
+    if( accessToken === null ) {
+      throw Error('access_token is null');
+    }
+
+    const invoiceUrl = `${config.reactUrl}/invoice/${invoice.id}`
+    const msgHtml =
+      `<div class="invoice-message"><main class="invoice-message__main"><div class="invoice-message__content"><div class="invoice-message__title">${sender.firstName || 'Counselor'} sent an invoice.</div><div class="invoice-message__text">Online session 08:30PM - 09:30PM</div></div><div class="invoice-message__additional"><a class="invoice-message__button invoice-message-view-button" href="${invoiceUrl}"> View Invoice </a></div></main><footer class="invoice-message__footer"><span><strong>Invoice is due on</strong> ${invoice.dueAt}</span></footer></div>`;
+
+    const msg = {
+      "counselor_id": invoice.counselorId,
+      "user_id" : invoice.clientId,
+      "content" : msgHtml
+    };
+
+    const resp = await axios.post(`${config.railsApiUrl}/message/`, msg, { headers: {
+      'Authorization': `bearer ${accessToken}`
+    }});
+
+  }catch(e){
+    console.log(e);
+    throw e;
   }
 }
 

@@ -3,6 +3,7 @@ var rfr = require('rfr');
 var utils = rfr('/server/shared/utils');
 var clientModel = rfr('/server/models/client');
 var counselorModel = rfr('/server/models/counselor');
+const logger = rfr('/server/shared/logger');
 
 const loginMockup = (req, res) => {
 

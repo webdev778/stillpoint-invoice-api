@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
     User.associate = ({ ClientContactAddress, Counselor }) => {
-        User.ClientContactAddress = User.hasMany(ClientContactAddress, { as: 'clientContactAddress'});
+        User.ClientContactAddress = User.hasMany(ClientContactAddress);
     //     User.hasMany(Invoice);
         User.hasOne(Counselor);
     };

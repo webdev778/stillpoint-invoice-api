@@ -17,11 +17,13 @@ module.exports = (sequelize, DataTypes) => {
     Service_Type,
     CounselorBillSetting,
     User,
-    StripeConnect
+    StripeConnect,
+    ContactAddress
   }) => {
     // Counselor.hasMany(Invoice);
     // Counselor.hasMany(Service_Type);
     Counselor.hasOne(StripeConnect);
+    Counselor.hasOne(ContactAddress);
     Counselor.CounselorBillSetting = Counselor.hasOne(CounselorBillSetting);
     Counselor.User = Counselor.belongsTo(User);
   };

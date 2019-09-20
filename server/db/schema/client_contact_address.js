@@ -47,10 +47,8 @@ module.exports = function(sequelize, DataTypes) {
     }, {
       tableName: 'client_contact_addresses'
     });
-    ClientContactAddress.associate = ({ User/*, Service_Type*/ }) => {
-      ClientContactAddress.belongsTo(User, { as: 'User', foreignKey: 'userId', onDelete: 'cascade'});
-      // Service.belongsTo(Service_Type, { as: 'service_type', foreignKey: 'service_type_id', onDelete: 'cascade'});
+    ClientContactAddress.associate = ({ User }) => {
+      ClientContactAddress.belongsTo(User);
     };
     return ClientContactAddress;
   };
-  

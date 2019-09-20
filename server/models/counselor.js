@@ -43,7 +43,11 @@ const findById = (id) => {
       include: [{
         model: db.User,
         attributes: ['firstName', 'lastName'],
-      }]
+      },
+      {
+        model: db.ContactAddress
+      }
+     ]
     }
   );
 }

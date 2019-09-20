@@ -13,6 +13,7 @@ var config = rfr('/server/shared/config'),
   logger = rfr('/server/shared/logger'),
   db = rfr('/server/db');
   const counselorModel = rfr('/server/models/counselor');
+  const clientModel = rfr('/server/models/client');
 
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
   'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
@@ -121,8 +122,15 @@ const show = (req, res, cb) => {
 const create = async (req, res, cb) => {
   utils.writeInsideFunctionLog('invoices', 'create');
 
+  const { userInfo } = req;
+
+  if(!userInfo) {
+    cb({ Code: 401, Message: 'Unauthorized' });
+    return;
+  }
+
   try {
-    const newInvoice = req.body;
+    const newInvoice = Object.assign({}, req.body);
     const { invoiceType: type } = newInvoice;
 
 
@@ -144,6 +152,50 @@ const create = async (req, res, cb) => {
 
     if(type === constant.INVOICE_INDIVIDUAL) {
       newInvoice.dueAt = moment(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day').format();
+    }
+
+    const client = await clientModel.findById(newInvoice.clientId);
+    const counselor = await counselorModel.findById(newInvoice.counselorId);
+
+
+    if(!client) {
+      utils.writeErrorLog('invoice', 'create', 'Error while getting client info', 'Invalid clientId', {clientId: newInvoice.clientId});
+      throw Error('clientId is invalid, not exist in db');
+    }
+
+    // // client and counselor address information
+    // if(!client.ClientContactAddress){
+    //   utils.writeErrorLog('invoice', 'create', 'Error while getting client address info', 'client address info not registered yet', {clientId: newInvoice.clientId});
+    //   cb({ Code: 404, Status: true, Message: 'Cl' });
+    // }
+
+    if(!counselor){
+      utils.writeErrorLog('invoice', 'create', 'Error while getting counselor info', 'Invalid counselorId', {counselorId: newInvoice.counselorId});
+      throw Error('counselorId is invalid, not exist in db');
+    }
+
+    // if(counselor.ContactAddress){
+    //   utils.writeErrorLog('invoice', 'create', 'Error while getting counselor address info', 'counselor address info not registered yet', {counselorId: newInvoice.counselorId});
+    //   throw Error('counselorId addresss info not exist');
+    // }
+
+    const clientAddressInfo = client.ClientContactAddress;
+    const counselorAddressInfo = counselor.ContactAddress;
+    newInvoice.senderName = userInfo.firstName + ' ' + userInfo.lastName;
+    newInvoice.recipientName = client.firstName + ' ' + client.lastName;
+
+    if(clientAddressInfo){
+      newInvoice.recipientStreet = clientAddressInfo.street;
+      newInvoice.recipientCity = clientAddressInfo.city;
+      newInvoice.recipientPostCode = clientAddressInfo.postCode;
+      newInvoice.recipientCountry = clientAddressInfo.country;
+    }
+
+    if(counselorAddressInfo){
+      newInvoice.senderStreet = counselorAddressInfo.street;
+      newInvoice.senderCity = counselorAddressInfo.city;
+      newInvoice.senderPostCode = counselorAddressInfo.postCode;
+      newInvoice.senderCountry = counselorAddressInfo.country;
     }
 
     const result = await db.Invoice.create(newInvoice, {

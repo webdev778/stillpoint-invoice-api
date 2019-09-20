@@ -80,6 +80,7 @@ const UserParser = async (req, res, next) => {
 
     req.userInfo = userInfo;
     console.log('*************************<User Info>**************************', JSON.stringify(userInfo));
+    logger.info('[auth] | <UserParser> - parsed auth0 token,', JSON.stringify(userInfo));
   }catch(e){
     console.log(e);
     utils.writeErrorLog('auth', 'userInfo', 'Error while getting user info', e, {id});

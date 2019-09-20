@@ -295,7 +295,7 @@ const send = async (req, res, cb) => {
   const { userInfo } = req;
 
   if(!userInfo) {
-    return res.status(401);
+    return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
   }
 
   try {

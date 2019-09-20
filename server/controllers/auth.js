@@ -34,7 +34,7 @@ const login = (req, res) => {
   const { userInfo } = req;
 
   if(!userInfo)
-    return res.status(401);
+    return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
 
   res.send(userInfo);
 }
@@ -43,7 +43,7 @@ const ping = (req, res) => {
   const { userInfo } = req;
 
   if(!userInfo)
-    return res.status(401);
+    return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
 
   res.send(userInfo);
 }
@@ -54,7 +54,7 @@ const UserParser = async (req, res, next) => {
   const { user } = req;
 
   if(!user)
-    return res.status(401);
+    return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
 
   const id = user.sub.split('|')[1];
 

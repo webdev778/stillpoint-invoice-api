@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('StripeConnect', {
+    const StripeConnect = sequelize.define('StripeConnect', {
       id: {
         type: DataTypes.BIGINT,
         allowNull: false,
@@ -38,4 +38,13 @@ module.exports = function(sequelize, DataTypes) {
     }, {
       tableName: 'stripe_connects'
     });
+
+    StripeConnect.associate = ({
+      User,
+      Counselor
+    }) => {
+      StripeConnect.belongsTo(Counselor);
+    };
+
+    return StripeConnect;
   };

@@ -35,10 +35,15 @@ const dasbhoardUrl = async (req, res) => {
 
 const connect = async (req, res) => {
     const counselorId = req.params.counselorId;
+    const { userInfo: user } = req;
 
-    if (!counselorId) {
-        utils.sendResponse(res, { Code: 400, Status: false });
-        return;
+    if(!user){
+        return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
+    }
+
+    if (counselorId !== user.counselorId+'') {
+        console.log('couselorId in request is not equal to user info');
+        return utils.sendResponse(res, {Code: 400, Message: 'Bad request'});
     }
 
     const stripe_auth_code = req.body.stripeAuthCode;
@@ -88,10 +93,15 @@ const connect = async (req, res) => {
 
 const disconnect = async (req, res) => {
     const counselorId = req.params.counselorId;
+    const { userInfo: user } = req;
 
-    if (!counselorId) {
-        utils.sendResponse(res, { Code: 400, Status: false });
-        return;
+    if(!user){
+        return utils.sendResponse(res, { Code: 401, Message: 'Unauthorized' });
+    }
+
+    if (counselorId !== user.counselorId+'') {
+        console.log('couselorId in request is not equal to user info', counselorId, user.counselorId);
+        return utils.sendResponse(res, {Code: 400, Message: 'Bad request'});
     }
 
     try {

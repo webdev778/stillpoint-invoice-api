@@ -59,6 +59,10 @@ const UserParser = async (req, res, next) => {
   const id = user.sub.split('|')[1];
 
   try{
+    if(isNaN(id)){
+      throw 'invalid user id';
+    }
+
     const client = await clientModel.findById(id);
 
     if(!client){
@@ -66,12 +70,12 @@ const UserParser = async (req, res, next) => {
     }
 
     let userInfo = {
-      id: parseInt(id),     // Todo check
+      id: client.id,     // Todo check
       firstName: client.firstName,
       lastName: client.lastName,
       isCounsellor: !!client.Counselor,
-      counselorId: !!client && !!client.Counselor && client.Counselor.id,
-      isStripeConnected: !!client && !!client.Counselor && !!client.Counselor.StripeConnect
+      counselorId: !!client.Counselor ? client.Counselor.id : null,
+      isStripeConnected: !!client.Counselor ? !!client.Counselor.StripeConnect : null
     };
 
     req.userInfo = userInfo;

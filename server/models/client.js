@@ -36,7 +36,8 @@ const findById = (id) => {
       model: db.Counselor,
       include: {
         model: db.StripeConnect,
-        where: { revoked: false }
+        where: { revoked: false },
+        required: false
       }
     }
   })

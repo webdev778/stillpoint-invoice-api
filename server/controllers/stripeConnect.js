@@ -41,6 +41,8 @@ const connect = async (req, res) => {
     return utils.sendResponse(res, { Code: 401, Message: 'Unauthorized' });
   }
 
+  return utils.sendResponse(res, { Code: 400, Message: 'Bad request' });
+
   if (counselorId !== user.counselorId + '') {
     console.log('couselorId in request is not equal to user info');
     return utils.sendResponse(res, { Code: 400, Message: 'Bad request' });

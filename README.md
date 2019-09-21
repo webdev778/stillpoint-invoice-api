@@ -42,23 +42,12 @@ Run `brew services start postgresql` to start postgresql after install.
       * SERVER_HOST, SERVER_PORT
     - In development, you can comment out the `DB_USER` and `DB_PASS` if your local PostgreSQL instance doesnt require user auth
 
-### DB migration in PostgreSQL
-
-1. Set up migration environment(username, password, database, host, dialect) in config.json  
-   server/config/config.json
-
-2. Go to server folder  
-   cd server/
-
-3. Set up sequelize cli  
-  $ npm install -g sequelize-cli  
-  $ npm install -g pg pg-hstore
-
-5. Create db migration  
-  $ sequelize db:migrate
+### DB migration in PostgreSQL  
+1. db migration  
+  $ npm run db:migrate
   
-6. Delete migration db  
-  $ sequelize db:migrate:under:all
+2. restore migration  
+  $ npm run db:restore
 
 ### Daily Development Process
 

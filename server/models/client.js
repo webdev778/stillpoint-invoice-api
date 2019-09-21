@@ -32,9 +32,16 @@ function index(req, res, cb) {
 const findById = (id) => {
   return db.User.findOne({
     where: { id },
-    include: {
-      model: db.Counselor
-    }
+    include: [{
+      model: db.Counselor,
+      include: {
+        model: db.StripeConnect,
+        where: { revoked: false },
+        required: false
+      }
+    }, {
+      model: db.ClientContactAddress
+    }]
   })
 }
 

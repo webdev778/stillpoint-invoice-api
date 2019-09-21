@@ -3,6 +3,7 @@
 var rfr = require('rfr'),
   moment = require('moment'),
   _ = require('lodash');
+const axios = require('axios');
 
 
 var config = rfr('/server/shared/config'),
@@ -11,6 +12,11 @@ var config = rfr('/server/shared/config'),
   utils = rfr('/server/shared/utils'),
   logger = rfr('/server/shared/logger'),
   db = rfr('/server/db');
+
+const counselorModel = rfr('/server/models/counselor');
+const clientModel = rfr('/server/models/client');
+const railsApi = rfr('/server/lib/railsapi');
+
 
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
   'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
@@ -84,8 +90,19 @@ const show = (req, res, cb) => {
 
   const id = req.params.id;
 
+  const { userInfo } = req;
+
+  if(!userInfo) return cb({Code:401});
+
+  const condition = undefined;
+
+  if(userInfo.isCounsellor)
+    condition = { counselorId: userInfo.counselorId };
+  else
+    condition = { clientId: userInfo.id };
+
   db.Invoice.findOne({
-    where: { id },
+    where: { id, ...condition },
     attributes: [...invoice_whiltelist,
       [db.sequelize.literal(
         'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
@@ -108,11 +125,18 @@ const show = (req, res, cb) => {
 const create = async (req, res, cb) => {
   utils.writeInsideFunctionLog('invoices', 'create');
 
+  const { userInfo } = req;
+
+  if(!userInfo) {
+    cb({ Code: 401, Message: 'Unauthorized' });
+    return;
+  }
+
   try {
-    const newInvoice = req.body;
+    const newInvoice = Object.assign({}, req.body);
     const { invoiceType: type } = newInvoice;
 
-    
+
     const dueDate = {
       0: undefined,
       1: 10,
@@ -131,6 +155,50 @@ const create = async (req, res, cb) => {
 
     if(type === constant.INVOICE_INDIVIDUAL) {
       newInvoice.dueAt = moment(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day').format();
+    }
+
+    const client = await clientModel.findById(newInvoice.clientId);
+    const counselor = await counselorModel.findById(newInvoice.counselorId);
+
+
+    if(!client) {
+      utils.writeErrorLog('invoice', 'create', 'Error while getting client info', 'Invalid clientId', {clientId: newInvoice.clientId});
+      throw Error('clientId is invalid, not exist in db');
+    }
+
+    // // client and counselor address information
+    // if(!client.ClientContactAddress){
+    //   utils.writeErrorLog('invoice', 'create', 'Error while getting client address info', 'client address info not registered yet', {clientId: newInvoice.clientId});
+    //   cb({ Code: 404, Status: true, Message: 'Cl' });
+    // }
+
+    if(!counselor){
+      utils.writeErrorLog('invoice', 'create', 'Error while getting counselor info', 'Invalid counselorId', {counselorId: newInvoice.counselorId});
+      throw Error('counselorId is invalid, not exist in db');
+    }
+
+    // if(counselor.ContactAddress){
+    //   utils.writeErrorLog('invoice', 'create', 'Error while getting counselor address info', 'counselor address info not registered yet', {counselorId: newInvoice.counselorId});
+    //   throw Error('counselorId addresss info not exist');
+    // }
+
+    const clientAddressInfo = client.ClientContactAddress;
+    const counselorAddressInfo = counselor.ContactAddress;
+    newInvoice.senderName = userInfo.firstName + ' ' + userInfo.lastName;
+    newInvoice.recipientName = client.firstName + ' ' + client.lastName;
+
+    if(clientAddressInfo){
+      newInvoice.recipientStreet = clientAddressInfo.street;
+      newInvoice.recipientCity = clientAddressInfo.city;
+      newInvoice.recipientPostCode = clientAddressInfo.postCode;
+      newInvoice.recipientCountry = clientAddressInfo.country;
+    }
+
+    if(counselorAddressInfo){
+      newInvoice.senderStreet = counselorAddressInfo.street;
+      newInvoice.senderCity = counselorAddressInfo.city;
+      newInvoice.senderPostCode = counselorAddressInfo.postCode;
+      newInvoice.senderCountry = counselorAddressInfo.country;
     }
 
     const result = await db.Invoice.create(newInvoice, {
@@ -279,9 +347,10 @@ const destroy = async (req, res, cb) => {
 const send = async (req, res, cb) => {
   const id = req.params.id;
 
-  if (!id) {
-    cb({ Code: 400, Status: true, Message: 'Bad Request' });
-    return;
+  const { userInfo } = req;
+
+  if(!userInfo) {
+    return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
   }
 
   try {
@@ -310,7 +379,10 @@ const send = async (req, res, cb) => {
         break;
     }
 
-    await invoice.update({ 'status': constant.INVOICE_SENT });
+    await invoice.update({ 'status': constant.INVOICE_SENT, sentAt: db.Sequelize.literal('CURRENT_TIMESTAMP') });
+
+    // send message to Rails via api
+    await railsApi.sendMessage(invoice);
 
     cb({ Code: 200, Status: true, Message: 'Sent Successfully' });
   } catch (e) {
@@ -335,11 +407,21 @@ const findById = (id) => {
   });
 }
 
+const all = () => {
+  return db.Invoice.findAll({
+    limit: 5,
+    raw: true
+  });
+}
+
 const setStatusAsPaid = (id) => {
-  return db.Invoice.update({ status: 2 },
+  return db.Invoice.update(
+    { status: 2,
+      paidAt: db.Sequelize.literal('CURRENT_TIMESTAMP')
+    },
     {
       where: { id }
-    })
+    });
 }
 
 module.exports = {
@@ -350,5 +432,6 @@ module.exports = {
   destroy,
   send,
   findById,
-  setStatusAsPaid
+  setStatusAsPaid,
+  all
 }

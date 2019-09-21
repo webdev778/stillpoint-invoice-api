@@ -3,6 +3,7 @@ var rfr = require('rfr');
 var utils = rfr('/server/shared/utils');
 var clientModel = rfr('/server/models/client');
 var counselorModel = rfr('/server/models/counselor');
+const logger = rfr('/server/shared/logger');
 
 const loginMockup = (req, res) => {
 
@@ -34,7 +35,7 @@ const login = (req, res) => {
   const { userInfo } = req;
 
   if(!userInfo)
-    return res.status(401);
+    return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
 
   res.send(userInfo);
 }
@@ -43,7 +44,7 @@ const ping = (req, res) => {
   const { userInfo } = req;
 
   if(!userInfo)
-    return res.status(401);
+    return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
 
   res.send(userInfo);
 }
@@ -54,11 +55,15 @@ const UserParser = async (req, res, next) => {
   const { user } = req;
 
   if(!user)
-    return res.status(401);
+    return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
 
   const id = user.sub.split('|')[1];
 
   try{
+    if(isNaN(id)){
+      throw 'invalid user id';
+    }
+
     const client = await clientModel.findById(id);
 
     if(!client){
@@ -66,15 +71,17 @@ const UserParser = async (req, res, next) => {
     }
 
     let userInfo = {
-      id: parseInt(id),     // Todo check
+      id: client.id,     // Todo check
       firstName: client.firstName,
       lastName: client.lastName,
       isCounsellor: !!client.Counselor,
-      counselorId: !!client && client.Counselor && client.Counselor.id
+      counselorId: !!client.Counselor ? client.Counselor.id : null,
+      isStripeConnected: !!client.Counselor ? !!client.Counselor.StripeConnect : null
     };
 
     req.userInfo = userInfo;
     console.log('*************************<User Info>**************************', JSON.stringify(userInfo));
+    logger.info('[auth] | <UserParser> - parsed auth0 token,', JSON.stringify(userInfo));
   }catch(e){
     console.log(e);
     utils.writeErrorLog('auth', 'userInfo', 'Error while getting user info', e, {id});

@@ -26,7 +26,6 @@ function start() {
     "audience": config.auth0.nodeApi
   };
 
-
   const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
       cache: true,
@@ -40,9 +39,9 @@ function start() {
     algorithm: ["RS256"]
   });
 
-  app.use(checkJwt);
+  app.use(/\/((?!stripe\/webhook).)*/, checkJwt);
 
-  app.use(userParser.UserParser);
+  app.use(/\/((?!stripe\/webhook).)*/, userParser.UserParser);
 
   app.use('/stripe/webhook', bodyParser.raw({ type: 'application/json' }));
   app.use(bodyParser.json({ limit: '500mb' })); // support json encoded bodies
@@ -60,8 +59,8 @@ function start() {
     next();
   });
 
-  app.use(express.static('./client/src/assets'));
-  app.use(express.static('./client/dist'));
+  // app.use(express.static('./client/src/assets'));
+  // app.use(express.static('./client/dist'));
 
   app.set('json replacer', (k, v) => (v === null ? undefined : v)); //json omit null values
 

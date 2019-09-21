@@ -1,12 +1,14 @@
-var rfr = require('rfr');
+const rfr = require('rfr');
 
-var utils = rfr('/server/shared/utils');
-var db = rfr('/server/db');
-var invoiceModel = rfr('/server/models/invoice');
-var stripePaymentModel = rfr('/server/models/stripePayment');
-var constant = rfr('/server/shared/constant');
-var config = rfr('/server/shared/config');
-var logger = rfr('/server/shared/logger');
+const utils = rfr('/server/shared/utils');
+const db = rfr('/server/db');
+const invoiceModel = rfr('/server/models/invoice');
+const stripePaymentModel = rfr('/server/models/stripePayment');
+const constant = rfr('/server/shared/constant');
+const config = rfr('/server/shared/config');
+const logger = rfr('/server/shared/logger');
+const moment = require('moment');
+const railsApi = rfr('/server/lib/railsapi');
 
 
 const pay = async (req, res) => {
@@ -123,7 +125,7 @@ const pay = async (req, res) => {
   }
 }
 
-const webhook = (req, res) => {
+const webhook = async (req, res) => {
   utils.writeInsideFunctionLog('stripeCheckout', 'webhook');
   // Set your secret key: remember to change this to your live secret key in production
   // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -148,7 +150,7 @@ const webhook = (req, res) => {
     const session = event.data.object;
     console.log(session);
     // Fulfill the purchase...
-    handleCheckoutSession(session);
+    await handleCheckoutSession(session);
   }
 
   // Return a response to acknowledge receipt of the event
@@ -167,85 +169,32 @@ const handleCheckoutSession = async (session) => {
     status: constant.STRIPE_PAYMENT.TRANS_COMPLETE
   };
 
-  const stripePayment = await stripePaymentModel.findBySessionId(sessionId);
-
-  if (!stripePayment){
-    return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while validating sessionId', 'sessionId not exist', {sessionId});
-  }
-
-  // update invoice as paid
   try{
+    const stripePayment = await stripePaymentModel.findBySessionId(sessionId);
+
+    if (!stripePayment){
+      return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while validating sessionId', 'sessionId not exist', {sessionId});
+    }
+
+    // update invoice as paid
     await Promise.all([
       stripePaymentModel.updateBySessionId(sessionId, paymentInfo),
-      invoiceModel.setStatusAsPaid(invoiceId),
-      _sendMessageToRails(invoice)
+      invoiceModel.setStatusAsPaid(invoiceId)
     ]);
 
-    _sendMessageToRailsAPI
-    console.log('successfully paid');
+    const invoice = await invoiceModel.findById(invoiceId);
+    if(!invoice) {
+      return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while getting invoice', 'invoice with id not exist', {invoiceId});
+    }
+
+    if(invoice.status != constant.INVOICE_PAID){
+      return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while validate invoice status', 'invalid status', {invoiceId});
+    }
+
+    await railsApi.sendMessage(invoice)
     logger.info('[stripeCheckout] | <handleCheckoutSession> - successfully paid and updated invoice and payement data in the db,', JSON.stringify(session));
   }catch(e) {
     console.log(e);
-  }
-}
-
-const _sendMessageToRails = async (invoice) => {
-
-  if(!invoice.clientId || !invoice.counselorId){
-    throw Error('invoice clientId or counselorId invalid');
-  }
-
-  // get counselor Info
-  const counselor = await counselorModel.findById(invoice.counselorId);
-
-  if(!counselor || !counselor.User)
-    throw Error('counselor info is invalid');
-  const sender = {
-    ...counselor.User.dataValues
-  };
-
-  console.log('sender =', sender);
-
-  let accessToken = null;
-  try{
-    const postData = {
-      "client_id": config.auth0.nodeClientId,
-      "client_secret": config.auth0.nodeClientSecretKey,
-      "audience": config.auth0.railsApi,
-      "grant_type": "client_credentials"
-    };
-    const { data: { access_token: ret } } = await axios.post(`https://${config.auth0.domainRails}/oauth/token`, postData);
-
-    console.log('Successfully received access_token token=', ret);
-    accessToken = ret;
-
-  }catch(e){
-    console.log('Failed to get oauth token from rails api', e);
-    throw Error('Failed to get oauth token from rails api');
-  }
-
-  try{
-    if( accessToken === null ) {
-      throw Error('access_token is null');
-    }
-
-    const invoiceUrl = `${config.reactUrl}/invoice/${invoice.id}`
-    const msgHtml =
-      `<div class="invoice-message"><main class="invoice-message__main"><div class="invoice-message__content"><div class="invoice-message__title">${sender.firstName || 'Counselor'} sent an invoice.</div><div class="invoice-message__text">Online session 08:30PM - 09:30PM</div></div><div class="invoice-message__additional"><a class="invoice-message__button invoice-message-view-button" href="${invoiceUrl}"> View Invoice </a></div></main><footer class="invoice-message__footer"><span><strong>Invoice is due on</strong> ${invoice.dueAt}</span></footer></div>`;
-
-    const msg = {
-      "counselor_id": invoice.counselorId,
-      "user_id" : invoice.clientId,
-      "content" : msgHtml
-    };
-
-    const resp = await axios.post(`${config.railsApiUrl}/message/`, msg, { headers: {
-      'Authorization': `bearer ${accessToken}`
-    }});
-
-  }catch(e){
-    console.log(e);
-    throw e;
   }
 }
 

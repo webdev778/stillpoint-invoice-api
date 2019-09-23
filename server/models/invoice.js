@@ -437,6 +437,32 @@ const getNewInvoiceSn = (counselorId, clientId) => {
   );
 }
 
+const markAsPaid = (id) => {
+  return db.Invoice.update(
+    {
+      status: constant.INVOICE_PAID,
+      paidAt: db.Sequelize.literal('CURRENT_TIMESTAMP')
+      //,manualPaid: true
+    },
+    {
+      where: { id },
+      returning: true,
+      plain: true
+    });
+}
+
+const markAsVoid = (id) => {
+  return db.Invoice.update(
+    {
+      status: constant.INVOICE_VOID
+    },
+    {
+      where: { id },
+      returning: true,
+      plain: true
+    });
+}
+
 
 module.exports = {
   index,
@@ -448,5 +474,7 @@ module.exports = {
   findById,
   setStatusAsPaid,
   all,
-  getNewInvoiceSn
+  getNewInvoiceSn,
+  markAsPaid,
+  markAsVoid
 }

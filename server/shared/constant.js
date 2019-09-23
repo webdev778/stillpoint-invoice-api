@@ -231,6 +231,7 @@ module.exports = {
   INVOICE_DRAFT: 0,
   INVOICE_SENT: 1,
   INVOICE_PAID: 2,
+  INVOICE_VOID: 4,
 
   // stripe one-time checkout transaction status
   STRIPE_PAYMENT:{

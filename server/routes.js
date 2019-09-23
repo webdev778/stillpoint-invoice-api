@@ -46,6 +46,8 @@ _put['/invoice/:invoiceId'] = invoiceCtrl.update;
 _del['/invoice/:invoiceId'] = invoiceCtrl.destroy;
 _post['/invoice/:id/send'] = invoiceCtrl.send;
 _post['/invoice/:id/pay'] = stripeCheckoutCtrl.pay;
+_post['/invoice/:id/off_pay'] = invoiceCtrl.offpay;
+_post['/invoice/:id/void'] = invoiceCtrl.void;
 
 // invoice setting api
 _get['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.index;

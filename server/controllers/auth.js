@@ -1,9 +1,10 @@
-var rfr = require('rfr');
+const rfr = require('rfr');
 
-var utils = rfr('/server/shared/utils');
-var clientModel = rfr('/server/models/client');
-var counselorModel = rfr('/server/models/counselor');
+const utils = rfr('/server/shared/utils');
+const clientModel = rfr('/server/models/client');
+const counselorModel = rfr('/server/models/counselor');
 const logger = rfr('/server/shared/logger');
+const config = rfr('/server/shared/config');
 
 const loginMockup = (req, res) => {
 
@@ -52,7 +53,13 @@ const ping = (req, res) => {
 
 //middle ware
 const UserParser = async (req, res, next) => {
-  const { user } = req;
+  let { user } = req;
+
+  // if (config.env === 'development') {
+  //   user = {
+  //     sub: 'auth0|1349'
+  //   }
+  // }
 
   if(!user)
     return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
@@ -84,7 +91,7 @@ const UserParser = async (req, res, next) => {
     logger.info('[auth] | <UserParser> - parsed auth0 token,', JSON.stringify(userInfo));
   }catch(e){
     console.log(e);
-    utils.writeErrorLog('auth', 'userInfo', 'Error while getting user info', e, {id});
+    utils.writeErrorLog('auth', 'userInfo', 'Error while getting user info', e.message, {id});
     req.userInfo = null;
   }
   return next();

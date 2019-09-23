@@ -101,14 +101,15 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      tableName: "new_invoices"
+      tableName: "new_invoices",
+      paranoid: true
     }
   );
   Invoice.associate = ({ Service, Counselor, Currency }) => {
     Invoice.belongsTo(Counselor, { onDelete: "cascade" });
     // Invoice.belongsTo(Client, { as: 'counselor', foreignKey: 'client_id', onDelete: 'cascade' });
     // Invoice.belongsTo(Stripe_Payment, { as: 'counselor', foreignKey: 'payment_id', onDelete: 'cascade' });
-    Invoice.Services = Invoice.hasMany(Service, { as: "services" });
+    Invoice.Services = Invoice.hasMany(Service, { as: "services", onDelete: "cascade" });
     Invoice.belongsTo(Currency);
   };
 

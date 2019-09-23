@@ -21,7 +21,8 @@ transport.on('rotate', function(oldFilename, newFilename) {
 });
 
 const logger = winston.createLogger({
-  transports: [transport]
+  transports: [transport,
+    new winston.transports.Console()]
 });
 
 module.exports = logger;

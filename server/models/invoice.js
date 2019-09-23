@@ -84,7 +84,7 @@ function index(req, res, cb) {
   })
 }
 
-const show = (req, res, cb) => {
+const show = async (req, res, cb) => {
   utils.writeInsideFunctionLog('invoices', 'show');
 
   const id = req.params.id;
@@ -100,32 +100,34 @@ const show = (req, res, cb) => {
   else
     condition = { clientId: userInfo.id };
 
-  db.Invoice.findOne({
-    where: { id, ...condition },
-    attributes: [...invoice_whiltelist,
-      [db.sequelize.literal(
-        'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
-        'onlinePayable']
-      ],
-    include: [{
-      association: db.Invoice.Services,
-      as: 'services',
-      attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
-    }]
-  }).then(invoice => {
+  try{
+    const invoice = await db.Invoice.findOne({
+      where: { id, ...condition },
+      attributes: [...invoice_whiltelist,
+        [db.sequelize.literal(
+          'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
+          'onlinePayable']
+        ],
+      include: [{
+        association: db.Invoice.Services,
+        as: 'services',
+        attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+      }]
+    });
+
     if(!userInfo.isCounsellor && invoice.clientId === userInfo.id){
       // update viewedAt & dueAt
-      invoice.update({viewedAt: db.Sequelize.literal('CURRENT_TIMESTAMP'), dueAt: !invoice.dueDateOption ? db.Sequelize.literal(`CURRENT_TIMESTAMP + INTERVAL '1 DAY'`) : undefined }).then(updatedInvoice => {
-        cb(updatedInvoice);
-      });
+      const updatedInvoice = await invoice.update({viewedAt: db.Sequelize.literal('CURRENT_TIMESTAMP'),
+        dueAt: !invoice.dueDateOption ? db.Sequelize.literal(`CURRENT_TIMESTAMP + INTERVAL '1 DAY'`) : undefined });
+      cb(updatedInvoice);
     }else{
       cb(invoice);
     }
-  }).catch(err => {
+  }catch(err){
     console.log(err);
     utils.writeErrorLog('invoices', 'show', 'Error while find invoice ', err);
     cb({ Code: 500, Status: false, Message: 'model error' })
-  })
+  }
 }
 
 const create = async (req, res, cb) => {
@@ -327,7 +329,7 @@ const destroy = async (req, res, cb) => {
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+          attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
         }]
     });
 
@@ -336,6 +338,11 @@ const destroy = async (req, res, cb) => {
     if (!foundInvoice) {
       return cb({ Code: 404, Status: true, Message: 'Invoice Not Found!' });
     }
+
+    const services = foundInvoice.services;
+    await Promise.all(services.map(service => {
+      return service.destroy();
+    }));
 
     if (foundInvoice.status == constant.INVOICE_PAID){
       return cb({ Code: 400, Status: true, Message: 'You have no permission to delete a paid one!'});

@@ -31,8 +31,7 @@ const validateCreateRequest = (req) => {
 
   switch (req.invoiceType){
     case constant.INVOICE_INDIVIDUAL:
-        if(!req.dueDateOption) throw Error('dueDateOption is invalid');
-        if(req.dueDateOption>4) throw Error('dueDateOption is invalid');
+        if(req.dueDateOption>3) throw Error('dueDateOption is invalid');
         break;
     case constant.INVOICE_RECURRING:
         if(!req.sendEvery) throw Error('sendEvery is invalid');
@@ -46,9 +45,12 @@ const validateCreateRequest = (req) => {
 function index(req, res, cb) {
   utils.writeInsideFunctionLog('invoices', 'index');
 
-  const { userInfo } = req;
+  // const { userInfo } = req;
 
-  if(!userInfo) return cb({Code: 401});
+  const userInfo = {
+    id: 1477
+  }
+  if(false && !userInfo) return cb({Code: 401});
 
   let condition = undefined;
 
@@ -114,7 +116,14 @@ const show = (req, res, cb) => {
       attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
     }]
   }).then(invoice => {
-    cb(invoice);
+    if(!userInfo.isCounsellor && invoice.clientId === userInfo.id){
+      // update viewedAt & dueAt
+      invoice.update({viewedAt: db.Sequelize.literal('CURRENT_TIMESTAMP'), dueAt: !invoice.dueDateOption ? db.Sequelize.literal(`CURRENT_TIMESTAMP + INTERVAL '1 DAY'`) : undefined }).then(updatedInvoice => {
+        cb(updatedInvoice);
+      });
+    }else{
+      cb(invoice);
+    }
   }).catch(err => {
     console.log(err);
     utils.writeErrorLog('invoices', 'show', 'Error while find invoice ', err);
@@ -138,11 +147,10 @@ const create = async (req, res, cb) => {
 
 
     const dueDate = {
-      0: undefined,
-      1: 10,
-      2: 15,
-      3: 30,
-      4: 60
+      0: 'Upon Receipt',
+      1: 7,
+      2: 14,
+      3: 30
     };
 
     // validate request
@@ -154,7 +162,8 @@ const create = async (req, res, cb) => {
     }
 
     if(type === constant.INVOICE_INDIVIDUAL) {
-      newInvoice.dueAt = moment(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day').format();
+      if(newInvoice.dueDateOption !== 0)
+        newInvoice.dueAt = moment(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day').format();
     }
 
     const client = await clientModel.findById(newInvoice.clientId);
@@ -424,6 +433,14 @@ const setStatusAsPaid = (id) => {
     });
 }
 
+const getNewInvoiceSn = (counselorId, clientId) => {
+  return db.sequelize.query(
+    `SELECT coalesce(max(CASE WHEN invoice_sn~E'^\\\\d+$' THEN CAST (invoice_sn AS INTEGER) ELSE 0 end), 0)+1 as "nextSn" FROM new_invoices where counselor_id=${counselorId}`,
+    { type: db.sequelize.QueryTypes.SELECT }
+  );
+}
+
+
 module.exports = {
   index,
   show,
@@ -433,5 +450,6 @@ module.exports = {
   send,
   findById,
   setStatusAsPaid,
-  all
+  all,
+  getNewInvoiceSn
 }

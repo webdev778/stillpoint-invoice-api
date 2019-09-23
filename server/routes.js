@@ -39,6 +39,7 @@ _get['/counselors'] = counselorCtrl.index;
 _get['/invoice/types'] = invoiceCtrl.type;
 _get['/invoice/status'] = invoiceCtrl.status;
 _get['/invoices'] = invoiceCtrl.index;
+_post['/invoice/new'] = invoiceCtrl.newInvoice;
 _get['/invoice/:id'] = invoiceCtrl.show;
 _post['/invoice'] = invoiceCtrl.create;
 _put['/invoice/:invoiceId'] = invoiceCtrl.update;

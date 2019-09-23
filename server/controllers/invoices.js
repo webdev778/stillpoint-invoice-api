@@ -77,9 +77,32 @@ const status = (req, res) => {
     utils.sendResponse(res, result);
 }
 
+const newInvoice = async (req, res) => {
+    const { userInfo: user }  = req;
+    const { counselorId, clientId } = req.body;
+
+    if (!user.isCounsellor){
+        return utils.sendResponse(res, {Code: 400, Message: 'it\'s not  permitted to call this endpoint for you'});
+    }
+
+    if (counselorId !== user.counselorId){
+        return utils.sendResponse(res, {Code: 400, Message: 'The counselor id in the reqeust not matched with user info '});
+    }
+
+
+    try{
+        const result = await invoiceModel.getNewInvoiceSn(counselorId);
+        utils.sendResponse(res, {newInvoiceId: result[0].nextSn});
+    }catch(e){
+        console.log(e);
+        utils.sendResponse(res, {Code: 500, Message: 'Internal Server Error'});
+    }
+}
+
 module.exports = {
     index,
     show,
+    newInvoice,
     create,
     update,
     destroy,

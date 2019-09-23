@@ -45,12 +45,9 @@ const validateCreateRequest = (req) => {
 function index(req, res, cb) {
   utils.writeInsideFunctionLog('invoices', 'index');
 
-  // const { userInfo } = req;
+   const { userInfo } = req;
 
-  const userInfo = {
-    id: 1477
-  }
-  if(false && !userInfo) return cb({Code: 401});
+  if(!userInfo) return cb({Code: 401});
 
   let condition = undefined;
 

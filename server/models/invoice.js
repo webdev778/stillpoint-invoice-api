@@ -93,7 +93,7 @@ const show = (req, res, cb) => {
 
   if(!userInfo) return cb({Code:401});
 
-  const condition = undefined;
+  let condition = undefined;
 
   if(userInfo.isCounsellor)
     condition = { counselorId: userInfo.counselorId };

@@ -98,6 +98,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       paidAt: {
         type: DataTypes.DATE
+      },
+      manualySent: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
+      manualyPaid: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       }
     },
     {

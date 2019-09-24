@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
 
 app.set('json replacer', (k, v) => (v === null ? undefined : v)); //json omit null values
 
-const PORT = config['server']['port'];
+const PORT = config['server']['port'] || 3001;
 http.createServer(app).listen(PORT, function () {
   utils.log('Server started successfully on port -->', PORT);
   routes.bindAllRequests(app);

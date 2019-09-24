@@ -29,7 +29,7 @@ if (parsedEnv.DB_USER) {
 
 var server = {
   host: parsedEnv.SERVER_HOST,
-  port: parsedEnv.SERVER_PORT
+  port: parsedEnv.SERVER_PORT || parsedEnv.PORT
 };
 
 // create reusable transporter object using the default SMTP transport

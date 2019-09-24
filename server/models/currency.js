@@ -12,7 +12,7 @@ db = rfr('/server/db');
 
 function index(req, res, cb) {
   utils.writeInsideFunctionLog('currency', 'index');
-  db.Currency.findAll({attributes: ['id', 'code']}).then(currencies => {
+  db.Currency.findAll({attributes: ['id', 'code', 'symbol']}).then(currencies => {
     cb(currencies);
   }).catch(err => {
     cb({Code: 500, Status: false, Message: 'model error'})

@@ -1,2 +1,1 @@
-var server = require('./server/index.js');
-server.start();
+require('./server/index.js');

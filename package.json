@@ -9,7 +9,8 @@
     "dev": "nodemon -w ./server -x npx babel-node index.js",
     "lint": "eslint",
     "db:migrate": "npx sequelize db:migrate",
-    "db:restore": "npx sequelize db:migrate:undo:all"
+    "db:restore": "npx sequelize db:migrate:undo:all",
+    "server": "run-s build start"
   },
   "main": "index.js",
   "keywords": [

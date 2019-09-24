@@ -32,7 +32,8 @@ const db={};
 
 
   // postgres db
-  pg.defaults.ssl = true;
+  if(config.env != "development")
+    pg.defaults.ssl = true;
 
   // const sequelize = new Sequelize('postgres://postgres:123123@10.10.10.194:5432/d7bjegrmpo9e7k');
   const sequelize = new Sequelize(

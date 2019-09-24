@@ -10,7 +10,7 @@ if (!fs.existsSync(logDir)) {
 }
 
 const transport = new (winston.transports.DailyRotateFile)({
-  filename: 'legably-%DATE%.log',
+  filename: 'stillpoint-invoice-%DATE%.log',
   dirname: `${logDir}`,
   datePattern: 'DDMMMYYYY',
   maxFiles: '90d'
@@ -20,8 +20,9 @@ transport.on('rotate', function(oldFilename, newFilename) {
   // do something
 });
 
-const logger = new (winston.Logger)({
-  transports: [transport]
+const logger = winston.createLogger({
+  transports: [transport,
+    new winston.transports.Console()]
 });
 
 module.exports = logger;

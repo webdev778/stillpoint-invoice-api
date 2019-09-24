@@ -3,6 +3,7 @@
 var rfr = require('rfr'),
   moment = require('moment'),
   _ = require('lodash');
+const axios = require('axios');
 
 
 var config = rfr('/server/shared/config'),
@@ -11,6 +12,11 @@ var config = rfr('/server/shared/config'),
   utils = rfr('/server/shared/utils'),
   logger = rfr('/server/shared/logger'),
   db = rfr('/server/db');
+
+const counselorModel = rfr('/server/models/counselor');
+const clientModel = rfr('/server/models/client');
+const railsApi = rfr('/server/lib/railsapi');
+
 
 const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
   'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
@@ -25,8 +31,7 @@ const validateCreateRequest = (req) => {
 
   switch (req.invoiceType){
     case constant.INVOICE_INDIVIDUAL:
-        if(!req.dueDateOption) throw Error('dueDateOption is invalid');
-        if(req.dueDateOption>4) throw Error('dueDateOption is invalid');
+        if(req.dueDateOption>3) throw Error('dueDateOption is invalid');
         break;
     case constant.INVOICE_RECURRING:
         if(!req.sendEvery) throw Error('sendEvery is invalid');
@@ -40,7 +45,7 @@ const validateCreateRequest = (req) => {
 function index(req, res, cb) {
   utils.writeInsideFunctionLog('invoices', 'index');
 
-  const { userInfo } = req;
+   const { userInfo } = req;
 
   if(!userInfo) return cb({Code: 401});
 
@@ -79,46 +84,72 @@ function index(req, res, cb) {
   })
 }
 
-const show = (req, res, cb) => {
+const show = async (req, res, cb) => {
   utils.writeInsideFunctionLog('invoices', 'show');
 
   const id = req.params.id;
 
-  db.Invoice.findOne({
-    where: { id },
-    attributes: [...invoice_whiltelist,
-      [db.sequelize.literal(
-        'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
-        'onlinePayable']
-      ],
-    include: [{
-      association: db.Invoice.Services,
-      as: 'services',
-      attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
-    }]
-  }).then(invoice => {
-    cb(invoice);
-  }).catch(err => {
+  const { userInfo } = req;
+
+  if(!userInfo) return cb({Code:401});
+
+  let condition = undefined;
+
+  if(userInfo.isCounsellor)
+    condition = { counselorId: userInfo.counselorId };
+  else
+    condition = { clientId: userInfo.id };
+
+  try{
+    const invoice = await db.Invoice.findOne({
+      where: { id, ...condition },
+      attributes: [...invoice_whiltelist,
+        [db.sequelize.literal(
+          'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
+          'onlinePayable']
+        ],
+      include: [{
+        association: db.Invoice.Services,
+        as: 'services',
+        attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+      }]
+    });
+
+    if(!userInfo.isCounsellor && invoice.clientId === userInfo.id){
+      // update viewedAt & dueAt
+      const updatedInvoice = await invoice.update({viewedAt: db.Sequelize.literal('CURRENT_TIMESTAMP'),
+        dueAt: !invoice.dueDateOption ? db.Sequelize.literal(`CURRENT_TIMESTAMP + INTERVAL '1 DAY'`) : undefined });
+      cb(updatedInvoice);
+    }else{
+      cb(invoice);
+    }
+  }catch(err){
     console.log(err);
     utils.writeErrorLog('invoices', 'show', 'Error while find invoice ', err);
     cb({ Code: 500, Status: false, Message: 'model error' })
-  })
+  }
 }
 
 const create = async (req, res, cb) => {
   utils.writeInsideFunctionLog('invoices', 'create');
 
+  const { userInfo } = req;
+
+  if(!userInfo) {
+    cb({ Code: 401, Message: 'Unauthorized' });
+    return;
+  }
+
   try {
-    const newInvoice = req.body;
+    const newInvoice = Object.assign({}, req.body);
     const { invoiceType: type } = newInvoice;
 
-    
+
     const dueDate = {
-      0: undefined,
-      1: 10,
-      2: 15,
-      3: 30,
-      4: 60
+      0: 'Upon Receipt',
+      1: 7,
+      2: 14,
+      3: 30
     };
 
     // validate request
@@ -130,7 +161,52 @@ const create = async (req, res, cb) => {
     }
 
     if(type === constant.INVOICE_INDIVIDUAL) {
-      newInvoice.dueAt = moment(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day').format();
+      if(newInvoice.dueDateOption !== 0)
+        newInvoice.dueAt = moment(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day').format();
+    }
+
+    const client = await clientModel.findById(newInvoice.clientId);
+    const counselor = await counselorModel.findById(newInvoice.counselorId);
+
+
+    if(!client) {
+      utils.writeErrorLog('invoice', 'create', 'Error while getting client info', 'Invalid clientId', {clientId: newInvoice.clientId});
+      throw Error('clientId is invalid, not exist in db');
+    }
+
+    // // client and counselor address information
+    // if(!client.ClientContactAddress){
+    //   utils.writeErrorLog('invoice', 'create', 'Error while getting client address info', 'client address info not registered yet', {clientId: newInvoice.clientId});
+    //   cb({ Code: 404, Status: true, Message: 'Cl' });
+    // }
+
+    if(!counselor){
+      utils.writeErrorLog('invoice', 'create', 'Error while getting counselor info', 'Invalid counselorId', {counselorId: newInvoice.counselorId});
+      throw Error('counselorId is invalid, not exist in db');
+    }
+
+    // if(counselor.ContactAddress){
+    //   utils.writeErrorLog('invoice', 'create', 'Error while getting counselor address info', 'counselor address info not registered yet', {counselorId: newInvoice.counselorId});
+    //   throw Error('counselorId addresss info not exist');
+    // }
+
+    const clientAddressInfo = client.ClientContactAddress;
+    const counselorAddressInfo = counselor.ContactAddress;
+    newInvoice.senderName = userInfo.firstName + ' ' + userInfo.lastName;
+    newInvoice.recipientName = client.firstName + ' ' + client.lastName;
+
+    if(clientAddressInfo){
+      newInvoice.recipientStreet = clientAddressInfo.street;
+      newInvoice.recipientCity = clientAddressInfo.city;
+      newInvoice.recipientPostCode = clientAddressInfo.postCode;
+      newInvoice.recipientCountry = clientAddressInfo.country;
+    }
+
+    if(counselorAddressInfo){
+      newInvoice.senderStreet = counselorAddressInfo.street;
+      newInvoice.senderCity = counselorAddressInfo.city;
+      newInvoice.senderPostCode = counselorAddressInfo.postCode;
+      newInvoice.senderCountry = counselorAddressInfo.country;
     }
 
     const result = await db.Invoice.create(newInvoice, {
@@ -253,7 +329,7 @@ const destroy = async (req, res, cb) => {
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+          attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
         }]
     });
 
@@ -262,6 +338,11 @@ const destroy = async (req, res, cb) => {
     if (!foundInvoice) {
       return cb({ Code: 404, Status: true, Message: 'Invoice Not Found!' });
     }
+
+    const services = foundInvoice.services;
+    await Promise.all(services.map(service => {
+      return service.destroy();
+    }));
 
     if (foundInvoice.status == constant.INVOICE_PAID){
       return cb({ Code: 400, Status: true, Message: 'You have no permission to delete a paid one!'});
@@ -279,9 +360,10 @@ const destroy = async (req, res, cb) => {
 const send = async (req, res, cb) => {
   const id = req.params.id;
 
-  if (!id) {
-    cb({ Code: 400, Status: true, Message: 'Bad Request' });
-    return;
+  const { userInfo } = req;
+
+  if(!userInfo) {
+    return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
   }
 
   try {
@@ -310,7 +392,10 @@ const send = async (req, res, cb) => {
         break;
     }
 
-    await invoice.update({ 'status': constant.INVOICE_SENT });
+    await invoice.update({ 'status': constant.INVOICE_SENT, sentAt: db.Sequelize.literal('CURRENT_TIMESTAMP') });
+
+    // send message to Rails via api
+    await railsApi.sendMessage(invoice);
 
     cb({ Code: 200, Status: true, Message: 'Sent Successfully' });
   } catch (e) {
@@ -335,12 +420,56 @@ const findById = (id) => {
   });
 }
 
+const all = () => {
+  return db.Invoice.findAll({
+    limit: 5,
+    raw: true
+  });
+}
+
 const setStatusAsPaid = (id) => {
-  return db.Invoice.update({ status: 2 },
+  return db.Invoice.update(
+    { status: 2,
+      paidAt: db.Sequelize.literal('CURRENT_TIMESTAMP')
+    },
     {
       where: { id }
-    })
+    });
 }
+
+const getNewInvoiceSn = (counselorId, clientId) => {
+  return db.sequelize.query(
+    `SELECT coalesce(max(CASE WHEN invoice_sn~E'^\\\\d+$' THEN CAST (invoice_sn AS INTEGER) ELSE 0 end), 0)+1 as "nextSn" FROM new_invoices where counselor_id=${counselorId}`,
+    { type: db.sequelize.QueryTypes.SELECT }
+  );
+}
+
+const markAsPaid = (id) => {
+  return db.Invoice.update(
+    {
+      status: constant.INVOICE_PAID,
+      paidAt: db.Sequelize.literal('CURRENT_TIMESTAMP')
+      //,manualPaid: true
+    },
+    {
+      where: { id },
+      returning: true,
+      plain: true
+    });
+}
+
+const markAsVoid = (id) => {
+  return db.Invoice.update(
+    {
+      status: constant.INVOICE_VOID
+    },
+    {
+      where: { id },
+      returning: true,
+      plain: true
+    });
+}
+
 
 module.exports = {
   index,
@@ -350,5 +479,9 @@ module.exports = {
   destroy,
   send,
   findById,
-  setStatusAsPaid
+  setStatusAsPaid,
+  all,
+  getNewInvoiceSn,
+  markAsPaid,
+  markAsVoid
 }

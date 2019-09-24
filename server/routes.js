@@ -39,12 +39,15 @@ _get['/counselors'] = counselorCtrl.index;
 _get['/invoice/types'] = invoiceCtrl.type;
 _get['/invoice/status'] = invoiceCtrl.status;
 _get['/invoices'] = invoiceCtrl.index;
+_post['/invoice/new'] = invoiceCtrl.newInvoice;
 _get['/invoice/:id'] = invoiceCtrl.show;
 _post['/invoice'] = invoiceCtrl.create;
 _put['/invoice/:invoiceId'] = invoiceCtrl.update;
 _del['/invoice/:invoiceId'] = invoiceCtrl.destroy;
 _post['/invoice/:id/send'] = invoiceCtrl.send;
 _post['/invoice/:id/pay'] = stripeCheckoutCtrl.pay;
+_post['/invoice/:id/off_pay'] = invoiceCtrl.offpay;
+_post['/invoice/:id/void'] = invoiceCtrl.void;
 
 // invoice setting api
 _get['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.index;
@@ -62,27 +65,32 @@ _post['/stripe/connect/:counselorId'] = stripeConnectCtrl.connect;
 // stripe checkout
 _post['/stripe/webhook'] = stripeCheckoutCtrl.webhook;
 
+const asyncHandler = fn => (req, res, next) =>
+Promise
+  .resolve(fn(req, res, next))
+  .catch(next);
+
 function _bindAllGetRequests(app) {
   for (var key in _get) {
-    app.get(key, _get[key]);
+    app.get(key, asyncHandler(_get[key]));
   }
 }
 
 function _bindAllPostRequests(app) {
   for (var key in _post) {
-    app.post(key, _post[key]);
+    app.post(key, asyncHandler(_post[key]));
   }
 }
 
 function _bindAllPutRequests(app) {
   for (var key in _put) {
-    app.put(key, _put[key]);
+    app.put(key, asyncHandler(_put[key]));
   }
 }
 
 function _bindAllDeleteRequests(app) {
   for (var key in _del) {
-    app.delete(key, _del[key]);
+    app.delete(key, asyncHandler(_del[key]));
   }
 }
 

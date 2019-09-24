@@ -70,13 +70,16 @@ var stripe = {
 }
 
 var auth0 ={
+  domainRails: parsedEnv.AUTH0_DOMAIN_RAILS,
   domain: parsedEnv.AUTH0_DOMAIN,
   railsApi: parsedEnv.AUTH0_RAILS_AUDIENCE,
   nodeClientId: parsedEnv.AUTH0_NODE_CLIENT_ID,
-  nodeClientSecret: parsedEnv.AUTH0_NODE_CLIENT_SECRET,
+  nodeClientSecretKey: parsedEnv.AUTH0_NODE_CLIENT_SECRET,
   nodeApi: parsedEnv.AUTH0_NODE_AUDIENCE,
   reactClientId: parsedEnv.AUTH0_REACT_CLIENT_ID,
 }
+
+var railsApiUrl = parsedEnv.RAILS_API_URL;
 
 module.exports = {
   database: database,
@@ -92,5 +95,6 @@ module.exports = {
   stripe,
   env: parsedEnv.ENV,
   reactUrl: parsedEnv.REACT_URL,
-  auth0
+  auth0,
+  railsApiUrl
 };

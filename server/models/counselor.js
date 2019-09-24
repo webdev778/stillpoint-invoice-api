@@ -25,7 +25,7 @@ function index(req, res, cb) {
         attributes: ['businessName', 'street', 'city', 'country', 'postCode', 'tax', 'currencyId', 'state', 'aptUnit']
       }
     ],
-      
+
     }
   ).then(counselors => {
     cb(counselors);
@@ -35,6 +35,23 @@ function index(req, res, cb) {
   })
 }
 
+const findById = (id) => {
+  return db.Counselor.findOne(
+    {
+      where: {id},
+      attributes: ['id'],
+      include: [{
+        model: db.User,
+        attributes: ['firstName', 'lastName'],
+      },
+      {
+        model: db.ContactAddress
+      }
+     ]
+    }
+  );
+}
 module.exports = {
-  index
+  index,
+  findById
 }

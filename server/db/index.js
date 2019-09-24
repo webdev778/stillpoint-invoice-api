@@ -4,8 +4,10 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 
-var config = rfr('/server/shared/config'),
+const config = rfr('/server/shared/config'),
 utils = rfr('/server/shared/utils');
+
+const pg = require('pg');
 
 const db={};
 
@@ -30,6 +32,8 @@ const db={};
 
 
   // postgres db
+  pg.defaults.ssl = true;
+
   // const sequelize = new Sequelize('postgres://postgres:123123@10.10.10.194:5432/d7bjegrmpo9e7k');
   const sequelize = new Sequelize(
     config.database.db,

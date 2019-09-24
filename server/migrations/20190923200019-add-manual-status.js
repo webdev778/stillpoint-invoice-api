@@ -3,11 +3,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return Promise.all([
-      queryInterface.addColumn('new_invoices', 'manualy_sent', {
+      queryInterface.addColumn('new_invoices', 'manual_sent', {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       }),
-      queryInterface.addColumn('new_invoices', 'manualy_paid', {
+      queryInterface.addColumn('new_invoices', 'manual_paid', {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       })
@@ -15,8 +15,8 @@ module.exports = {
   },
   down: (queryInterface, Sequelize) => {
     return Promise.all([
-      queryInterface.removeColumn('new_invoices', 'manualy_sent'),
-      queryInterface.removeColumn('new_invoices', 'manualy_paid')
+      queryInterface.removeColumn('new_invoices', 'manual_sent'),
+      queryInterface.removeColumn('new_invoices', 'manual_paid')
     ]);
   }
 };

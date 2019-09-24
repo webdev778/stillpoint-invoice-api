@@ -99,11 +99,11 @@ module.exports = (sequelize, DataTypes) => {
       paidAt: {
         type: DataTypes.DATE
       },
-      manualySent: {
+      manualSent: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
-      manualyPaid: {
+      manualPaid: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       }

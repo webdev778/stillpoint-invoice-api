@@ -1,8 +1,7 @@
-import _ from 'lodash';
-
 var nodemailer = require('nodemailer'),
 dotenv = require('dotenv'),
-dotenvParseVariables = require('dotenv-parse-variables');
+dotenvParseVariables = require('dotenv-parse-variables'),
+_ = require('lodash');
 
 const env = dotenv.config({path: '.env'});
 

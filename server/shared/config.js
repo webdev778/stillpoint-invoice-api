@@ -1,9 +1,21 @@
+import _ from 'lodash';
+
 var nodemailer = require('nodemailer'),
 dotenv = require('dotenv'),
 dotenvParseVariables = require('dotenv-parse-variables');
 
-var env = dotenv.config({path: '.env'}),
-parsedEnv = dotenvParseVariables(env.parsed);
+const env = dotenv.config({path: '.env'});
+
+let parsedEnv;
+
+if (!('error' in env)) {
+  parsedEnv = dotenvParseVariables(env.parsed);
+} else {
+  parsedEnv = {};
+  _.each(process.env, (value, key) => parsedEnv[key] = value);
+}
+
+
 
 var database = {
   host: parsedEnv.DB_HOST,

@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
 
     code: {
       type: DataTypes.STRING
+    },
+
+    symbol: {
+      type: DataTypes.STRING
     }
   });
 

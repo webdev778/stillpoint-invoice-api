@@ -192,7 +192,7 @@ const create = async (req, res, cb) => {
 
     const clientAddressInfo = client.ClientContactAddress;
     const counselorAddressInfo = counselor.CounselorBillSetting;
-    newInvoice.senderName = userInfo.firstName + ' ' + userInfo.lastName;
+    // newInvoice.senderName = userInfo.firstName + ' ' + userInfo.lastName;
     newInvoice.recipientName = client.firstName + ' ' + client.lastName;
 
     if(clientAddressInfo){
@@ -203,6 +203,7 @@ const create = async (req, res, cb) => {
     }
 
     if(counselorAddressInfo){
+      newInvoice.senderName = counselorAddressInfo.businessName;
       newInvoice.senderStreet = counselorAddressInfo.street;
       if(!!counselorAddressInfo.state)
         newInvoice.senderCity =  counselorAddressInfo.city + ', ' + counselorAddressInfo.state;

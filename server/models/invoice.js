@@ -204,7 +204,10 @@ const create = async (req, res, cb) => {
 
     if(counselorAddressInfo){
       newInvoice.senderStreet = counselorAddressInfo.street;
-      newInvoice.senderCity =  counselorAddressInfo.city + ', ' + counselorAddressInfo.state;
+      if(!!counselorAddressInfo.state)
+        newInvoice.senderCity =  counselorAddressInfo.city + ', ' + counselorAddressInfo.state;
+      else
+        newInvoice.senderCity =  counselorAddressInfo.city
       newInvoice.senderPostCode = counselorAddressInfo.postCode;
       newInvoice.senderCountry = counselorAddressInfo.country;
     }

@@ -23,6 +23,13 @@ const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'couns
   'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
   'dueDateOption', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt'];
 
+const dueDate = {
+  0: 'Upon Receipt',
+  1: 7,
+  2: 14,
+  3: 30
+};
+
 const validateCreateRequest = (req) => {
 
 
@@ -144,14 +151,6 @@ const create = async (req, res, cb) => {
     const newInvoice = Object.assign({}, req.body);
     const { invoiceType: type } = newInvoice;
 
-
-    const dueDate = {
-      0: 'Upon Receipt',
-      1: 7,
-      2: 14,
-      3: 30
-    };
-
     // validate request
     try {
       validateCreateRequest(req.body);
@@ -162,7 +161,7 @@ const create = async (req, res, cb) => {
 
     if(type === constant.INVOICE_INDIVIDUAL) {
       if(newInvoice.dueDateOption !== 0)
-        newInvoice.dueAt = moment(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day').format();
+        newInvoice.dueAt = moment.utc(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day');
     }
 
     const client = await clientModel.findById(newInvoice.clientId);
@@ -236,21 +235,9 @@ const update = async (req, res, cb) => {
   const invoiceId = req.params.invoiceId;
   const invoice = req.body;
   const services = invoice.services;
-  const dueDate = {
-    0: undefined,
-    1: 10,
-    2: 15,
-    3: 30,
-    4: 60
-  };
+
   try {
 
-    if (!invoiceId) {
-      cb({ Code: 400, Status: true, Message: '' });
-      return;
-    }
-
-    invoice.dueAt = moment(invoice.issueAt).add(dueDate[invoice.dueDateOption], 'day').format();
     const foundInvoice = await db.Invoice.findOne({
       where: { 'id': invoiceId },
       include: [
@@ -262,8 +249,18 @@ const update = async (req, res, cb) => {
     });
 
     if (!foundInvoice) {
-      cb({ Code: 400, Status: true, Message: '' });
+      cb({ Code: 404, Status: true, Message: 'Invoice Not Found' });
       return;
+    }
+
+    const type = foundInvoice.invoiceType;
+    if(type === constant.INVOICE_INDIVIDUAL) {
+      if(invoice.dueDateOption !== 0){
+        invoice.dueAt = moment(foundInvoice.issueAt).add(dueDate[invoice.dueDateOption], 'day');
+      }else{
+        invoice.dueAt = db.Sequelize.literal('NULL');
+        // invoice.dueAt = db.Sequelize.literal(`issue_at + INTERVAL '${dueDate[invoice.dueDateOption]} DAY'`);
+      }
     }
 
     await foundInvoice.update(invoice, {

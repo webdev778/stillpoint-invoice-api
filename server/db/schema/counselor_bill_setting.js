@@ -45,16 +45,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   CounselorBillSetting.associate = ({ Counselor, Currency }) => {
-    CounselorBillSetting.belongsTo(Counselor, {
-      as: "counselor",
-      foreignKey: "counselorId",
-      onDelete: "cascade"
-    });
-    CounselorBillSetting.belongsTo(Currency, {
-      as: "currency",
-      foreignKey: "currencyId",
-      onDelete: "cascade"
-    });
+    CounselorBillSetting.belongsTo(Counselor);
+    CounselorBillSetting.belongsTo(Currency);
   };
   return CounselorBillSetting;
 };

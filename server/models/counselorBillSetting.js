@@ -10,8 +10,8 @@ var config = rfr("/server/shared/config"),
   utils = rfr("/server/shared/utils"),
   db = rfr("/server/db");
 
-const index = async (req, res, cb) => {
-  utils.writeInsideFunctionLog("counselor_bill_settings", "index");
+const show = async (req, res, cb) => {
+  utils.writeInsideFunctionLog("counselor_bill_settings", "show");
 
   const counselorId = req.params.counselorId;
 
@@ -100,6 +100,6 @@ const updateOrCreate = async (req, res, cb) => {
 };
 
 module.exports = {
-  index,
+  show,
   updateOrCreate
 };

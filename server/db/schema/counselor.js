@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     // Counselor.hasMany(Service_Type);
     Counselor.hasOne(StripeConnect);
     Counselor.hasOne(ContactAddress);
-    Counselor.CounselorBillSetting = Counselor.hasOne(CounselorBillSetting);
-    Counselor.User = Counselor.belongsTo(User);
+    Counselor.hasOne(CounselorBillSetting);
+    Counselor.belongsTo(User);
   };
 
   return Counselor;

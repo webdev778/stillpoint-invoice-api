@@ -45,7 +45,7 @@ const findById = (id) => {
         attributes: ['firstName', 'lastName'],
       },
       {
-        model: db.ContactAddress
+        model: db.CounselorBillSetting
       }
      ]
     }

@@ -50,7 +50,7 @@ _post['/invoice/:id/off_pay'] = invoiceCtrl.offpay;
 _post['/invoice/:id/void'] = invoiceCtrl.void;
 
 // invoice setting api
-_get['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.index;
+_get['/invoice/setting/:counselorId'] = counselorBillSettingCtrl.show;
 _post['/invoice/setting'] = counselorBillSettingCtrl.create;
 
 // service api

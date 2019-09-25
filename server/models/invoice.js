@@ -191,7 +191,7 @@ const create = async (req, res, cb) => {
     // }
 
     const clientAddressInfo = client.ClientContactAddress;
-    const counselorAddressInfo = counselor.ContactAddress;
+    const counselorAddressInfo = counselor.CounselorBillSetting;
     newInvoice.senderName = userInfo.firstName + ' ' + userInfo.lastName;
     newInvoice.recipientName = client.firstName + ' ' + client.lastName;
 

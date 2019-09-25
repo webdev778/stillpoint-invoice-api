@@ -3,11 +3,11 @@ var rfr = require('rfr');
 var utils = rfr('/server/shared/utils');
 var counselorBillSettingModel = rfr('/server/models/counselorBillSetting');
 
-function index(req, res) {
+function show(req, res) {
     var cb = function (result) {
         utils.sendResponse(res, result);
     }
-    counselorBillSettingModel.index(req, res, cb);
+    counselorBillSettingModel.show(req, res, cb);
 }
 
 function create(req, res) {
@@ -18,7 +18,7 @@ function create(req, res) {
 }
 
 module.exports = {
-    index,
+    show,
     create,
     // show,
     // update

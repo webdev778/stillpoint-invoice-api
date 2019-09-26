@@ -106,6 +106,9 @@ module.exports = (sequelize, DataTypes) => {
       manualPaid: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      },
+      senderAddress: {
+        type: DataTypes.STRING
       }
     },
     {

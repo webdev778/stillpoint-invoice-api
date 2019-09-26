@@ -18,10 +18,19 @@ const clientModel = rfr('/server/models/client');
 const railsApi = rfr('/server/lib/railsapi');
 
 
-const invoice_whiltelist = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
+const attributesToShow = ['id', 'invoiceSn', 'invoiceType', 'clientId', 'counselorId',
   'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
   'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
-  'dueDateOption', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt'];
+  'dueDateOption', 'status', 'issueAt', 'dueAt', 'viewedAt', 'sentAt', 'paidAt', 'createdAt', 'manualSent', 'manualPaid', 'senderAddress'];
+
+const attributesToEdit = ['invoiceSn', 'invoiceType', 'clientId', 'counselorId',
+  'sendEvery', 'subject', 'tax', 'currencyId', 'senderName', 'senderStreet', 'senderCity', 'senderPostCode',
+  'senderCountry', 'recipientName', 'recipientStreet', 'recipientCity', 'recipientPostCode', 'recipientCountry', 'total', 'amount', 'paidAmount', 'notes',
+  'dueDateOption', 'issueAt', 'dueAt', 'senderAddress'];
+
+const attributesServiceToShow = ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge'];
+const attributesServiceToEdit = ['name', 'quantity', 'unitPrice', 'taxCharge', 'description'];
+
 
 const dueDate = {
   0: 'Upon Receipt',
@@ -68,7 +77,7 @@ function index(req, res, cb) {
 
   db.Invoice.findAll({
     where: condition,
-    attributes: [...invoice_whiltelist,
+    attributes: [...attributesToShow,
       [db.sequelize.literal(
         'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
         'onlinePayable']
@@ -76,11 +85,7 @@ function index(req, res, cb) {
     include: [{
       association: db.Invoice.Services,
       as: 'services',
-      // where: {
-      //   deletedAt: {
-      //   [Op.is]: null
-      // }},
-      attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+      attributes: attributesServiceToShow
     }]
   }).then(invoices => {
     cb(invoices);
@@ -110,7 +115,7 @@ const show = async (req, res, cb) => {
   try{
     const invoice = await db.Invoice.findOne({
       where: { id, ...condition },
-      attributes: [...invoice_whiltelist,
+      attributes: [...attributesToShow,
         [db.sequelize.literal(
           'EXISTS(select 1 from stripe_connects where stripe_connects.counselor_id = "Invoice".counselor_id and stripe_connects.revoked = false)'),
           'onlinePayable']
@@ -118,7 +123,7 @@ const show = async (req, res, cb) => {
       include: [{
         association: db.Invoice.Services,
         as: 'services',
-        attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+        attributes: attributesServiceToShow
       }]
     });
 
@@ -164,61 +169,16 @@ const create = async (req, res, cb) => {
         newInvoice.dueAt = moment.utc(newInvoice.issueAt).add(dueDate[newInvoice.dueDateOption], 'day');
     }
 
-    const client = await clientModel.findById(newInvoice.clientId);
-    const counselor = await counselorModel.findById(newInvoice.counselorId);
-
-
-    if(!client) {
-      utils.writeErrorLog('invoice', 'create', 'Error while getting client info', 'Invalid clientId', {clientId: newInvoice.clientId});
-      throw Error('clientId is invalid, not exist in db');
-    }
-
-    // // client and counselor address information
-    // if(!client.ClientContactAddress){
-    //   utils.writeErrorLog('invoice', 'create', 'Error while getting client address info', 'client address info not registered yet', {clientId: newInvoice.clientId});
-    //   cb({ Code: 404, Status: true, Message: 'Cl' });
-    // }
-
-    if(!counselor){
-      utils.writeErrorLog('invoice', 'create', 'Error while getting counselor info', 'Invalid counselorId', {counselorId: newInvoice.counselorId});
-      throw Error('counselorId is invalid, not exist in db');
-    }
-
-    // if(counselor.ContactAddress){
-    //   utils.writeErrorLog('invoice', 'create', 'Error while getting counselor address info', 'counselor address info not registered yet', {counselorId: newInvoice.counselorId});
-    //   throw Error('counselorId addresss info not exist');
-    // }
-
-    const clientAddressInfo = client.ClientContactAddress;
-    const counselorAddressInfo = counselor.CounselorBillSetting;
-    // newInvoice.senderName = userInfo.firstName + ' ' + userInfo.lastName;
-    newInvoice.recipientName = client.firstName + ' ' + client.lastName;
-
-    if(clientAddressInfo){
-      newInvoice.recipientStreet = clientAddressInfo.street;
-      newInvoice.recipientCity = clientAddressInfo.city;
-      newInvoice.recipientPostCode = clientAddressInfo.postCode;
-      newInvoice.recipientCountry = clientAddressInfo.country;
-    }
-
-    if(counselorAddressInfo){
-      newInvoice.senderName = counselorAddressInfo.businessName;
-      newInvoice.senderStreet = counselorAddressInfo.street;
-      if(!!counselorAddressInfo.state)
-        newInvoice.senderCity =  counselorAddressInfo.city + ', ' + counselorAddressInfo.state;
-      else
-        newInvoice.senderCity =  counselorAddressInfo.city
-      newInvoice.senderPostCode = counselorAddressInfo.postCode;
-      newInvoice.senderCountry = counselorAddressInfo.country;
-    }
+    // get address info of counselor and client
+    await _updateAddress(newInvoice, newInvoice.counselorId, newInvoice.clientId);
 
     const result = await db.Invoice.create(newInvoice, {
-      attributes: ['invoiceSn', 'invoiceType', 'clientId', 'counselorId', 'dueAt', 'issueAt', 'dueDateOption', 'sendEvery', 'notes', 'subject', 'tax', 'currencyId', 'total', 'amount', 'status']
-      , include: [
+      attributes: attributesToEdit,
+      include: [
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['name', 'quantity', 'unitPrice', 'taxCharge', 'description']
+          attributes: attributesServiceToEdit
         }]
     });
 
@@ -263,8 +223,11 @@ const update = async (req, res, cb) => {
       }
     }
 
+    // update address
+    await _updateAddress(invoice, foundInvoice.counselorId, foundInvoice.clientId);
+
     await foundInvoice.update(invoice, {
-      attributes: ['invoiceSn', 'subject', 'tax', 'dueDateOption', 'dueAt', 'currencyId', 'notes'],
+      attributes: attributesToEdit,
       returning: true,
       plain: true
     });
@@ -296,12 +259,12 @@ const update = async (req, res, cb) => {
 
     const ret = await db.Invoice.findOne({
       where: { id: invoiceId },
-      attributes: invoice_whiltelist,
+      attributes: attributesToShow,
       include: [
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+          attributes: attributesServiceToShow
         }]
     });
 
@@ -330,7 +293,7 @@ const destroy = async (req, res, cb) => {
         {
           association: db.Invoice.Services,
           as: 'services',
-          attributes: ['id', 'name', 'description', 'quantity', 'unitPrice', 'taxCharge']
+          attributes: attributesServiceToShow
         }]
     });
 
@@ -471,6 +434,45 @@ const markAsVoid = (id) => {
     });
 }
 
+const _updateAddress = async (payload, counselorId, clientId) => {
+  const client = await clientModel.findById(clientId);
+  const counselor = await counselorModel.findById(counselorId);
+
+
+  if(!client) {
+    utils.writeErrorLog('invoice', 'create', 'Error while getting client info', 'Invalid clientId', {clientId});
+    throw Error('clientId is invalid, not exist in db');
+  }
+
+  if(!counselor){
+    utils.writeErrorLog('invoice', 'create', 'Error while getting counselor info', 'Invalid counselorId', {counselorId});
+    throw Error('counselorId is invalid, not exist in db');
+  }
+
+  const clientAddressInfo = client.ClientContactAddress;
+  const counselorAddressInfo = counselor.CounselorBillSetting;
+  // newInvoice.senderName = userInfo.firstName + ' ' + userInfo.lastName;
+  payload.recipientName = client.firstName + ' ' + client.lastName;
+
+  if(clientAddressInfo){
+    payload.recipientStreet = clientAddressInfo.street;
+    payload.recipientCity = clientAddressInfo.city;
+    payload.recipientPostCode = clientAddressInfo.postCode;
+    payload.recipientCountry = clientAddressInfo.country;
+  }
+
+  if(counselorAddressInfo){
+    payload.senderName = counselorAddressInfo.businessName;
+    payload.senderAddress = counselorAddressInfo.address;
+    payload.senderStreet = counselorAddressInfo.street;
+    if(!!counselorAddressInfo.state)
+      payload.senderCity =  counselorAddressInfo.city + ', ' + counselorAddressInfo.state;
+    else
+      payload.senderCity =  counselorAddressInfo.city
+    payload.senderPostCode = counselorAddressInfo.postCode;
+    payload.senderCountry = counselorAddressInfo.country;
+  }
+}
 
 module.exports = {
   index,

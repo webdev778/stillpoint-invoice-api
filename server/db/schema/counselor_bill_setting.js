@@ -38,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       tax: {
         type: DataTypes.REAL
+      },
+      address: {
+        type: DataTypes.STRING
       }
     },
     {

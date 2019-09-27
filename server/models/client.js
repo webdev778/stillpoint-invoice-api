@@ -11,9 +11,19 @@ utils = rfr('/server/shared/utils'),
 db = rfr('/server/db');
 
 function index(req, res, cb) {
+
+  const { userInfo: user} = req;
+
+  if(!user || !user.isCounsellor) {
+    return cb({Code: 401, Message: 'Unauthorized'});
+  }
+
+
+
   utils.writeInsideFunctionLog('users', 'index');
   db.User.findAll(
     {
+      where: { id: { [db.Sequelize.Op.in]: [db.Sequelize.literal(`select distinct(client_id) from session_invitations where counselor_id = ${user.counselorId} and accepted_at is not null`)]}},
       attributes: ['id', 'firstName', 'lastName'],
       include: [{
         association: db.User.ClientContactAddress,

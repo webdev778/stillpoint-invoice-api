@@ -49,13 +49,23 @@ const _templateHtml = (invoice) => {
   let htmlStr = '';
 
   const invoiceUrl = `${config.reactUrl}/invoice/${invoice.id}`
+  let senderName = '';
+  if(invoice.Counselor.User.firstName)
+    senderName = invoice.Counselor.User.firstName;
+  else {
+    if(invoice.senderName)
+      senderName = invoice.senderName.split(' ')[0];
+    else
+      senderName = 'Counselor';
+  }
+
 
   switch(invoice.status) {
     case constant.INVOICE_SENT:
-      htmlStr = `<div class="invoice-message"><main class="invoice-message__main"><div class="invoice-message__content"><div class="invoice-message__title">${invoice.senderName.split(' ')[0] || 'Counselor'} sent an invoice.</div><div class="invoice-message__text"></div></div><div class="invoice-message__additional"><a class="invoice-message__button invoice-message-view-button" href="${invoiceUrl}"> View Invoice </a></div></main><footer class="invoice-message__footer"><span><strong>Invoice is due on</strong> ${moment(invoice.dueAt).format('DD/MM/YYYY')}</span></footer></div>`;
+      htmlStr = `<div class="invoice-message"><main class="invoice-message__main"><div class="invoice-message__content"><div class="invoice-message__title">${senderName} sent an invoice.</div><div class="invoice-message__text"></div></div><div class="invoice-message__additional"><a class="invoice-message__button invoice-message-view-button" href="${invoiceUrl}"> View Invoice </a></div></main><footer class="invoice-message__footer"><span><strong>Invoice is due on</strong> ${moment(invoice.dueAt).format('DD/MM/YYYY')}</span></footer></div>`;
       break;
     case constant.INVOICE_PAID:
-      htmlStr = `<div class="invoice-message invoice-message_success"><main class="invoice-message__main"><div class="invoice-message__content"><div class="invoice-message__title">${invoice.senderName.split(' ')[0] || 'Counselor'} sent an invoice.</div><div class="invoice-message__text"></div></div><div class="invoice-message__additional"><a class="invoice-message__button invoice-message-view-button" href="${invoiceUrl}"> View Invoice </a></div></main><footer class="invoice-message__footer"><span><strong>Invoice Paid on</strong> ${moment(invoice.paidAt).format('DD/MM/YYYY')}</span></footer></div>`;
+      htmlStr = `<div class="invoice-message invoice-message_success"><main class="invoice-message__main"><div class="invoice-message__content"><div class="invoice-message__title">${senderName} sent an invoice.</div><div class="invoice-message__text"></div></div><div class="invoice-message__additional"><a class="invoice-message__button invoice-message-view-button" href="${invoiceUrl}"> View Invoice </a></div></main><footer class="invoice-message__footer"><span><strong>Invoice Paid on</strong> ${moment(invoice.paidAt).format('DD/MM/YYYY')}</span></footer></div>`;
       break;
     default:
       console.log(invoice.invoiceType);

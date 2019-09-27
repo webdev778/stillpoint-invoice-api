@@ -334,7 +334,7 @@ const send = async (req, res, cb) => {
     // send email
 
     // update invoice status
-    const invoice = await db.Invoice.findOne({ where: { 'id': id } })
+    const invoice = await findById(id);
     if (!invoice) {
       console.log('Invoie not exist in the db, invoiceId:', id);
       utils.writeErrorLog('invoice', 'send', 'Error while find invoice by id', 'Not Exist');
@@ -374,7 +374,7 @@ const findById = (id) => {
     include: [
       {
         model: db.Counselor,
-        include: [db.StripeConnect]
+        include: [db.StripeConnect, db.User]
       },
       {
         association: db.Invoice.Services,

@@ -33,7 +33,7 @@ const show = async (req, res, cb) => {
       cb(setting);
     } else {
       const emptySetting = {
-        "businessName": "",
+        "businessName": user.firstName+' '+user.lastName,
         "street": "",
         "city": "",
         "country": "",

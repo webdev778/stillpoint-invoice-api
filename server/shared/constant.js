@@ -237,5 +237,12 @@ module.exports = {
   STRIPE_PAYMENT:{
     TRANS_INIT: 0,
     TRANS_COMPLETE: 1
+  },
+
+  DUE_DATE_OPTION: {
+    UPON_RECEIPT: 0,
+    DAYS_7: 1,
+    DAYS_14: 2,
+    DAYS_30: 3
   }
 }

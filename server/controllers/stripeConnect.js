@@ -1,36 +1,21 @@
-var rfr = require('rfr');
+const rfr = require('rfr');
 // request = require('request');
 const axios = require('axios');
 
-var utils = rfr('/server/shared/utils');
-//stripeAccModel = rfr('/server/models/stripeAccounts');
-var StripeConnect = rfr('/server/models/stripeConnect');
-var db = rfr('/server/db');
-var config = rfr('/server/shared/config');
+const utils = rfr('/server/shared/utils');
+const stripeConnectModel = rfr('/server/models/stripeConnect');
+const db = rfr('/server/db');
+const config = rfr('/server/shared/config');
+const stripe = rfr('/server/lib/stripe/index');
 
-const crypto = require('crypto');
-
-const generateToken = async () => {
-  try {
-    const buffer = await crypto.randomBytes(48);
-    const token = buffer.toString('hex');
-    return token;
-  } catch (e) {
-    console.log(e);
-    throw 'Failed to generate token';
-  }
-}
 const dasbhoardUrl = async (req, res) => {
   try {
-    const token = await generateToken();
-    console.log(token);
-    utils.sendResponse(res, {
-      redirectUrl: `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${config.stripe.clientId}&scope=read_write&state=${token}`
-    });
+    const url = await stripe.dashboardUrl();
+    utils.sendResponse(res, { redirectUrl: url });
   } catch (e) {
+    console.log(e);
     utils.sendResponse(res, { Code: 500, Status: false });
   }
-
 }
 
 const connect = async (req, res) => {
@@ -46,47 +31,43 @@ const connect = async (req, res) => {
     return utils.sendResponse(res, { Code: 400, Message: 'Bad request' });
   }
 
-  const stripe_auth_code = req.body.stripeAuthCode;
+  const { stripeAuthCode } = req.body;
 
-  if (!stripe_auth_code) {
+  if (!stripeAuthCode) {
     utils.sendResponse(res, { Code: 400, Status: false });
     return;
   }
 
-  const fetchReqData = {
-    code: stripe_auth_code,
-    client_secret: config.stripe.secretKey,
-    grant_type: 'authorization_code'
+  // check current status
+  try{
+    const curInfo = await stripeConnectModel.findByCounselorId(counselorId);
+    if(curInfo && !curInfo.revoked) {
+      return utils.sendResponse(res, { Code: 400, Message: 'Bad Request' });
+    }
+  }catch(e){
+    return utils.sendResponse(res, { Code: 500, Message: 'Internal Server Error' });
   }
 
-  // fetech credential from stripe
-  try {
-    const { data: result } = await axios.post('https://connect.stripe.com/oauth/token', fetchReqData);
-    console.log(result);
+  let info;
+  try{
+    const connectedAccountInfo = await stripe.connect(stripeAuthCode);
+    console.log('connected account info', connectedAccountInfo);
 
-    const snakeToCamel = (str) => str.replace(
-      /([-_][a-z])/g,
-      (group) => group.toUpperCase()
-        .replace('-', '')
-        .replace('_', '')
-    );
-
-    let result1 = {};
-    Object.keys(result).forEach(key => result1[snakeToCamel(key)] = result[key]);
-
-    let newRecordData = Object.assign({}, result1);
-    newRecordData.counselorId = counselorId;
-    newRecordData.revoked = false;
-
-    if (StripeConnect.updateOrCreate(newRecordData)) {
-      utils.sendResponse(res, { Code: 200, Status: true, Message: 'Successfully Connected' });
-    } else {
-      utils.sendResponse(res, { Code: 500, Status: false, Message: 'Failed to connect stripe' });
+    info = {
+      ...connectedAccountInfo,
+      counselorId,
+      revoked: false
     }
+  }catch(e){
+    console.log(e);
+    return utils.sendResponse(res, { Code: e.response.status, Status: false, Message: e.response.data.error_description });
+  }
+
+  try{
+    await stripeConnectModel.updateOrCreate(info);
+    utils.sendResponse(res, { Code: 200, Status: true, Message: 'Successfully Connected' });
   } catch (e) {
-    console.log(e.response.data);
-    utils.sendResponse(res, { Code: e.response.status, Status: false, Message: e.response.data.error_description });
-    return;
+    return utils.sendResponse(res, { Code: 500, Message: 'Internal Server Error' });
   }
 }
 
@@ -104,8 +85,7 @@ const disconnect = async (req, res) => {
     return utils.sendResponse(res, { Code: 400, Message: 'Bad request' });
   }
 
-
-  const connectedAccount = await db.StripeConnect.findOne({ where: { counselorId } });
+  const connectedAccount = await stripeConnectModel.findByCounselorId(counselorId);
   if (!connectedAccount) {
     utils.sendResponse(res, { Code: 400, Message: 'Bad request' });
     return;
@@ -117,22 +97,14 @@ const disconnect = async (req, res) => {
   }
 
   try {
-    await axios.post('https://connect.stripe.com/oauth/deauthorize',
-      {
-        client_id: config.stripe.clientId,
-        stripe_user_id: connectedAccount.stripeUserId,
-      },
-      {
-        headers: { 'Authorization': `Bearer ${config.stripe.secretKey}` }
-      }
-    );
+    await stripe.disconnect(connectedAccount.stripeUserId);
   } catch (e) {
     console.log(e);
     const { response: { data: ret } } = e;
     if (!!ret && ret.error === 'invalid_client') {
-      return utils.sendResponse(res, { Code: 400, Message: 'This account is not connected to stripe account' });
-    }
-    return utils.sendResponse(res, { Code: 500, Message: 'Stripe Connect Error' });
+      console.log(ret.error_description);
+    }else
+      return utils.sendResponse(res, { Code: 500, Message: 'Stripe Disconnect Error' });
   }
 
   try {

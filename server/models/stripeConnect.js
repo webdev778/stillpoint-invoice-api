@@ -1,31 +1,36 @@
 'use strict';
 
-var rfr = require('rfr'),
+const rfr = require('rfr'),
   moment = require('moment'),
   _ = require('lodash');
 
-var config = rfr('/server/shared/config'),
+const config = rfr('/server/shared/config'),
   constant = rfr('/server/shared/constant'),
   mailHelper = rfr('/server/shared/mailHelper'),
   utils = rfr('/server/shared/utils'),
   db = rfr('/server/db');
 
-const whiteList = ['counselorId', 'accessToken', 'refreshToken',
+const attributesToShow = ['counselorId', 'accessToken', 'refreshToken',
                 'stripePublishableKey', 'stripeUserId', 'scope', 'revoked'];
 
-const create = async (stripeConnectInfo) => {
+const attributesToEdit = ['accessToken', 'refreshToken', 'stripePublishableKey',
+                'stripeUserId', 'scope', 'revoked'];
+
+const create = (stripeConnectInfo) => {
   utils.writeInsideFunctionLog('stripe_connects', 'create');
 
-  try {
-    const result = await db.StripeConnect.create(stripeConnectInfo, {
-      attributes: whiteList
-    });
+  return db.StripeConnect.create(stripeConnectInfo, {
+      attributes: attributesToShow
+  });
+}
 
-    return true;
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
+const updateByCounselorId = (counselorId, stripeConnectInfo) => {
+  utils.writeInsideFunctionLog('stripe_connects', 'update');
+
+  return db.StripeConnect.update(stripeConnectInfo, {
+      where: { counselorId },
+      attributes: attributesToEdit
+  });
 }
 
 const updateOrCreate = async (stripeConnectInfo) => {
@@ -33,31 +38,24 @@ const updateOrCreate = async (stripeConnectInfo) => {
 
   const counselorId = stripeConnectInfo.counselorId;
 
-  if(!counselorId) {
-    console.log('counselorId is empty');
-    return false;
-  }
+  const record = await findByCounselorId(counselorId);
 
-  try {
-    const record = await db.StripeConnect.findOne({where: {counselorId}});
-
-    if(!!record){
-      const result = await record.update(stripeConnectInfo, {
-        attributes: whiteList
-      });
-    }else{
-      const result = await db.StripeConnect.create(stripeConnectInfo, {
-        attributes: whiteList
-      });
-    }
-    return true;
-  } catch (e) {
-    console.log(e);
-    return false;
+  if(!!record){
+    await updateByCounselorId(counselorId, stripeConnectInfo);
+  }else{
+    await create(stripeConnectInfo);
   }
+}
+
+const findByCounselorId = (counselorId) => {
+  return db.StripeConnect.findOne({
+    where: {counselorId}
+  });
 }
 
 module.exports = {
   create,
-  updateOrCreate
+  updateByCounselorId,
+  updateOrCreate,
+  findByCounselorId
 }

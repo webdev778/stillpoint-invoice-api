@@ -105,6 +105,13 @@ const writeErrorLog = (fileName, funName, msg, err, queryParam) => {
   }
 }
 
+const snakeToCamel = (str) => str.replace(
+  /([-_][a-z])/g,
+  (group) => group.toUpperCase()
+    .replace('-', '')
+    .replace('_', '')
+);
+
 module.exports = {
   getCurrentDate,
   getSuccessResObj,
@@ -120,5 +127,6 @@ module.exports = {
   getStringifyObj,
   getParamsObjForLoggerHasPassword,
   writeInsideFunctionLog,
-  writeErrorLog
+  writeErrorLog,
+  snakeToCamel
 }

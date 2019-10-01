@@ -1,12 +1,12 @@
 'use strict';
 
-var rfr = require('rfr'),
+const rfr = require('rfr'),
   moment = require('moment'),
   _ = require('lodash');
 const axios = require('axios');
 
 
-var config = rfr('/server/shared/config'),
+const config = rfr('/server/shared/config'),
   constant = rfr('/server/shared/constant'),
   mailHelper = rfr('/server/shared/mailHelper'),
   utils = rfr('/server/shared/utils'),
@@ -330,6 +330,9 @@ const send = async (req, res, cb) => {
     return utils.sendResponse(res, {Code: 401, Message: 'Unauthorized'});
   }
 
+  const { sequelize: seq } = db;
+  let transaction = null;
+
   try {
     // send email
 
@@ -356,14 +359,25 @@ const send = async (req, res, cb) => {
         break;
     }
 
-    await invoice.update({ 'status': constant.INVOICE_SENT, sentAt: db.Sequelize.literal('CURRENT_TIMESTAMP') });
+
+    transaction = await seq.transaction();
+    await invoice.update(
+      {
+        'status': constant.INVOICE_SENT,
+        sentAt: db.Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      { transaction }
+    );
 
     // send message to Rails via api
     await railsApi.sendMessage(invoice);
 
+    await transaction.commit();
     cb({ Code: 200, Status: true, Message: 'Sent Successfully' });
   } catch (e) {
     console.log(e);
+    if(transaction)
+      await transaction.rollback();
     cb({ Code: 500, Status: true, Message: 'Failed to send invoice' });
   }
 }

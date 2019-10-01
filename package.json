@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "body-parser": "^1.17.2",
+    "continuation-local-storage": "^3.2.1",
     "dotenv": "^4.0.0",
     "dotenv-parse-variables": "^0.1.0",
     "express": "^4.15.4",

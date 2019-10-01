@@ -35,7 +35,11 @@ const db={};
   if(config.env != "development")
     pg.defaults.ssl = true;
 
-  // const sequelize = new Sequelize('postgres://postgres:123123@10.10.10.194:5432/d7bjegrmpo9e7k');
+  // transaction
+  const cls = require('continuation-local-storage');
+  const namespace = cls.createNamespace('stillpoint-invoice-api');
+  Sequelize.useCLS(namespace);
+
   const sequelize = new Sequelize(
     config.database.db,
     config.database.username,

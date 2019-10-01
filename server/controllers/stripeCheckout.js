@@ -150,7 +150,15 @@ const webhook = async (req, res) => {
     const session = event.data.object;
     console.log(session);
     // Fulfill the purchase...
-    await handleCheckoutSession(session);
+    const { sequelize } = db;
+    try{
+      await sequelize.transaction(async (t1) => {
+        await handleCheckoutSession(session);
+      });
+    }catch(e){
+      console.log(e);
+      return res.status(500).send(`Webhook Error: ${e.message}`);
+    }
   }
 
   // Return a response to acknowledge receipt of the event
@@ -169,33 +177,30 @@ const handleCheckoutSession = async (session) => {
     status: constant.STRIPE_PAYMENT.TRANS_COMPLETE
   };
 
-  try{
-    const stripePayment = await stripePaymentModel.findBySessionId(sessionId);
+  const stripePayment = await stripePaymentModel.findBySessionId(sessionId);
 
-    if (!stripePayment){
-      return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while validating sessionId', 'sessionId not exist', {sessionId});
-    }
-
-    // update invoice as paid
-    await Promise.all([
-      stripePaymentModel.updateBySessionId(sessionId, paymentInfo),
-      invoiceModel.setStatusAsPaid(invoiceId)
-    ]);
-
-    const invoice = await invoiceModel.findById(invoiceId);
-    if(!invoice) {
-      return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while getting invoice', 'invoice with id not exist', {invoiceId});
-    }
-
-    if(invoice.status != constant.INVOICE_PAID){
-      return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while validate invoice status', 'invalid status', {invoiceId});
-    }
-
-    await railsApi.sendMessage(invoice)
-    logger.info('[stripeCheckout] | <handleCheckoutSession> - successfully paid and updated invoice and payement data in the db,', JSON.stringify(session));
-  }catch(e) {
-    console.log(e);
+  if (!stripePayment){
+    return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while validating sessionId', 'sessionId not exist', {sessionId});
   }
+
+  // update invoice as paid
+  await Promise.all([
+    stripePaymentModel.updateBySessionId(sessionId, paymentInfo),
+    invoiceModel.setStatusAsPaid(invoiceId)
+  ]);
+
+
+  const invoice = await invoiceModel.findById(invoiceId);
+  if(!invoice) {
+    return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while getting invoice', 'invoice with id not exist', {invoiceId});
+  }
+
+  if(invoice.status != constant.INVOICE_PAID){
+    return utils.writeErrorLog('stripe_checkout', 'handleCheckoutSession', 'Error while validate invoice status', 'invalid status', {invoiceId});
+  }
+
+  await railsApi.sendMessage(invoice)
+  logger.info('[stripeCheckout] | <handleCheckoutSession> - successfully paid and updated invoice and payement data in the db,', JSON.stringify(session));
 }
 
 module.exports = {

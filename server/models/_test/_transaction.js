@@ -24,16 +24,18 @@ const test = async () => {
     }
 */
     // managed transaction
-    seq.transaction(async (t1) => {
-        const ret = await db.Invoice.create({counselorId: 137});
-        console.log('aaa');
-        const invoice = await db.Invoice.create({counselorId: 137});
-        console.log('bbb');
-        console.log(invoice.id);
-        throw new Error('should be rollback');
-    }).catch(err => {
+    try{
+        await seq.transaction(async (t1) => {
+            const ret = await db.Invoice.create({counselorId: 137});
+            console.log('aaa');
+            const invoice = await db.Invoice.create({counselorId: 137});
+            console.log('bbb');
+            console.log(invoice.id);
+            throw new Error('should be rollback');
+        })
+    }catch(err){
         console.log(err);
-    });
+    };
 
 }
 test();

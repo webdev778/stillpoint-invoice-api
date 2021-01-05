@@ -17,7 +17,7 @@
     "stillpoint"
   ],
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.17.2",
     "continuation-local-storage": "^3.2.1",
     "dotenv": "^4.0.0",
